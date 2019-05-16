@@ -1,4 +1,14 @@
 
 *.db
-
+*.exe
+*.ilk
+*.pdb
+*.opendb
+*.suo
+*.tlog
+*.obj
+*.idb
+*.log
+Monopoly/Debug/
 Monopoly/.vs/
+Monopoly/x64/
