@@ -1,13 +1,13 @@
 #include "Game.h"
 
 Game* game = nullptr;
-void showupstatus();
+void initgame();
 
 int main() {
 	Game game;
-	showupstatus();
+	initgame();
 }
 
-void showupstatus() {
-	game->drawupstatus();
+void initgame() {
+	game->drawfullgame();
 }
