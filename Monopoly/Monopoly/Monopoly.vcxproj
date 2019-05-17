@@ -123,13 +123,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseBlock.cpp" />
+    <ClCompile Include="EstateBlock.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Source1.cpp" />
+    <ClCompile Include="StartBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseBlock.h" />
+    <ClInclude Include="EstateBlock.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Draw.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="StartBlock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

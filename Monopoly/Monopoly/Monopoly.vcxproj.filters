@@ -24,12 +24,45 @@
     <ClCompile Include="Draw.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="BaseBlock.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="EstateBlock.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="StartBlock.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Source1.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="Draw.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseBlock.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="EstateBlock.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="StartBlock.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>

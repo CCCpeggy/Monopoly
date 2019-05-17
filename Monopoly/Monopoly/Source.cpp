@@ -1,4 +1,4 @@
-#include "Game.h"
+/*#include "Game.h"
 
 Game* game = nullptr;
 void initgame();
@@ -10,4 +10,4 @@ int main() {
 
 void initgame() {
 	game->drawfullgame();
-}
+}*/
