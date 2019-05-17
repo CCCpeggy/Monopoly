@@ -18,18 +18,18 @@
     <ClCompile Include="Source.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="Grid.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Draw.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Grid.h">
+    <ClInclude Include="Game.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Draw.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
