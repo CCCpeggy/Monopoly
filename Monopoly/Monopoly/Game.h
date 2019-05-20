@@ -12,7 +12,7 @@ public:
 	Game();
 	void drawfullgame();
 	void drawMap();
-	void drawLocationName(vector<string>LocationNameList,vector<int>LocationOwner);
+	void drawLocationName(vector<string>LocationNameList);
 	void drawupstatus();
 	void drawDialogue(int mode);
 };

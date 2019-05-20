@@ -60,7 +60,7 @@ void Game::drawMap()
 		}
 }
 
-void Game::drawLocationName(vector<string>LocationNameList,vector<int>locationOwner)
+void Game::drawLocationName(vector<string>LocationNameList)
 {
 	HANDLE hOut;
 	int c = 0;
@@ -166,6 +166,5 @@ void Game::drawDialogue(int mode)
 	COORD endPos{ 0,34 };
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hOut, endPos);
-
 
 }
