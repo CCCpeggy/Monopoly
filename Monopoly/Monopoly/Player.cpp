@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "BaseBlock.h"
 #include "EstateBlock.h"
+#include "Stock.h"
 #include <time.h>
 #include<iostream>
 using namespace std;
@@ -34,7 +35,7 @@ void Player::rollDice(int blockNums)
 	srand(time(NULL));
 	int dicePoint = rand() % 6 + 1 + rand() % 6 + 1;
 	cout << "Player ÂY¥X¤F" << dicePoint << "ÂI" << endl;
-	for (size_t i = 0; i < dicePoint-1; i++)
+	for (int i = 0; i < dicePoint-1; i++)
 	{
 		gotoNextBlock(blockNums);
 		location->through(this);
@@ -44,7 +45,7 @@ void Player::rollDice(int blockNums)
 }
 
 
-Player::Player(int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)
+Player::Player(string newName,int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):name(newName),money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)
 {
 
 }
@@ -54,20 +55,35 @@ Player::~Player()
 {
 }
 
-void Player::earnMoney(int m)
+void Player::tradeStock(Stock* stock, bool buyTrueSellFalse, int quantity)
 {
-	money += m;
+	if (buyTrueSellFalse)
+	{
+		stock->beOwned[this] += quantity;
+	}
+	else
+	{
+		if (stock->beOwned[this]>=quantity)
+		{
+			stock->beOwned[this] -= quantity;
+		}
+	}
 }
 
-void Player::giveMoney(Player& p, int m)
+void Player::earnMoney(int money)
 {
-	p.earnMoney(m);
-	money -= m;
+	this->money += money;
+}
+
+void Player::giveMoney(Player& player, int money)
+{
+	player.earnMoney(money);
+	this->money -= money;
 }
 
 void Player::buyHouse(EstateBlock& estate)
 {
-	ownEstates.push_back(&estate);
+	ownedEstates.push_back(&estate);
 	if (estate.houseLevel==-1)
 	{
 		money -= estate.initialPrice;

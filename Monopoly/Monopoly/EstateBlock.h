@@ -1,9 +1,9 @@
 #pragma once
 #include<vector>
 #include<string>
+#include "BaseBlock.h"
 using namespace std;
 class Player;
-class BaseBlock;
 class EstateBlock :public BaseBlock
 {
 public:

@@ -42,6 +42,18 @@
     <ClCompile Include="Source1.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="ChanceBlock.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="FateBlock.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Stock.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -63,6 +75,18 @@
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="StartBlock.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="ChanceBlock.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="FateBlock.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Stock.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>

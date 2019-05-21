@@ -124,7 +124,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseBlock.cpp" />
+    <ClCompile Include="Card.cpp" />
+    <ClCompile Include="ChanceBlock.cpp" />
     <ClCompile Include="EstateBlock.cpp" />
+    <ClCompile Include="FateBlock.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Draw.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -132,15 +135,20 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Source1.cpp" />
     <ClCompile Include="StartBlock.cpp" />
+    <ClCompile Include="Stock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseBlock.h" />
+    <ClInclude Include="Card.h" />
+    <ClInclude Include="ChanceBlock.h" />
     <ClInclude Include="EstateBlock.h" />
+    <ClInclude Include="FateBlock.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Draw.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="StartBlock.h" />
+    <ClInclude Include="Stock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

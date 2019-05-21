@@ -23,12 +23,12 @@ void Map::calcBlocksLocation()
 	}hold->setLocationXY(blockNums); hold->output();
 }
 
-void Map::insertBlock( BaseBlock* b)
+void Map::insertBlock( BaseBlock* block)
 {
 	if (blocksHead==NULL)
 	{
-		blocksHead = b;
-		b->nextBlock = blocksHead;
+		blocksHead = block;
+		block->nextBlock = blocksHead;
 		return;
 	}
 	BaseBlock* hold = blocksHead;
@@ -37,12 +37,12 @@ void Map::insertBlock( BaseBlock* b)
 	{
 		hold = hold->nextBlock;
 	}
-	hold->nextBlock = b;
-	b->nextBlock = blocksHead;
+	hold->nextBlock = block;
+	block->nextBlock = blocksHead;
 	
 }
 
-BaseBlock* Map::findBlock(int index)
+BaseBlock* Map::operator[](int index)
 {
 	BaseBlock* hold = blocksHead;
 	for (size_t i = 0; i < index; i++)
@@ -51,6 +51,16 @@ BaseBlock* Map::findBlock(int index)
 	}
 	return hold;
 }
+/*
+BaseBlock* Map::findBlock(int index)
+{
+	BaseBlock* hold = blocksHead;
+	for (size_t i = 0; i < index; i++)
+	{
+		hold = hold->nextBlock;
+	}
+	return hold;
+}*/
 
 void Map::calcBlockNums()
 {

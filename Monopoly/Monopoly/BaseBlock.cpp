@@ -3,26 +3,24 @@
 #include<iostream>
 using namespace std;
 
-BaseBlock::BaseBlock(string newName,int newIndex):name(newName),index(newIndex)
+BaseBlock::BaseBlock(string newName,int newIndex):name(newName),index(newIndex),nextBlock(NULL)
 {
 	x = 0;
 	y = 0;
 }
 
-BaseBlock::BaseBlock()
+BaseBlock::BaseBlock() :name("BlockName"), index(0), nextBlock(NULL)
 {
-	name = "newName";
-	index = 0;
 	x = 0;
 	y = 0;
 }
 
-BaseBlock& BaseBlock::operator=(const BaseBlock& b)
+BaseBlock& BaseBlock::operator=(const BaseBlock& block)
 {
-	this->name = b.name;
-	this->index = b.index;
-	this->x = b.x;
-	this->y = b.y;
+	this->name = block.name;
+	this->index = block.index;
+	this->x = block.x;
+	this->y = block.y;
 	return *this;
 }
 

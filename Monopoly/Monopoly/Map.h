@@ -12,7 +12,8 @@ public:
 	Map(string newMapName ="MapName");
 	void calcBlocksLocation();
 	void insertBlock(BaseBlock*);
-	BaseBlock* findBlock(int index);
+	BaseBlock* operator[](int index);
+	//BaseBlock* findBlock(int index);
 	void calcBlockNums();
 	~Map();
 };

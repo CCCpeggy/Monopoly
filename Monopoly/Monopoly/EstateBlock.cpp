@@ -1,26 +1,25 @@
-#include "BaseBlock.h"
 #include "EstateBlock.h"
 #include "Player.h"
 #include <iostream>
-void EstateBlock::arrive(Player* p)
+void EstateBlock::arrive(Player* player)
 {
 	cout << "ARRIVE Estate" << endl;
 	output();
 	if (this->owner!=NULL)
 	{
-		p->giveMoney(*owner, tolls[houseLevel]);
+		player->giveMoney(*owner, tolls[houseLevel]);
 	}
 	else
 	{
-		//draw 詢問是否要買地 return bool
+		//詢問是否要買地 return bool
 		char buychar;
 		cout << "是否要買地(價格:" << initialPrice << ")(Y/N)" << endl;
 		cin >> buychar;
 		if (buychar=='Y'|| buychar == 'y')
 		{
 			cout << "購買成功" << endl;
-			p->buyHouse(*this);
-			this->owner = p;
+			player->buyHouse(*this);
+			this->owner = player;
 		}
 		else
 		{
@@ -29,9 +28,9 @@ void EstateBlock::arrive(Player* p)
 	}
 }
 
-void EstateBlock::through(Player* p)
+void EstateBlock::through(Player* player)
 {
-	p->outputInformation();
+	player->outputInformation();
 	if (true)//若有路障
 	{
 		//dosomething
@@ -39,13 +38,13 @@ void EstateBlock::through(Player* p)
 	return;
 }
 
-EstateBlock& EstateBlock::operator=( EstateBlock& b)
+EstateBlock& EstateBlock::operator=( EstateBlock& estate)
 {
-		BaseBlock::operator=(b);
-		houseLevel = b.houseLevel;
-		initialPrice = b.initialPrice;
-		owner = b.owner;
-		tolls = b.tolls;
+		BaseBlock::operator=(estate);
+		houseLevel = estate.houseLevel;
+		initialPrice = estate.initialPrice;
+		owner = estate.owner;
+		tolls = estate.tolls;
 		return *this;
 	// TODO: 於此處插入傳回陳述式
 }
