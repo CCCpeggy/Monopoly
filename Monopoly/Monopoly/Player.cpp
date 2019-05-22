@@ -45,6 +45,23 @@ void Player::rollDice(int blockNums)
 }
 
 
+void Player::displayPlayerLocation()
+{
+	static int index = 0;//TODO:改成取player自身的index
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	string displayPlayer[4] = { "１","２","３","４" };
+
+	pair<int, int> pos = POSITION(location->x, location->y);
+	COORD initPos;
+	initPos.X = pos.first + 2 + (index) * 2;
+	initPos.Y = pos.second + 2;
+	SetConsoleCursorPosition(hOut, initPos);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::F_PLAYER_COLOR[index]);
+	std::cout << displayPlayer[index];
+	index++;
+}
+
 Player::Player(string newName,int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):name(newName),money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)
 {
 

@@ -1,5 +1,9 @@
 #pragma once
 #include<string>
+#include <windows.h>
+#include "Draw.h"
+#include <utility>
+#define POSITION(x,y)  pair<int, int>(0+(x)*10,0+(y)*4)
 using namespace std;
 class Player;
 class BaseBlock
@@ -18,6 +22,7 @@ public:
 	virtual void  through(Player*)=0;
 	void setLocationXY(int blockNums);
 	void output();
+	void drawLocationName();
 private:
 };
 

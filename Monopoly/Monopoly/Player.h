@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
 #include <map>
+#include <windows.h>
+#include "Draw.h"
+#define POSITION(x,y)  pair<int, int>(0+(x)*10,0+(y)*4)
 using namespace std;
 class BaseBlock;
 class EstateBlock;
@@ -21,6 +24,7 @@ public:
 	void giveMoney(Player&, int);
 	void buyHouse(EstateBlock&);
 	void outputInformation();
+	void displayPlayerLocation();
 	Player(string newName="playerName",int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
 	~Player();
 
