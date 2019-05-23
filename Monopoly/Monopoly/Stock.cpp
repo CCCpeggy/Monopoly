@@ -2,7 +2,7 @@
 #include "Player.h"
 
 
-Stock::Stock(string newName, double newPrize, vector<Player*> players):name(newName),prize(newPrize)
+Stock::Stock(string newName, double newPrize, vector<Player*> players):index(newName),prize(newPrize)
 {
 	for (Player* player:players)
 	{
@@ -10,7 +10,7 @@ Stock::Stock(string newName, double newPrize, vector<Player*> players):name(newN
 	}
 }
 
-Stock::Stock(vector<Player*> players) : name("stock"), prize(20)
+Stock::Stock(vector<Player*> players) : index("stock"), prize(20)
 {
 	for (Player* player : players)
 	{

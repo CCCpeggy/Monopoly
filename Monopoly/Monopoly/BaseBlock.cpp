@@ -32,34 +32,30 @@ BaseBlock::~BaseBlock()
 
 void BaseBlock::setLocationXY(int blockNums)
 {
-	if (blockNums%4==0)
-	{
+	//if (blockNums%4==0)
+	
 		int n = blockNums / 4;
 		if (index<n)
 		{
-			x = 0;
-			y = index;
+			y = 0;
+			x = index;
 		}
 		else if(index<2*n)
 		{
-			x = index - (n );
-			y = n;
+			y = index - (n );
+			x = n;
 		}
 		else if (index<3*n)
 		{
-			x = n;
-			y = 3 * n - index;
+			y = n;
+			x = 3 * n - index;
 		}
 		else if (index < 4* n)
 		{
-			x = 4 * n - index;
-			y = 0;
+			y = 4 * n - index;
+			x = 0;
 		}
-	}
-	else
-	{
-
-	}
+	
 }
 
 void BaseBlock::output()

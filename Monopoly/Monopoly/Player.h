@@ -25,7 +25,7 @@ public:
 	void buyHouse(EstateBlock&);
 	void outputInformation();
 	void displayPlayerLocation();
-	Player(int newName="playerName",int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
+	Player(int newIndex=0,int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
 	~Player();
 
 	void gotoNextBlock(int blockNums);

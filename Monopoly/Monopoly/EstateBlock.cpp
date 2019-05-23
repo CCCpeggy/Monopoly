@@ -5,17 +5,13 @@ void EstateBlock::arrive(Player* player)
 {
 	cout << "ARRIVE Estate" << endl;
 	output();
-	if (this->owner!=NULL)
-	{
-		player->giveMoney(*owner, tolls[houseLevel]);
-	}
-	else
+	if (this->owner==NULL)
 	{
 		//詢問是否要買地 return bool
 		char buychar;
 		cout << "是否要買地(價格:" << initialPrice << ")(Y/N)" << endl;
 		cin >> buychar;
-		if (buychar=='Y'|| buychar == 'y')
+		if (buychar == 'Y' || buychar == 'y')
 		{
 			cout << "購買成功" << endl;
 			player->buyHouse(*this);
@@ -24,6 +20,30 @@ void EstateBlock::arrive(Player* player)
 		else
 		{
 			return;
+		}
+	}
+	else if(this->owner != player)
+	{
+		player->giveMoney(*owner, tolls[houseLevel]);
+	}
+	else
+	{
+		if (houseLevel<=2)
+		{
+			
+			char buychar;
+			cout << "是否要蓋房子(價格:" << initialPrice*0.5 << ")(Y/N)" << endl;
+			cin >> buychar;
+			if (buychar == 'Y' || buychar == 'y')
+			{
+				cout << "蓋房成功" << endl;
+				player->buyHouse(*this);
+				this->owner = player;
+			}
+			else
+			{
+				return;
+			}
 		}
 	}
 }
@@ -70,8 +90,8 @@ void EstateBlock::drawLocationName()
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	pair<int, int> pos = POSITION(x, y);
 	COORD initPos;
-	string tempName = index;
-	if (index.length() >= 9)
+	string tempName = name;
+	if (name.length() >= 9)
 	{
 		tempName.erase(8, tempName.length() - 8);
 	}
@@ -81,25 +101,9 @@ void EstateBlock::drawLocationName()
 	if (owner == nullptr) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
 	}
-	else if (owner->index== "player1") //暫定name(之後應該會用index)
+	else 
 	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[0]);
-	}
-	else if (owner->index == "player2")
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[1]);
-	}
-	else if (owner->index == "player3")
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[2]);
-	}
-	else if (owner->index == "player4")
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[3]);
-	}
-	else
-	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[owner->index]);
 	}
 	cout << tempName;
 }
