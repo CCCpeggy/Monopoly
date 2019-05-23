@@ -31,3 +31,11 @@ void Cursor::inputPos(int drawX, int drawY, int basicX, int basicY, int rightX, 
 	pos.Y = basicY + drawY * rightY;
 	SetConsoleCursorPosition(handleOutput, pos);
 }
+
+void Cursor::setCursorHide()
+{
+	CONSOLE_CURSOR_INFO lpCursor;
+	lpCursor.dwSize = 1;
+	lpCursor.bVisible = false;
+	SetConsoleCursorInfo(handleOutput, &lpCursor);
+}

@@ -146,8 +146,11 @@ int Draw::computeCenter(int containerLength, int stringLength, int Line)
 
 void Draw::showplayerlist(vector<int> dollarinfo)
 {
-	Cursor cursor(15, 10);
-	cout << rowLine << endl;
+	Cursor cursor(0, 34);
+	int line = 0;
+	cursor.inputPos(0, line++);
+	cout << rowLine;
+	cursor.inputPos(0, line++);
 	cout << verticalBar << "　玩家　";
 	SetConsoleTextAttribute(handleOutput, Color::B_BLUE);
 	cout << left << setw(16) << "1";
@@ -179,13 +182,17 @@ void Draw::showplayerlist(vector<int> dollarinfo)
 	cout << " " << left << setw(15) << dollarinfo[5] << verticalBar;
 	cout << " " << left << setw(15) << dollarinfo[8] << verticalBar;
 	cout << " " << left << setw(15) << dollarinfo[11] << verticalBar;
-	cout << endl << rowLine << endl;
+	cout << endl << rowLine;
 }
 
 void Draw::showcurrentplayer() {
-	cout << verticalBar << "目前遊戲者" << setw(58) << " " << "當前回合數" << verticalBar << endl;
-	cout << verticalBar << " " << "1" << setw(75) << " " << "1" << verticalBar << endl;
-
+	Cursor cursor(0, 40);
+	int line = 0;
+	cursor.inputPos(0, line++);
+	cout << verticalBar << "目前遊戲者" << setw(58) << " " << "當前回合數" << verticalBar;
+	cursor.inputPos(0, line++);
+	cout << verticalBar << " " << "1" << setw(75) << " " << "1" << verticalBar;
+	cursor.inputPos(0, line++);
 	cout << rowLine;
 }
 
