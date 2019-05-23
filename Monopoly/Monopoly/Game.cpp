@@ -3,7 +3,6 @@
 Game::Game() :map("map1")
 {
 	drawMap();
-	drawfullgame();
 	StartBlock* start = new StartBlock("起點", 0);
 	map.insertBlock(start);
 	
@@ -32,6 +31,8 @@ Game::Game() :map("map1")
 	player.push_back(Player(1, 50000, 0, 0, map[0]));
 	player.push_back(Player(2, 50000, 0, 0, map[0]));
 	player.push_back(Player(3, 50000, 0, 0, map[0]));
+	drawupstatus();
+
 	for (int i = 0; i < player.size(); i++) {
 		player[i].displayPlayerLocation();
 	}
@@ -45,19 +46,17 @@ Game::Game() :map("map1")
 	{
 		player[0].rollDice(map.blockNums);
 	}
+
+	
 }
 
-//畫出所有畫面
-void Game::drawfullgame() {
-	drawupstatus();
-}
 
 //上方玩家狀態
 void Game::drawupstatus()
 {
 	Grid Gridline;
 	cout << Gridline.rowLine[0] << endl;
-	Gridline.showplayerlist("0", "0", "0", "0");
+	Gridline.showplayerlist(player[0].getMoney(), player[1].getMoney(), player[2].getMoney(), player[3].getMoney());
 	Gridline.showcurrentplayer();
 }
 

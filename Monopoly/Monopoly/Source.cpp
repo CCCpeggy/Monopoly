@@ -26,8 +26,7 @@ int dialogIndex = 0; //對話框選取項目
 void(*dialogFunc)() = nullptr; //對話框所要做的動作
 string dialogContent = ""; //對話框顯示的文字
 
-//遊戲的function
-void initGame(); //初始化遊戲
+
 #pragma endregion
 
 int main() {
