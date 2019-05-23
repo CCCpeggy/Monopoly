@@ -4,7 +4,8 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
-#include<windows.h>
+#include <windows.h>
+#include "Cursor.h"
 using namespace std;
 
 class Color {
@@ -22,30 +23,23 @@ class Color {
 	static const unsigned int TAG_CHOOSE_COLOR;
 	static const unsigned int B_PLAYER_COLOR[4]; //¦a¦W
 	static const unsigned int F_PLAYER_COLOR[4]; //ª±®a
+	static void setTextColor(int);
+};
+
+class Draw
+{
+
+public:
 	
-};
-class DialogueBox
-{
-public:
-	static const string dialogueBox[10];
-	static void drawDialogueBox(string title, int status, string context = "");
-};
-class PlayerInfo
-{
-public:
+	static const string rowLine;
+	static const string verticalBar;
 	static const string infoBlock[];
-};
-class Grid
-{
+	static const string dialogueBox[10];
 
-public:
-	Grid();
-	Color color;
-	HANDLE handleSTDOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-	string rowLine = "¡D¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡D";
-	string verticalBar = "¡U";
-
-	void showplayerlist(vector<int>);
-	void showcurrentplayer();
+	static void showplayerlist(vector<int>);
+	static void showcurrentplayer();
+	static void drawDialogueBox(string title, int status);
+	static void drawDialogueBox(string title, string content = "");
+	static int computeCenter(int containerLength, int stringLength, int Line = 0);
 };
 #endif // !_DRAW_

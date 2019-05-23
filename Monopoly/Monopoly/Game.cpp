@@ -55,7 +55,7 @@ Game::Game() :map("map1")
 //ª±®aª¬ºA
 void Game::drawupstatus()
 {
-	Grid Gridline;
+	Draw Gridline;
 	vector<int> dollaerinfo;
 	for (int i = 0; i < 4; i++) {
 		dollaerinfo.push_back(player[i].getMoney());

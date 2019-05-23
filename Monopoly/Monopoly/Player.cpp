@@ -157,7 +157,7 @@ void Player::drawPlayerInfo()
 		COORD pos{ 16,i };
 		hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		SetConsoleCursorPosition(hOut, pos);
-		cout << PlayerInfo::infoBlock[k];
+		cout << Draw::infoBlock[k];
 		k++;
 	}
 	string title = "ª±¡@®a¡@¸ê¡@°T¡@";

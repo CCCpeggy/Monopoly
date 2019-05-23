@@ -1,5 +1,8 @@
 #include "Draw.h"
 
+extern HANDLE handleOutput;
+
+#pragma region Color
 const unsigned int Color::B_BLUE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | BACKGROUND_BLUE;
 const unsigned int Color::B_GREEN = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | BACKGROUND_GREEN;
 const unsigned int Color::B_CYAN = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | BACKGROUND_BLUE | BACKGROUND_GREEN;
@@ -13,7 +16,18 @@ const unsigned int Color::DEF_COLOR = FOREGROUND_INTENSITY | FOREGROUND_RED | FO
 const unsigned int Color::TAG_CHOOSE_COLOR = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 const unsigned int Color::B_PLAYER_COLOR[4] = { B_BLUE, B_GREEN, B_CYAN, B_RED };
 const unsigned int Color::F_PLAYER_COLOR[4] = { F_BLUE, F_GREEN, F_CYAN, F_RED };
-const string DialogueBox::dialogueBox[10] = { "¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡½" ,
+
+void Color::setTextColor(int color)
+{
+	SetConsoleTextAttribute(handleOutput, color);
+}
+
+#pragma endregion
+
+#pragma region Draw
+const string Draw::rowLine = "¡D¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡D";
+const string Draw::verticalBar = "¡U";
+const string Draw::dialogueBox[10] = { "¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡½" ,
 																				  "¡ü¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡ü" ,
 																				  "¡ü¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡ü" ,
 																				  "¡ü¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡ü" ,
@@ -23,7 +37,7 @@ const string DialogueBox::dialogueBox[10] = { "¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡
 																				  "¡ü¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡ü",
 																				  "¡ü¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡ü",
 																				  "¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡½" };
-const string PlayerInfo::infoBlock[] = {
+const string Draw::infoBlock[] = {
 										   "¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡½",
 										   "¡ü¡@¡@¡@¡@¡U¡@¡@¡@¡@¡U¡@¡@¡@¡@¡U¡@¡@¡@¡@¡U¡@¡@¡@¡@¡ü",
 										   "¡ü¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡ü" ,
@@ -43,108 +57,119 @@ const string PlayerInfo::infoBlock[] = {
 										   "¡ü¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡ü",
 											"¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡½"
 };
-void DialogueBox::drawDialogueBox(string title, int status, string context)
+
+#define DIALOG_CONTENT_LEN 46
+void Draw::drawDialogueBox(string title, int status)
 {
-	int k = 0;
-	HANDLE hOut;
-	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	for (int i = 10; i <= 19; i++)
+	Cursor cursor(15, 10);
+	for (int i = 0; i <= 9; i++)
 	{
-		COORD pos;
-		pos.X = 15;
-		pos.Y = i;
-		SetConsoleCursorPosition(hOut, pos);
-		cout << DialogueBox::dialogueBox[k] << endl;
-		k++;
+		cursor.inputPos(0, i);
+		cout << dialogueBox[i] << endl;
 	}
-	COORD initPos;
-	initPos.X = 17 + (47 - title.length()) / 2;
-	initPos.Y = 12;
-	COORD contextPos;
-	contextPos.X = 17 + (47 - context.length()) / 2;
-	contextPos.Y = 17;
-	SetConsoleCursorPosition(hOut, initPos);
+	cursor.set(17, 12);
+
+	cursor.inputPos(computeCenter(DIALOG_CONTENT_LEN, title.length()));
 	cout << title;
-	COORD choiceYPos;
-	choiceYPos.X = 27;
-	choiceYPos.Y = 17;
-	COORD choiceNPos;
-	choiceNPos.X = 50;
-	choiceNPos.Y = 17;
+
 	if (status == 0)
 	{
-		SetConsoleCursorPosition(hOut, choiceYPos);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+		cursor.inputPos(10, 5);
+		Color::setTextColor(Color::TAG_CHOOSE_COLOR);
 		cout << "¬O";
-		SetConsoleCursorPosition(hOut, choiceNPos);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+
+		cursor.inputPos(33, 5);
+		Color::setTextColor(Color::DEF_COLOR);
 		cout << "§_";
 	}
 	else if (status == 1)
 	{
-		SetConsoleCursorPosition(hOut, choiceYPos);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+		cursor.inputPos(10, 5);
+		Color::setTextColor(Color::DEF_COLOR);
 		cout << "¬O";
-		SetConsoleCursorPosition(hOut, choiceNPos);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+		cursor.inputPos(33, 5);
+		Color::setTextColor(Color::TAG_CHOOSE_COLOR);
 		cout << "§_";
 	}
 	else if (status == 2)
 	{
-		SetConsoleCursorPosition(hOut, choiceYPos);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+		cursor.inputPos(10, 5);
+		Color::setTextColor(Color::TAG_CHOOSE_COLOR);
 		cout << "¶R";
-		SetConsoleCursorPosition(hOut, choiceNPos);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+		cursor.inputPos(33, 5);
+		Color::setTextColor(Color::DEF_COLOR);
 		cout << "½æ";
 	}
 	else if (status == -2)
 	{
-		SetConsoleCursorPosition(hOut, choiceYPos);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+		cursor.inputPos(10, 5);
+		Color::setTextColor(Color::DEF_COLOR);
 		cout << "¶R";
-		SetConsoleCursorPosition(hOut, choiceNPos);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+		cursor.inputPos(33, 5);
+		Color::setTextColor(Color::TAG_CHOOSE_COLOR);
 		cout << "½æ";
 	}
-	else if (status == -1)
+	Color::setTextColor(Color::DEF_COLOR);
+}
+
+void Draw::drawDialogueBox(string title, string content) {
+	Cursor cursor(15, 10);
+	for (int i = 0; i <= 9; i++)
 	{
-		SetConsoleCursorPosition(hOut, contextPos);
-		cout << context;
+		cursor.inputPos(0, i);
+		cout << dialogueBox[i] << endl;
 	}
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
-}
-Grid::Grid()
-{
+
+	cursor.set(17, 12);
+	cursor.inputPos(computeCenter(DIALOG_CONTENT_LEN, title.length()));
+	cout << title;
+
+	for (int i = 0; i < 3; i++) {
+		int startPos = computeCenter(DIALOG_CONTENT_LEN, content.length(), i);
+		cursor.inputPos(startPos, 3 + i);
+		if (startPos != 0) {
+			cout << content.substr(i * DIALOG_CONTENT_LEN);
+			break;
+		}
+		cout << content.substr(i * DIALOG_CONTENT_LEN, DIALOG_CONTENT_LEN);
+	}
 	
+	Color::setTextColor(Color::DEF_COLOR);
 }
 
-
-void Grid::showplayerlist(vector<int> dollarinfo)
+int Draw::computeCenter(int containerLength, int stringLength, int Line)
 {
+	stringLength -= containerLength * Line;
+	if (stringLength > containerLength) return 0;
+	return (containerLength - stringLength) / 2;
+}
+
+void Draw::showplayerlist(vector<int> dollarinfo)
+{
+	Cursor cursor(15, 10);
 	cout << rowLine << endl;
 	cout << verticalBar << "¡@ª±®a¡@";
-	SetConsoleTextAttribute(handleSTDOutput, color.B_BLUE);
+	SetConsoleTextAttribute(handleOutput, Color::B_BLUE);
 	cout << left << setw(16) << "1";
-	SetConsoleTextAttribute(handleSTDOutput, color.DEF_COLOR);
+	SetConsoleTextAttribute(handleOutput, Color::DEF_COLOR);
 	cout << verticalBar;
-	SetConsoleTextAttribute(handleSTDOutput, color.B_GREEN);
+	SetConsoleTextAttribute(handleOutput, Color::B_GREEN);
 	cout << left << setw(16) << "2";
-	SetConsoleTextAttribute(handleSTDOutput, color.DEF_COLOR);
+	SetConsoleTextAttribute(handleOutput, Color::DEF_COLOR);
 	cout << verticalBar;
-	SetConsoleTextAttribute(handleSTDOutput, color.B_CYAN);
+	SetConsoleTextAttribute(handleOutput, Color::B_CYAN);
 	cout << left << setw(16) << "3";
-	SetConsoleTextAttribute(handleSTDOutput, color.DEF_COLOR);
+	SetConsoleTextAttribute(handleOutput, Color::DEF_COLOR);
 	cout << verticalBar;
-	SetConsoleTextAttribute(handleSTDOutput, color.B_RED);
+	SetConsoleTextAttribute(handleOutput, Color::B_RED);
 	cout << left << setw(16) << "4";
-	SetConsoleTextAttribute(handleSTDOutput, color.DEF_COLOR);
-	cout << verticalBar << endl << verticalBar << "¡@²{ª÷¡@" ;
+	SetConsoleTextAttribute(handleOutput, Color::DEF_COLOR);
+	cout << verticalBar << endl << verticalBar << "¡@²{ª÷¡@";
 	cout << " " << left << setw(15) << dollarinfo[0] << verticalBar;
 	cout << " " << left << setw(15) << dollarinfo[3] << verticalBar;
 	cout << " " << left << setw(15) << dollarinfo[6] << verticalBar;
 	cout << " " << left << setw(15) << dollarinfo[9] << verticalBar;
-	cout << endl << verticalBar << "¡@­É´Ú¡@" ;
+	cout << endl << verticalBar << "¡@­É´Ú¡@";
 	cout << " " << left << setw(15) << dollarinfo[1] << verticalBar;
 	cout << " " << left << setw(15) << dollarinfo[4] << verticalBar;
 	cout << " " << left << setw(15) << dollarinfo[7] << verticalBar;
@@ -157,9 +182,13 @@ void Grid::showplayerlist(vector<int> dollarinfo)
 	cout << endl << rowLine << endl;
 }
 
-void Grid::showcurrentplayer() {
+void Draw::showcurrentplayer() {
 	cout << verticalBar << "¥Ø«e¹CÀ¸ªÌ" << setw(58) << " " << "·í«e¦^¦X¼Æ" << verticalBar << endl;
 	cout << verticalBar << " " << "1" << setw(75) << " " << "1" << verticalBar << endl;
 
 	cout << rowLine;
 }
+
+
+#pragma endregion
+

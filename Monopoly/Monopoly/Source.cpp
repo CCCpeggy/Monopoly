@@ -1,6 +1,5 @@
 #include "Game.h"
-#include <conio.h>
-#include <Windows.h>
+#include "Draw.h"
 #include <cmath>
 using namespace std;
 
@@ -15,8 +14,8 @@ using namespace std;
 #pragma region  declare
 
 //關於畫面
-HANDLE handleInput;
-HANDLE handleOutput;
+HANDLE handleInput = GetStdHandle(STD_INPUT_HANDLE);
+HANDLE handleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
 //關於遊戲
 LPCSTR projectName = "Monopoly";
@@ -31,9 +30,16 @@ void initGame(); //初始化遊戲
 #pragma endregion
 
 int main() {
+	//全螢幕
+	keybd_event(VK_MENU, 0x38, 0, 0);
+	keybd_event(VK_RETURN, 0x1c, 0, 0);
+	keybd_event(VK_MENU, 0xb8, KEYEVENTF_KEYUP, 0);
+	keybd_event(VK_RETURN, 0x9c, KEYEVENTF_KEYUP, 0);
 
-	handleInput = GetStdHandle(STD_INPUT_HANDLE);
-	handleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+	//游標隱藏
+	CONSOLE_CURSOR_INFO lpCursor;
+	lpCursor.dwSize = 1;
+	lpCursor.bVisible = false;
 
 	SetConsoleTitle(projectName);
 
@@ -41,18 +47,16 @@ int main() {
 	DWORD consoleMode;
 	INPUT_RECORD input;
 
-	GetConsoleMode(handleInput, &consoleMode);
-	SetConsoleMode(handleInput, consoleMode & ~ENABLE_LINE_INPUT);
 
 	//更改視窗大小
 	HWND console = GetConsoleWindow();
 	RECT ConsoleRect;
 	GetWindowRect(console, &ConsoleRect);
 	//控制數字部分以調整視窗尺寸
-	MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 800, 420, TRUE);
 	game = new Game;
-	DialogueBox::drawDialogueBox("Hello world", 1);
-	while (ReadConsoleInput(handleInput, &input, 1, &consoleCnt))
+	Draw::drawDialogueBox("測試", "１２３４５６７８1９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９");
+	
+	while (ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &input, 1, &consoleCnt))
 	{
 		if (input.EventType == KEY_EVENT)
 		{
