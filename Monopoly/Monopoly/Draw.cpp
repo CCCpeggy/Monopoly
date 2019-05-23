@@ -23,6 +23,77 @@ const string DialogueBox::dialogueBox[10] = { "¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡
 																				  "¡ü¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡ü",
 																				  "¡ü¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡ü",
 																				  "¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡½" };
+void DialogueBox::drawDialogueBox(string title, int status, string context)
+{
+	int k = 0;
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	for (int i = 10; i <= 19; i++)
+	{
+		COORD pos;
+		pos.X = 15;
+		pos.Y = i;
+		SetConsoleCursorPosition(hOut, pos);
+		cout << DialogueBox::dialogueBox[k] << endl;
+		k++;
+	}
+	COORD initPos;
+	initPos.X = 17 + (47 - title.length()) / 2;
+	initPos.Y = 12;
+	COORD contextPos;
+	contextPos.X = 17 + (47 - context.length()) / 2;
+	contextPos.Y = 17;
+	SetConsoleCursorPosition(hOut, initPos);
+	cout << title;
+	COORD choiceYPos;
+	choiceYPos.X = 27;
+	choiceYPos.Y = 17;
+	COORD choiceNPos;
+	choiceNPos.X = 50;
+	choiceNPos.Y = 17;
+	if (status == 0)
+	{
+		SetConsoleCursorPosition(hOut, choiceYPos);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+		cout << "¬O";
+		SetConsoleCursorPosition(hOut, choiceNPos);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+		cout << "§_";
+	}
+	else if (status == 1)
+	{
+		SetConsoleCursorPosition(hOut, choiceYPos);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+		cout << "¬O";
+		SetConsoleCursorPosition(hOut, choiceNPos);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+		cout << "§_";
+	}
+	else if (status == 2)
+	{
+		SetConsoleCursorPosition(hOut, choiceYPos);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+		cout << "¶R";
+		SetConsoleCursorPosition(hOut, choiceNPos);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+		cout << "½æ";
+	}
+	else if (status == -2)
+	{
+		SetConsoleCursorPosition(hOut, choiceYPos);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+		cout << "¶R";
+		SetConsoleCursorPosition(hOut, choiceNPos);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+		cout << "½æ";
+	}
+	else if (status == -1)
+	{
+		SetConsoleCursorPosition(hOut, contextPos);
+		cout << context;
+	}
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+}
 Grid::Grid()
 {
 	
@@ -71,20 +142,4 @@ void Grid::showcurrentplayer() {
 	cout << verticalBar << " " << "1" << setw(75) << " " << "1" << verticalBar << endl;
 
 	cout << rowLine;
-}
-
-DialogueBox::DialogueBox()
-{
-	int k = 0;
-	HANDLE hOut;
-	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	for (int i = 10; i <= 19; i++)
-	{
-		COORD pos;
-		pos.X = 15;
-		pos.Y = i;
-		SetConsoleCursorPosition(hOut, pos);
-		cout << DialogueBox::dialogueBox[k] << endl;
-		k++;
-	}
 }

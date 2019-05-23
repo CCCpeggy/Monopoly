@@ -3,9 +3,10 @@
 Game::Game() :map("map1")
 {
 	drawMap();
+	drawfullgame();
 	StartBlock* start = new StartBlock("起點", 0);
 	map.insertBlock(start);
-	
+
 	for (size_t i = 1; i < 28; i++)
 	{
 		if (i == 14)
@@ -27,46 +28,42 @@ Game::Game() :map("map1")
 	}
 	map.calcBlocksLocation();
 
-	player.push_back(Player(0, 50000, 0, 0, map[0]));
-	player.push_back(Player(1, 50000, 0, 0, map[0]));
-	player.push_back(Player(2, 50000, 0, 0, map[0]));
-	player.push_back(Player(3, 50000, 0, 0, map[0]));
-	drawupstatus();
-
+	player.push_back(Player(0, 50000, 0, 0, map[9]));
+	player.push_back(Player(1, 50000, 0, 0, map[9]));
+	player.push_back(Player(2, 50000, 0, 0, map[9]));
+	player.push_back(Player(3, 50000, 0, 0, map[9]));
 	for (int i = 0; i < player.size(); i++) {
 		player[i].displayPlayerLocation();
 	}
-
 
 	for (int i = 0; i < map.blockNums; i++) {
 		map[i]->drawLocationName();
 	}
 
-	//while (true)
-	//{
-	//	getchar();
-	//	player[0].rollDice(map.blockNums);
-	//}
 }
 
+//畫出所有畫面
+void Game::drawfullgame() {
+	drawupstatus();
+}
 
-
-//玩家狀態
+//上方玩家狀態
 void Game::drawupstatus()
 {
 	Grid Gridline;
-	vector<int> dollaerinfo;
-	for (int i = 0; i < 4; i++) {
-		dollaerinfo.push_back(player[i].getMoney());
-		dollaerinfo.push_back(player[i].getDebit());
-		dollaerinfo.push_back(player[i].getSaving());
-	}
-	Gridline.showplayerlist(dollaerinfo);
+	cout << Gridline.rowLine[0] << endl;
+	Gridline.showplayerlist();
 	Gridline.showcurrentplayer();
 }
 
 void Game::drawMap()
 {
+	COORD initPos;
+	initPos.X = 0;
+	initPos.Y = 0;
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorPosition(hOut, initPos);
 	string boundary[34] = { "．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．",
 											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
 											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
@@ -108,7 +105,7 @@ void Game::drawMap()
 }
 
 
-void Game::drawLocationName(vector<string>LocationNameList,vector<EstateBlock*>owner)
+void Game::drawLocationName(vector<string>LocationNameList, vector<EstateBlock*>owner)
 {
 	HANDLE hOut;
 	int c = 0;
@@ -165,54 +162,17 @@ void Game::drawLocationName(vector<string>LocationNameList,vector<EstateBlock*>o
 	SetConsoleCursorPosition(hOut, endPos);
 }
 
-void Game::drawDialogue(int mode)
+void Game::clearCenter()
 {
-	string dialogueBlock[] = { "■———————————————————————■" ,
-										   "∥　　　　　　　　　　　　　　　　　　　　　　　∥" ,
-										   "∥　　　　　　　　　　　　　　　　　　　　　　　∥" ,
-										   "∥　　　　　　　　　　　　　　　　　　　　　　　∥" ,
-										   "∥　　　　　　　　　　　　　　　　　　　　　　　∥",
-										   "∥　　　　　　　　　　　　　　　　　　　　　　　∥",
-										   "∥　　　　　　　　　　　　　　　　　　　　　　　∥",
-										   "∥　　　　　　　　　　　　　　　　　　　　　　　∥",
-										   "∥　　　　　　　　　　　　　　　　　　　　　　　∥",
-											"■———————————————————————■"
-	};
-	int k = 0;
+	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　　　　　　";
 	HANDLE hOut;
-	for (int i = 10; i <= 19; i++)
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	for (int i = 5; i <= 27; i++)
 	{
-
-		COORD pos{ 15,i };
-		hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		COORD pos{ 14,i };
 		SetConsoleCursorPosition(hOut, pos);
-		cout << dialogueBlock[k] << endl;
-		k++;
-	}
-	string title[] = { "確定要購買土地嗎？","機　會","命　運" };
-	string choice = "　　　　是　　　　　　　　　　　　　否　　　　";
-	COORD posLand{ 17 + (47 - title[0].length()) / 2,12 };
-	COORD posCAndF{ 17 + (47 - title[1].length()) / 2,12 };
-	COORD posChoice{ 17 , 17 };
-	switch (mode)
-	{
-	case 0:
-		SetConsoleCursorPosition(hOut, posLand);
-		cout << title[0] << endl;
-		SetConsoleCursorPosition(hOut, posChoice);
-		cout << choice << endl;
-		break;
-	case 1:
-		SetConsoleCursorPosition(hOut, posCAndF);
-		cout << title[1] << endl;
-		break;
-	case 2:
-		SetConsoleCursorPosition(hOut, posCAndF);
-		cout << title[2] << endl;
-		break;
+		cout << nothing;
 	}
 	COORD endPos{ 0,34 };
-	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hOut, endPos);
-
 }

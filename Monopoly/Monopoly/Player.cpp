@@ -48,7 +48,6 @@ void Player::rollDice(int blockNums)
 
 void Player::displayPlayerLocation()
 {
-	static int index = 0;//TODO:改成取player自身的index
 	HANDLE hOut;
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	string displayPlayer[4] = { "１","２","３","４" };
@@ -133,4 +132,140 @@ void Player::outputInformation()
 {
 	cout <<	"玩家金錢:" << getMoney() <<"   ";
 	cout << "現在位置"<< location->index << endl;
+}
+
+void Player::drawPlayerInfo()
+{
+	int k = 0;
+	HANDLE hOut;
+	for (int i = 6; i <= 23; i++)
+	{
+		COORD pos{ 16,i };
+		hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+		SetConsoleCursorPosition(hOut, pos);
+		cout << PlayerInfo::infoBlock[k];
+		k++;
+	}
+	string title = "玩　家　資　訊　";
+	COORD posTitle{ 17 + (49 - title.length()) / 2,9 };
+	SetConsoleCursorPosition(hOut, posTitle);
+	cout << title << endl;
+	COORD posID{ 19,11 };
+	SetConsoleCursorPosition(hOut, posID);
+	cout << "ＩＤ：" << "1";
+	COORD posMoney{ 35,11 };
+	SetConsoleCursorPosition(hOut, posMoney);
+	cout << "總資金＄" << money + saving;
+	COORD posCash{ 19,13 };
+	SetConsoleCursorPosition(hOut, posCash);
+	cout << "現金＄" << money;
+	COORD posSavings{ 34,13 };
+	SetConsoleCursorPosition(hOut, posSavings);
+	cout << "存款＄" << saving;
+	COORD posDebt{ 49,13 };
+	SetConsoleCursorPosition(hOut, posDebt);
+	cout << "負債＄" << debit;
+	SetConsoleCursorPosition(hOut, posSavings);
+	COORD posStock{ 19,15 };
+	SetConsoleCursorPosition(hOut, posStock);
+	cout << "持有股票：" << "抬機店x5" << "　" << "紅海x10";
+	COORD posLand{ 19,18 };
+	SetConsoleCursorPosition(hOut, posLand);
+	cout << "持有土地：";
+	vector<EstateBlock*>::iterator it;
+	for (it = ownedEstates.begin(); it != ownedEstates.end(); it++)
+	{
+		cout << (*it)->name << "　";
+	}
+	COORD posItem{ 19,21 };
+	SetConsoleCursorPosition(hOut, posItem);
+	cout << "持有道具：" << "▲x5";
+	COORD endPos{ 0,34 };
+	SetConsoleCursorPosition(hOut, endPos);
+}
+
+void tagOverview(int choose)
+{
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	string tagText = "　總覽　";
+	COORD pos2{ 18,7 };
+	if (choose == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+	}
+	else
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+	}
+	SetConsoleCursorPosition(hOut, pos2);
+	cout << tagText;
+}
+void tagMoney(int choose)
+{
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	string tagText = "　資金　";
+	COORD pos2{ 28,7 };
+	if (choose == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+	}
+	else
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+	}
+	SetConsoleCursorPosition(hOut, pos2);
+	cout << tagText;
+}
+void tagEstate(int choose)
+{
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	string tagText = "　地產　";
+	COORD pos2{ 38,7 };
+	if (choose == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+	}
+	else
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+	}
+	SetConsoleCursorPosition(hOut, pos2);
+	cout << tagText;
+}
+void tagStock(int choose)
+{
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	string tagText = "　股票　";
+	COORD pos2{ 48,7 };
+	if (choose == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+	}
+	else
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+	}
+	SetConsoleCursorPosition(hOut, pos2);
+	cout << tagText;
+}
+void tagItem(int choose)
+{
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	string tagText = "　道具　";
+	COORD pos2{ 58,7 };
+	if (choose == 1)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::TAG_CHOOSE_COLOR);
+	}
+	else
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+	}
+	SetConsoleCursorPosition(hOut, pos2);
+	cout << tagText;
 }

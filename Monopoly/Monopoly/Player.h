@@ -29,7 +29,7 @@ public:
 	void displayPlayerLocation();
 	Player(int newIndex=0,int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
 	~Player();
-
+	void drawPlayerInfo();
 	void gotoNextBlock(int blockNums);
 private:
 	void arriveBlock();

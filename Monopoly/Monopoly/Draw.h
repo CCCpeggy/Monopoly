@@ -28,7 +28,12 @@ class DialogueBox
 {
 public:
 	static const string dialogueBox[10];
-	DialogueBox();
+	static void drawDialogueBox(string title, int status, string context = "");
+};
+class PlayerInfo
+{
+public:
+	static const string infoBlock[];
 };
 class Grid
 {
