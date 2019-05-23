@@ -27,24 +27,15 @@ Game::Game() :map("map1")
 		}
 	}
 	map.calcBlocksLocation();
-
-	player.push_back(Player(0, 50000, 0, 0, map[0]));
-	player.push_back(Player(1, 50000, 0, 0, map[0]));
-	player.push_back(Player(2, 50000, 0, 0, map[0]));
-	player.push_back(Player(3, 50000, 0, 0, map[0]));
-	for (int i = 0; i < player.size(); i++) {
-		player[i].displayPlayerLocation();
-	}
-
 	for (int i = 0; i < map.blockNums; i++) {
 		map[i]->drawLocationName();
 	}
 
-	int a;
-	while (cin >> a)
-	{
-		player[0].rollDice(map.blockNums);
-	}
+	//while (true)
+	//{
+	//	getchar();
+	//	player[0].rollDice(map.blockNums);
+	//}
 }
 
 //畫出所有畫面

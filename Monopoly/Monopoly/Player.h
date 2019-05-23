@@ -5,6 +5,7 @@
 #include "Draw.h"
 #define POSITION(x,y)  pair<int, int>(0+(x)*10,0+(y)*4)
 using namespace std;
+class Game;
 class BaseBlock;
 class EstateBlock;
 class Stock;
@@ -22,6 +23,7 @@ public:
 	void tradeStock(Stock*,bool buyTrueSellFalse,int);
 	void earnMoney(int);//ах©З
 	void giveMoney(Player&, int);
+	void sellEstate(EstateBlock*);
 	void buyHouse(EstateBlock&);
 	void outputInformation();
 	void displayPlayerLocation();

@@ -2,6 +2,7 @@
 #include "BaseBlock.h"
 #include "EstateBlock.h"
 #include "Stock.h"
+#include "Game.h"
 #include <time.h>
 #include<iostream>
 using namespace std;
@@ -98,6 +99,20 @@ void Player::giveMoney(Player& player, int money)
 {
 	player.earnMoney(money);
 	this->money -= money;
+}
+
+void Player::sellEstate(EstateBlock* estate)
+{
+	for (size_t i = 0; i < ownedEstates.size(); i++)
+	{
+		if (ownedEstates[i]==estate)
+		{
+			ownedEstates.erase(ownedEstates.begin() + i);
+			earnMoney(estate->beSelled());
+			//cout<<"賣出房地產:"<<estate->name<<endl;
+			return;
+		}
+	}
 }
 
 void Player::buyHouse(EstateBlock& estate)

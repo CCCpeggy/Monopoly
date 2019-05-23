@@ -8,7 +8,7 @@ class Stock
 {
 public:
 	map<Player*, int> beOwned;
-	string index;
+	string name;
 	double prize;
 	Stock(string newName, double newPrize, vector<Player*> players);
 	Stock(vector<Player*> players);
