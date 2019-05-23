@@ -30,7 +30,7 @@ Grid::Grid()
 }
 
 
-void Grid::showplayerlist()
+void Grid::showplayerlist(string player1dollar, string player2dollar, string player3dollar, string player4dollar)
 {
 	cout << verticalBar;
 	whiteonBlue();
@@ -50,10 +50,10 @@ void Grid::showplayerlist()
 	defaultcolor();
 	cout << verticalBar << endl << verticalBar;
 	//tmpdollar之後會換成玩家的錢
-	cout << " " << left << setw(13) << tmpdollar << verticalBar;
-	cout << " " << left << setw(13) << tmpdollar << verticalBar;
-	cout << " " << left << setw(13) << tmpdollar << verticalBar;
-	cout << " " << left << setw(13) << tmpdollar << verticalBar;
+	cout << " " << left << setw(13) << player1dollar << verticalBar;
+	cout << " " << left << setw(13) << player2dollar << verticalBar;
+	cout << " " << left << setw(13) << player3dollar << verticalBar;
+	cout << " " << left << setw(13) << player4dollar << verticalBar;
 	cout << endl << rowLine[1] << endl;
 }
 

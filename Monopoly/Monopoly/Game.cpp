@@ -57,7 +57,7 @@ void Game::drawupstatus()
 {
 	Grid Gridline;
 	cout << Gridline.rowLine[0] << endl;
-	Gridline.showplayerlist();
+	Gridline.showplayerlist("0", "0", "0", "0");
 	Gridline.showcurrentplayer();
 }
 
