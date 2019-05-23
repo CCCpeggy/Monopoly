@@ -1,4 +1,4 @@
-﻿#include"Player.h"
+﻿/*#include"Player.h"
 #include"BaseBlock.h"
 #include"Map.h"
 #include"EstateBlock.h"
@@ -43,3 +43,4 @@ int main() {
 	}
 	system("PAUSE");
 }
+*/

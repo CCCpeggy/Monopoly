@@ -39,9 +39,6 @@
     <ClCompile Include="StartBlock.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="Source1.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
     <ClCompile Include="ChanceBlock.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
@@ -52,6 +49,9 @@
       <Filter>來源檔案</Filter>
     </ClCompile>
     <ClCompile Include="Stock.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Testing.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
   </ItemGroup>
