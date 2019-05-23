@@ -23,7 +23,6 @@ private:
 	vector<Player> player;
 public:
 	Game();
-	void drawfullgame();
 	static void drawMap();
 	void drawLocationName(vector<string>LocationNameList, vector<EstateBlock*>owner);
 	void drawupstatus();
