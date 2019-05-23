@@ -56,7 +56,13 @@ void Game::drawupstatus()
 {
 	Grid Gridline;
 	cout << Gridline.rowLine[0] << endl;
-	Gridline.showplayerlist(player[0].getMoney(), player[1].getMoney(), player[2].getMoney(), player[3].getMoney());
+	vector<int> dollaerinfo;
+	for (int i = 0; i < 4; i++) {
+		dollaerinfo.push_back(player[i].getMoney());
+		dollaerinfo.push_back(player[i].getDebit());
+		dollaerinfo.push_back(player[i].getSaving());
+	}
+	Gridline.showplayerlist(dollaerinfo);
 	Gridline.showcurrentplayer();
 }
 

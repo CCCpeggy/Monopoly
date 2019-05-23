@@ -30,7 +30,7 @@ Grid::Grid()
 }
 
 
-void Grid::showplayerlist(int player1dollar, int player2dollar, int player3dollar, int player4dollar)
+void Grid::showplayerlist(vector<int> dollarinfo)
 {
 	cout << verticalBar << "　玩家　" << verticalBar;
 	SetConsoleTextAttribute(handleSTDOutput, color.B_BLUE);
@@ -49,20 +49,20 @@ void Grid::showplayerlist(int player1dollar, int player2dollar, int player3dolla
 	cout << left << setw(14) << "4";
 	SetConsoleTextAttribute(handleSTDOutput, color.DEF_COLOR);
 	cout << verticalBar << endl << verticalBar << "　現金　" << verticalBar;
-	cout << " " << left << setw(13) << player1dollar << verticalBar;
-	cout << " " << left << setw(13) << player2dollar << verticalBar;
-	cout << " " << left << setw(13) << player3dollar << verticalBar;
-	cout << " " << left << setw(13) << player4dollar << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[0] << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[3] << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[6] << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[9] << verticalBar;
 	cout << endl << verticalBar << "　借款　" << verticalBar;
-	cout << " " << left << setw(13) << player1dollar << verticalBar;
-	cout << " " << left << setw(13) << player2dollar << verticalBar;
-	cout << " " << left << setw(13) << player3dollar << verticalBar;
-	cout << " " << left << setw(13) << player4dollar << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[1] << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[4] << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[7] << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[10] << verticalBar;
 	cout << endl << verticalBar << "　存款　" << verticalBar;
-	cout << " " << left << setw(13) << player1dollar << verticalBar;
-	cout << " " << left << setw(13) << player2dollar << verticalBar;
-	cout << " " << left << setw(13) << player3dollar << verticalBar;
-	cout << " " << left << setw(13) << player4dollar << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[2] << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[5] << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[8] << verticalBar;
+	cout << " " << left << setw(13) << dollarinfo[11] << verticalBar;
 	cout << endl << rowLine[1] << endl;
 }
 

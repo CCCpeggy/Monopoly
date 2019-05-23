@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <vector>
 #include<windows.h>
 using namespace std;
 
@@ -38,9 +39,8 @@ public:
 	HANDLE handleSTDOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 	string rowLine[2];
 	string verticalBar = "¡U";
-	string tmpdollar = "$50000";
 
-	void showplayerlist(int, int, int, int);
+	void showplayerlist(vector<int>);
 	void showcurrentplayer();
 };
 #endif // !_DRAW_
