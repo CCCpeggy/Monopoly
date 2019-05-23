@@ -62,7 +62,7 @@ void Player::displayPlayerLocation()
 	index++;
 }
 
-Player::Player(string newName,int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):name(newName),money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)
+Player::Player(int newIndex,int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):index(newIndex),money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)
 {
 
 }
@@ -77,12 +77,14 @@ void Player::tradeStock(Stock* stock, bool buyTrueSellFalse, int quantity)
 	if (buyTrueSellFalse)
 	{
 		stock->beOwned[this] += quantity;
+		saving -= stock->prize * quantity;
 	}
 	else
 	{
 		if (stock->beOwned[this]>=quantity)
 		{
 			stock->beOwned[this] -= quantity;
+			saving += stock->prize * quantity;
 		}
 	}
 }

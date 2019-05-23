@@ -11,7 +11,7 @@ class Stock;
 class Player
 {
 public:
-	string name;
+	int index;
 	vector<EstateBlock*> ownedEstates;
 	//vector<Item>;
 	BaseBlock* location;
@@ -25,7 +25,7 @@ public:
 	void buyHouse(EstateBlock&);
 	void outputInformation();
 	void displayPlayerLocation();
-	Player(string newName="playerName",int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
+	Player(int newName="playerName",int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
 	~Player();
 
 	void gotoNextBlock(int blockNums);

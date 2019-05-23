@@ -70,8 +70,8 @@ void EstateBlock::drawLocationName()
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	pair<int, int> pos = POSITION(x, y);
 	COORD initPos;
-	string tempName = name;
-	if (name.length() >= 9)
+	string tempName = index;
+	if (index.length() >= 9)
 	{
 		tempName.erase(8, tempName.length() - 8);
 	}
@@ -81,19 +81,19 @@ void EstateBlock::drawLocationName()
 	if (owner == nullptr) {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
 	}
-	else if (owner->name== "player1") //暫定name(之後應該會用index)
+	else if (owner->index== "player1") //暫定name(之後應該會用index)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[0]);
 	}
-	else if (owner->name == "player2")
+	else if (owner->index == "player2")
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[1]);
 	}
-	else if (owner->name == "player3")
+	else if (owner->index == "player3")
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[2]);
 	}
-	else if (owner->name == "player4")
+	else if (owner->index == "player4")
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[3]);
 	}

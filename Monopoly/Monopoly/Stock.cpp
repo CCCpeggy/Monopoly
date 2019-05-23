@@ -18,6 +18,13 @@ Stock::Stock(vector<Player*> players) : name("stock"), prize(20)
 	}
 }
 
+void Stock::fluctuate()
+{
+	srand(time(NULL));
+	double fluctuateRate = (rand() % 11-5)*0.01;
+	prize += fluctuateRate * prize;
+}
+
 
 Stock::~Stock()
 {

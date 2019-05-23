@@ -12,6 +12,7 @@ public:
 	double prize;
 	Stock(string newName, double newPrize, vector<Player*> players);
 	Stock(vector<Player*> players);
+	void fluctuate();
 	~Stock();
 };
 
