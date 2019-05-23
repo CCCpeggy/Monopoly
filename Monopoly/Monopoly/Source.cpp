@@ -26,10 +26,12 @@ int dialogIndex = 0; //對話框選取項目
 void(*dialogFunc)() = nullptr; //對話框所要做的動作
 string dialogContent = ""; //對話框顯示的文字
 
-
+//遊戲的function
+void initGame(); //初始化遊戲
 #pragma endregion
 
 int main() {
+
 	handleInput = GetStdHandle(STD_INPUT_HANDLE);
 	handleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -49,6 +51,7 @@ int main() {
 	//控制數字部分以調整視窗尺寸
 	MoveWindow(console, ConsoleRect.left, ConsoleRect.top, 800, 420, TRUE);
 	game = new Game;
+	DialogueBox::drawDialogueBox("Hello world", 1);
 	while (ReadConsoleInput(handleInput, &input, 1, &consoleCnt))
 	{
 		if (input.EventType == KEY_EVENT)

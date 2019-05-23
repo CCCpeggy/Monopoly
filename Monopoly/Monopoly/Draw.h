@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <vector>
 #include<windows.h>
 using namespace std;
 
@@ -27,7 +28,12 @@ class DialogueBox
 {
 public:
 	static const string dialogueBox[10];
-	DialogueBox();
+	static void drawDialogueBox(string title, int status, string context = "");
+};
+class PlayerInfo
+{
+public:
+	static const string infoBlock[];
 };
 class Grid
 {
@@ -36,11 +42,10 @@ public:
 	Grid();
 	Color color;
 	HANDLE handleSTDOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-	string rowLine[2];
+	string rowLine = "¡D¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡D";
 	string verticalBar = "¡U";
-	string tmpdollar = "$50000";
 
-	void showplayerlist(int, int, int, int);
+	void showplayerlist(vector<int>);
 	void showcurrentplayer();
 };
 #endif // !_DRAW_
