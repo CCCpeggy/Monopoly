@@ -1,13 +1,17 @@
-/*#include "Game.h"
+/*
+#include "Game.h"
+#include<iostream>
+using namespace std;
 
 Game* game = nullptr;
-void initgame();
 
 int main() {
-	Game game;
-	initgame();
-}
+	game = new Game;
 
-void initgame() {
-	game->drawfullgame();
-}*/
+
+
+
+
+	system("PAUSE");
+}
+*/
