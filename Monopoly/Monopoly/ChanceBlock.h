@@ -11,8 +11,9 @@ class ChanceBlock :
 public:
 	vector<Card> chanceCards;
 	ChanceBlock& operator=(ChanceBlock&);
-	void arrive(Player*);
-	void through(Player*);
+	void startEvent(Player*);
+	void arriveEvent(Player*);
+	void throughEvent(Player*);
 	ChanceBlock(int newIndex, string newName);
 	ChanceBlock();
 	~ChanceBlock();

@@ -5,18 +5,23 @@
 
 
 
-void StartBlock::arrive(Player* p)
+void StartBlock::startEvent(Player* player)
+{
+
+}
+
+void StartBlock::arriveEvent(Player* player)
 {
 	cout << "ARRIVE START" << endl;
 	output();
-	p->outputInformation();
+	player->outputInformation();
 	return;
 }
 
-void StartBlock::through(Player* p)
+void StartBlock::throughEvent(Player* player)
 {
-	p->earnMoney(經過起點獲取金額);
-	p->outputInformation();
+	player->earnMoney(經過起點獲取金額);
+	player->outputInformation();
 	return;
 }
 

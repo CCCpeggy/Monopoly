@@ -9,7 +9,11 @@ ChanceBlock& ChanceBlock::operator=(ChanceBlock& chance)
 	return *this;
 }
 
-void ChanceBlock::arrive(Player* player)
+void ChanceBlock::startEvent(Player*)
+{
+}
+
+void ChanceBlock::arriveEvent(Player* player)
 {
 	if (chanceCards.size() >= 1)
 	{
@@ -22,7 +26,7 @@ void ChanceBlock::arrive(Player* player)
 	}
 }
 
-void ChanceBlock::through(Player*)
+void ChanceBlock::throughEvent(Player*)
 {
 	return;
 }

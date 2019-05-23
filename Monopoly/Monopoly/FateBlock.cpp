@@ -9,7 +9,11 @@ FateBlock& FateBlock::operator=(FateBlock& block)
 	return *this;
 }
 
-void FateBlock::arrive(Player* player)
+void FateBlock::startEvent(Player*)
+{
+}
+
+void FateBlock::arriveEvent(Player* player)
 {
 	if (fateCards.size()>=1)
 	{
@@ -22,7 +26,7 @@ void FateBlock::arrive(Player* player)
 	}
 }
 
-void FateBlock::through(Player* player)
+void FateBlock::throughEvent(Player* player)
 {
 	player->outputInformation();
 	return;

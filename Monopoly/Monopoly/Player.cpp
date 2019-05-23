@@ -6,14 +6,14 @@
 #include <time.h>
 #include<iostream>
 using namespace std;
-void Player::gotoNextBlock(int blockNums)
+void Player::gotoNextBlock()
 {
 	location = location->nextBlock;
 
 }
 void Player::arriveBlock()
 {
-	location->arrive(this);
+	location->arriveEvent(this);
 }
 
 int Player::getMoney()
@@ -31,18 +31,32 @@ int Player::getSaving()
 	return saving;
 }
 
-void Player::rollDice(int blockNums)
+pair<int, int> Player::rollDice()
 {
 	srand(time(NULL));
-	int dicePoint = rand() % 6 + 1 + rand() % 6 + 1;
-	cout << "Player 헭쩧짦" << dicePoint << "헕" << endl;
-	for (int i = 0; i < dicePoint-1; i++)
+	int dicePoint1 = rand() % 6 + 1;
+	int dicePoint2 = rand() % 6 + 1;
+	cout << "Player 헭쩧짦" << dicePoint1<<"+"<<dicePoint2 << "헕" << endl;
+	return pair<int, int>(dicePoint1, dicePoint2);
+	
+}
+
+void Player::moveForwardByStep(int step)
+{
+	location->startByThisBlock(this);
+	for (int i = 1; i <step; i++)
 	{
-		gotoNextBlock(blockNums);
-		location->through(this);
+		gotoNextBlock();
+		location->throughThisBlock(this);
 	}
-	gotoNextBlock(blockNums);
-	arriveBlock();
+	gotoNextBlock();
+	location->arriveThisBlock(this);
+}
+
+void Player::moveToBlock(BaseBlock* block)
+{
+	location = block;
+	location->arriveEvent(this);
 }
 
 
@@ -115,18 +129,18 @@ void Player::sellEstate(EstateBlock* estate)
 	}
 }
 
-void Player::buyHouse(EstateBlock& estate)
+void Player::buyHouse(EstateBlock * estate)
 {
-	ownedEstates.push_back(&estate);
-	if (estate.houseLevel==-1)
+	ownedEstates.push_back(estate);
+	if (estate->houseLevel==-1)
 	{
-		money -= estate.initialPrice;
+		money -= estate->initialPrice;
 	}
 	else
 	{
-		money -= (int)(estate.initialPrice*0.5);
+		money -= (int)(estate->initialPrice*0.5);
 	}
-	estate.houseLevel++;
+	estate->houseLevel++;
 }
 
 void Player::outputInformation()

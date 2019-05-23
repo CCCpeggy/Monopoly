@@ -18,8 +18,12 @@ public:
 	BaseBlock();
 	BaseBlock& operator = (const BaseBlock&);
 	~BaseBlock();
-	virtual void  arrive(Player*)=0;
-	virtual void  through(Player*)=0;
+	void startByThisBlock(Player*);
+	void arriveThisBlock(Player*);
+	bool throughThisBlock(Player*); 
+	virtual void  startEvent(Player*) {};
+	virtual void  arriveEvent(Player*) {};
+	virtual void  throughEvent(Player*) {};
 	//virtual void drawDialogueBoxInfo(string text);
 	void setLocationXY(int blockNums);
 	void output();

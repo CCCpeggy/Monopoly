@@ -19,18 +19,20 @@ public:
 	int getMoney();//return money
 	int getDebit();//return debit
 	int getSaving();//return saving
-	void rollDice(int blockNums);
+	pair<int,int> rollDice();
+	void moveForwardByStep(int step);
+	void moveToBlock(BaseBlock*);
 	void tradeStock(Stock*,bool buyTrueSellFalse,int);
 	void earnMoney(int);//ах©З
 	void giveMoney(Player&, int);
 	void sellEstate(EstateBlock*);
-	void buyHouse(EstateBlock&);
+	void buyHouse(EstateBlock * estate);
 	void outputInformation();
 	void displayPlayerLocation();
 	Player(int newIndex=0,int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
 	~Player();
 
-	void gotoNextBlock(int blockNums);
+	void gotoNextBlock();
 private:
 	void arriveBlock();
 	int money;

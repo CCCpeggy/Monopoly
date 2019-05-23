@@ -3,8 +3,8 @@
 Game::Game() :map("map1")
 {
 	drawMap();
-	StartBlock* start = new StartBlock("起點", 0);
-	map.insertBlock(start);
+	StartBlock* startEvent = new StartBlock("起點", 0);
+	map.insertBlock(startEvent);
 	
 	for (size_t i = 1; i < 28; i++)
 	{

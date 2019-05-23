@@ -30,6 +30,28 @@ BaseBlock::~BaseBlock()
 {
 }
 
+void BaseBlock::startByThisBlock(Player* player)
+{
+	startEvent(player);
+}
+
+void BaseBlock::arriveThisBlock(Player* player)
+{
+	throughEvent(player);
+	arriveEvent(player);
+}
+
+bool BaseBlock::throughThisBlock(Player* player)
+{
+	
+	if (false)//¦³¸ô»Ù
+	{
+		return false;
+	}
+	throughEvent(player);
+	return true;
+}
+
 void BaseBlock::setLocationXY(int blockNums)
 {
 	//if (blockNums%4==0)

@@ -1,7 +1,11 @@
 #include "EstateBlock.h"
 #include "Player.h"
 #include <iostream>
-void EstateBlock::arrive(Player* player)
+void EstateBlock::startEvent(Player*)
+{
+
+}
+void EstateBlock::arriveEvent(Player* player)
 {
 	cout << "ARRIVE Estate" << endl;
 	output();
@@ -14,7 +18,7 @@ void EstateBlock::arrive(Player* player)
 		if (buychar == 'Y' || buychar == 'y')
 		{
 			cout << "購買成功" << endl;
-			player->buyHouse(*this);
+			player->buyHouse(this);
 			this->owner = player;
 		}
 		else
@@ -32,12 +36,12 @@ void EstateBlock::arrive(Player* player)
 		{
 			
 			char buychar;
-			cout << "是否要蓋房子(價格:" << initialPrice*0.5 << ")(Y/N)" << endl;
+			cout << "是否要蓋房子(價格:" << initialPrice * 0.5 << ")(Y/N)" << endl;
 			cin >> buychar;
 			if (buychar == 'Y' || buychar == 'y')
 			{
 				cout << "蓋房成功" << endl;
-				player->buyHouse(*this);
+				player->buyHouse(this);
 				this->owner = player;
 			}
 			else
@@ -48,7 +52,7 @@ void EstateBlock::arrive(Player* player)
 	}
 }
 
-void EstateBlock::through(Player* player)
+void EstateBlock::throughEvent(Player* player)
 {
 	player->outputInformation();
 	if (true)//若有路障

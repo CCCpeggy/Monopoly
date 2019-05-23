@@ -11,8 +11,9 @@ public:
 	int initialPrice;
 	Player* owner;
 	int* tolls=new int[4];
-	void arrive(Player*);
-	void through(Player*);
+	void startEvent(Player*);
+	void arriveEvent(Player*);
+	void throughEvent(Player*);
 	void drawLocationName();
 	int beSelled();
 	void  drawDialogueBoxInfo(string text);
