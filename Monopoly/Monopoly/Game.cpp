@@ -37,18 +37,18 @@ Game::Game() :map("map1")
 		player[i].displayPlayerLocation();
 	}
 
+
 	for (int i = 0; i < map.blockNums; i++) {
 		map[i]->drawLocationName();
 	}
 
-	int a;
-	while (cin >> a)
-	{
-		player[0].rollDice(map.blockNums);
-	}
-
-	
+	//while (true)
+	//{
+	//	getchar();
+	//	player[0].rollDice(map.blockNums);
+	//}
 }
+
 
 
 //¤W¤èª±®aª¬ºA

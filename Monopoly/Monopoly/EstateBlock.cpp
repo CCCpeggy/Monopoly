@@ -108,6 +108,13 @@ void EstateBlock::drawLocationName()
 	cout << tempName;
 }
 
+int EstateBlock::beSelled()
+{
+	houseLevel = -1;
+	owner = NULL;
+	return initialPrice*0.5;
+}
+
 /*void EstateBlock::drawDialogueBoxInfo(string text)
 {
 	DialogueBox();
