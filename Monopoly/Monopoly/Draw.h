@@ -37,7 +37,7 @@ public:
 	Grid();
 	Color color;
 	HANDLE handleSTDOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-	string rowLine[2];
+	string rowLine = "¡D¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡D";
 	string verticalBar = "¡U";
 
 	void showplayerlist(vector<int>);

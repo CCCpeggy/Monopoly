@@ -51,11 +51,10 @@ Game::Game() :map("map1")
 
 
 
-//上方玩家狀態
+//玩家狀態
 void Game::drawupstatus()
 {
 	Grid Gridline;
-	cout << Gridline.rowLine[0] << endl;
 	vector<int> dollaerinfo;
 	for (int i = 0; i < 4; i++) {
 		dollaerinfo.push_back(player[i].getMoney());

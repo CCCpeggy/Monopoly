@@ -25,52 +25,52 @@ const string DialogueBox::dialogueBox[10] = { "¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡
 																				  "¡½¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡½" };
 Grid::Grid()
 {
-	rowLine[0] = "¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X";
-	rowLine[1] = "¡U¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡X¡U";
+	
 }
 
 
 void Grid::showplayerlist(vector<int> dollarinfo)
 {
-	cout << verticalBar << "¡@ª±®a¡@" << verticalBar;
+	cout << rowLine << endl;
+	cout << verticalBar << "¡@ª±®a¡@";
 	SetConsoleTextAttribute(handleSTDOutput, color.B_BLUE);
-	cout << left << setw(14) << "1";
+	cout << left << setw(16) << "1";
 	SetConsoleTextAttribute(handleSTDOutput, color.DEF_COLOR);
 	cout << verticalBar;
 	SetConsoleTextAttribute(handleSTDOutput, color.B_GREEN);
-	cout << left << setw(14) << "2";
+	cout << left << setw(16) << "2";
 	SetConsoleTextAttribute(handleSTDOutput, color.DEF_COLOR);
 	cout << verticalBar;
 	SetConsoleTextAttribute(handleSTDOutput, color.B_CYAN);
-	cout << left << setw(14) << "3";
+	cout << left << setw(16) << "3";
 	SetConsoleTextAttribute(handleSTDOutput, color.DEF_COLOR);
 	cout << verticalBar;
 	SetConsoleTextAttribute(handleSTDOutput, color.B_RED);
-	cout << left << setw(14) << "4";
+	cout << left << setw(16) << "4";
 	SetConsoleTextAttribute(handleSTDOutput, color.DEF_COLOR);
-	cout << verticalBar << endl << verticalBar << "¡@²{ª÷¡@" << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[0] << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[3] << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[6] << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[9] << verticalBar;
-	cout << endl << verticalBar << "¡@­É´Ú¡@" << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[1] << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[4] << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[7] << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[10] << verticalBar;
-	cout << endl << verticalBar << "¡@¦s´Ú¡@" << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[2] << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[5] << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[8] << verticalBar;
-	cout << " " << left << setw(13) << dollarinfo[11] << verticalBar;
-	cout << endl << rowLine[1] << endl;
+	cout << verticalBar << endl << verticalBar << "¡@²{ª÷¡@" ;
+	cout << " " << left << setw(15) << dollarinfo[0] << verticalBar;
+	cout << " " << left << setw(15) << dollarinfo[3] << verticalBar;
+	cout << " " << left << setw(15) << dollarinfo[6] << verticalBar;
+	cout << " " << left << setw(15) << dollarinfo[9] << verticalBar;
+	cout << endl << verticalBar << "¡@­É´Ú¡@" ;
+	cout << " " << left << setw(15) << dollarinfo[1] << verticalBar;
+	cout << " " << left << setw(15) << dollarinfo[4] << verticalBar;
+	cout << " " << left << setw(15) << dollarinfo[7] << verticalBar;
+	cout << " " << left << setw(15) << dollarinfo[10] << verticalBar;
+	cout << endl << verticalBar << "¡@¦s´Ú¡@";
+	cout << " " << left << setw(15) << dollarinfo[2] << verticalBar;
+	cout << " " << left << setw(15) << dollarinfo[5] << verticalBar;
+	cout << " " << left << setw(15) << dollarinfo[8] << verticalBar;
+	cout << " " << left << setw(15) << dollarinfo[11] << verticalBar;
+	cout << endl << rowLine << endl;
 }
 
 void Grid::showcurrentplayer() {
-	cout << verticalBar << "¥Ø«e¹CÀ¸ªÌ" << setw(52) << " " << "·í«e¦^¦X¼Æ" << verticalBar << endl;
-	cout << verticalBar << " " << "1" << setw(69) << " " << "1" << verticalBar << endl;
+	cout << verticalBar << "¥Ø«e¹CÀ¸ªÌ" << setw(58) << " " << "·í«e¦^¦X¼Æ" << verticalBar << endl;
+	cout << verticalBar << " " << "1" << setw(75) << " " << "1" << verticalBar << endl;
 
-	cout << rowLine[1];
+	cout << rowLine;
 }
 
 DialogueBox::DialogueBox()
