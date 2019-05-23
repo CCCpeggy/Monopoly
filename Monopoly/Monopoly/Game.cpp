@@ -28,10 +28,10 @@ Game::Game() :map("map1")
 	}
 	map.calcBlocksLocation();
 
-	player.push_back(Player("player1", 50000, 0, 0, map[9]));
-	player.push_back(Player("player2", 50000, 0, 0, map[9]));
-	player.push_back(Player("player3", 50000, 0, 0, map[9]));
-	player.push_back(Player("player4", 50000, 0, 0, map[9]));
+	player.push_back(Player(0, 50000, 0, 0, map[0]));
+	player.push_back(Player(1, 50000, 0, 0, map[0]));
+	player.push_back(Player(2, 50000, 0, 0, map[0]));
+	player.push_back(Player(3, 50000, 0, 0, map[0]));
 	for (int i = 0; i < player.size(); i++) {
 		player[i].displayPlayerLocation();
 	}

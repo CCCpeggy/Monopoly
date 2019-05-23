@@ -8,11 +8,11 @@ class Stock
 {
 public:
 	map<Player*, int> beOwned;
-	string name;
+	string index;
 	double prize;
 	Stock(string newName, double newPrize, vector<Player*> players);
 	Stock(vector<Player*> players);
-	void fluctuate();
+	void fluctuate(); 
 	~Stock();
 };
 
