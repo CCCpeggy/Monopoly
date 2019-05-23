@@ -63,3 +63,65 @@ EstateBlock::EstateBlock():BaseBlock(),houseLevel(-1),initialPrice(0),owner(NULL
 EstateBlock::~EstateBlock()
 {
 }
+
+void EstateBlock::drawLocationName()
+{
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	pair<int, int> pos = POSITION(x, y);
+	COORD initPos;
+	string tempName = name;
+	if (name.length() >= 9)
+	{
+		tempName.erase(8, tempName.length() - 8);
+	}
+	initPos.X = pos.first + (9 - tempName.length()) / 2 + 2;
+	initPos.Y = pos.second + 1;
+	SetConsoleCursorPosition(hOut, initPos);
+	if (owner == nullptr) {
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+	}
+	else if (owner->name== "player1") //暫定name(之後應該會用index)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[0]);
+	}
+	else if (owner->name == "player2")
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[1]);
+	}
+	else if (owner->name == "player3")
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[2]);
+	}
+	else if (owner->name == "player4")
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[3]);
+	}
+	else
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+	}
+	cout << tempName;
+}
+
+/*void EstateBlock::drawDialogueBoxInfo(string text)
+{
+	DialogueBox();
+	string title = "確定要購買　　　　　　嗎？";
+	string yesNo = "　　　　是　　　　　　　　　　　　　否　　　　";
+	COORD posLand;
+	posLand.X = 27;
+	posLand.Y = 12;
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorPosition(hOut, posLand);
+	cout << title<< endl;
+	COORD posLocationName;
+	posLocationName.X = 39+(13-name.length())/2;
+	posLocationName.Y = 12;
+	COORD posChoice;
+	posChoice.X = 17;
+	posChoice.Y = 17; 
+	SetConsoleCursorPosition(hOut, posChoice);
+	cout << yesNo << endl;
+}*/

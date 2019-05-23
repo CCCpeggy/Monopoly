@@ -23,6 +23,12 @@ class Color {
 	static const unsigned int F_PLAYER_COLOR[4]; //ª±®a
 	
 };
+class DialogueBox
+{
+public:
+	static const string dialogueBox[10];
+	DialogueBox();
+};
 class Grid
 {
 
@@ -41,5 +47,4 @@ public:
 	void whiteonCyan() { SetConsoleTextAttribute(handleSTDOutput, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | BACKGROUND_BLUE | BACKGROUND_GREEN); };
 	void whiteonRed() { SetConsoleTextAttribute(handleSTDOutput, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | BACKGROUND_RED); }
 };
-
 #endif // !_DRAW_

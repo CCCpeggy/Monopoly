@@ -20,9 +20,10 @@ public:
 	~BaseBlock();
 	virtual void  arrive(Player*)=0;
 	virtual void  through(Player*)=0;
+	//virtual void drawDialogueBoxInfo(string text);
 	void setLocationXY(int blockNums);
 	void output();
-	void drawLocationName();
+	virtual void drawLocationName();
 private:
 };
 

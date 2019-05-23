@@ -40,3 +40,4 @@ FateBlock::FateBlock()
 FateBlock::~FateBlock()
 {
 }
+

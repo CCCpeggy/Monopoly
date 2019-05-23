@@ -9,6 +9,7 @@ public:
 	 void through(Player*);
 	StartBlock& operator = (const StartBlock&);
 	StartBlock(string newName = "°_ÂI",int newIndex=0);
+	//void drawLocationName();
 	~StartBlock();
 };
 

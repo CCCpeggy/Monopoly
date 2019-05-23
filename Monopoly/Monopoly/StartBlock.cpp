@@ -35,3 +35,21 @@ StartBlock::StartBlock(string newName,int newIndex):BaseBlock(newName,newIndex)
 StartBlock::~StartBlock()
 {
 }
+
+/*void StartBlock::drawLocationName()
+{
+	HANDLE hOut;
+	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	pair<int, int> pos = POSITION(x, y);
+	COORD initPos;
+	string tempName = name;
+	if (name.length() >= 9)
+	{
+		tempName.erase(8, tempName.length() - 8);
+	}
+	initPos.X = pos.first + (9 - tempName.length()) / 2 + 2;
+	initPos.Y = pos.second + 1;
+	SetConsoleCursorPosition(hOut, initPos);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
+	cout << tempName;
+}*/
