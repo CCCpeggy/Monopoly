@@ -30,10 +30,11 @@ public:
 	void sellEstate(EstateBlock*);
 	void buyHouse(EstateBlock * estate);
 	void outputInformation();
-	void displayPlayerLocation();
+	void drawPlayerLocation();
 	Player(int newIndex=0,int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
 	~Player();
 	void gotoNextBlock();
+	void cleanPlayerLocation();
 	void drawPlayerInfo();
 private:
 	void arriveBlock();

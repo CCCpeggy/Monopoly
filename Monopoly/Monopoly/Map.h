@@ -7,7 +7,6 @@ class BaseBlock;
 class Map
 {
 public:
-	static Cursor cursor;
 	string mapName;
 	BaseBlock* blocksHead;
 	int blockNums;

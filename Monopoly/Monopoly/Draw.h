@@ -19,11 +19,13 @@ public:
 	static const string verticalBar;
 	static const string infoBlock[];
 	static const string dialogueBox[10];
+	static const string boundary[34];
+	static const Cursor cursor;
 
 	static void showplayerlist(vector<int>);
 	static void showcurrentplayer();
-	static void drawDialogueBox(string title, int status);
+	static void drawDialogueBox(string title, pair<string, string> chooseName, int status);
 	static void drawDialogueBox(string title, string content = "");
-	static int computeCenter(int containerLength, int stringLength, int Line = 0);
+	static void drawMap();
 };
 #endif // !_DRAW_

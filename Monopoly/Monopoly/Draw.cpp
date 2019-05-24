@@ -2,6 +2,7 @@
 
 extern HANDLE handleOutput;
 
+const Cursor Draw::cursor(0, 0, 10, 4);
 const string Draw::rowLine = "．———————————————————————————————————————．";
 const string Draw::verticalBar = "｜";
 const string Draw::dialogueBox[10] = { "■———————————————————————■" ,
@@ -34,9 +35,43 @@ const string Draw::infoBlock[] = {
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
 											"■————————————————————————■"
 };
+const string Draw::boundary[34] = { "．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．",
+											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
+											 "．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "．－－－－．　　　　　　　　　　　　　　　　　　　　　　　　　　　　　．－－－－．",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "．－－－－．　　　　　　　　　　　　　　　　　　　　　　　　　　　　　．－－－－．",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											  "．－－－－．　　　　　　　　　　　　　　　　　　　　　　　　　　　　　．－－－－．",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											  "．－－－－．　　　　　　　　　　　　　　　　　　　　　　　　　　　　　．－－－－．",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											  "．－－－－．　　　　　　　　　　　　　　　　　　　　　　　　　　　　　．－－－－．",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　　　　　　　　　　　　　　　　　　　　　　　　　　∣　　　　∣",
+											 "．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．",
+											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
+											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
+											 "．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．"
+};
 
 #define DIALOG_CONTENT_LEN 46
-void Draw::drawDialogueBox(string title, int status)
+void Draw::drawDialogueBox(string title, pair<string, string> chooseName, int status)
 {
 	Cursor cursor(15, 10);
 	for (int i = 0; i <= 9; i++)
@@ -51,27 +86,15 @@ void Draw::drawDialogueBox(string title, int status)
 	cursor.add(10, 5, 23);
 	if (status == 0)
 	{
-		cursor << Color::TAG_CHOOSE_COLOR << "是";
+		cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>(chooseName.first, DIALOG_CONTENT_LEN/2);
 		cursor.nextPos();
-		cursor << Color::DEF_COLOR << "否";
+		cursor << Color::DEF_COLOR << pair<string, int>(chooseName.second, DIALOG_CONTENT_LEN / 2);
 	}
 	else if (status == 1)
 	{
-		cursor << Color::DEF_COLOR << "是";
+		cursor << Color::DEF_COLOR << pair<string, int>(chooseName.first, DIALOG_CONTENT_LEN / 2);
 		cursor.nextPos();
-		cursor << Color::TAG_CHOOSE_COLOR << "否";
-	}
-	else if (status == 2)
-	{
-		cursor << Color::TAG_CHOOSE_COLOR << "買";
-		cursor.nextPos();
-		cursor << Color::DEF_COLOR << "賣";
-	}
-	else if (status == -2)
-	{
-		cursor << Color::DEF_COLOR << "買"; 
-		cursor.nextPos();
-		cursor << Color::TAG_CHOOSE_COLOR << "賣";
+		cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>(chooseName.second, DIALOG_CONTENT_LEN / 2);
 	}
 }
 
@@ -95,13 +118,6 @@ void Draw::drawDialogueBox(string title, string content) {
 		cursor << content.substr(i * DIALOG_CONTENT_LEN, DIALOG_CONTENT_LEN);
 		cursor.nextLine();
 	}
-}
-
-int Draw::computeCenter(int containerLength, int stringLength, int Line)
-{
-	stringLength -= containerLength * Line;
-	if (stringLength > containerLength) return 0;
-	return (containerLength - stringLength) / 2;
 }
 
 void Draw::showplayerlist(vector<int> dollarinfo)
@@ -147,5 +163,16 @@ void Draw::showcurrentplayer() {
 	cursor << verticalBar << " " << "1" << setw(75) << " " << "1" << verticalBar;
 	cursor.nextLine();
 	cursor << rowLine;
+}
+
+void Draw::drawMap()
+{
+	Cursor cursor(0, 0);
+	
+	for (int i = 0; i < 34; i++)
+	{
+		cursor << boundary[i];
+		cursor.nextLine();
+	}
 }
 

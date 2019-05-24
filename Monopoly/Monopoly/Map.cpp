@@ -1,8 +1,6 @@
 #include "Map.h"
 #include"BaseBlock.h"
 
-Cursor Map::cursor(0, 0, 10, 4);
-
 Map::Map(string newMapName):mapName(newMapName)
 {
 	blockNums = -1;

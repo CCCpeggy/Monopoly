@@ -59,12 +59,15 @@ void Player::moveToBlock(BaseBlock* block)
 	location->arriveEvent(this);
 }
 
+void Player::cleanPlayerLocation()
+{
+}
 
-void Player::displayPlayerLocation()
+void Player::drawPlayerLocation()
 {
 	string displayPlayer[4] = { "１","２","３","４" };
 
-	Cursor subCursor = Map::cursor.getSubCursor(location->x, location->y, 2);
+	Cursor subCursor = Draw::cursor.getSubCursor(location->x, location->y, 2);
 	subCursor.add(2, 2).inputPos(index, 0);
 	subCursor << Color::F_PLAYER_COLOR[index] << displayPlayer[index];
 }
@@ -143,52 +146,36 @@ void Player::outputInformation()
 
 void Player::drawPlayerInfo()
 {
-	int k = 0;
-	HANDLE hOut;
-	for (int i = 6; i <= 23; i++)
+	Cursor cursor(16, 8);
+	for (int i = 0; i <= 17; i++)
 	{
-		COORD pos{ 16,i };
-		hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetConsoleCursorPosition(hOut, pos);
-		cout << Draw::infoBlock[k];
-		k++;
+		cursor << Draw::infoBlock[i];
+		cursor.nextLine();
 	}
-	string title = "玩　家　資　訊　";
-	COORD posTitle{ 17 + (49 - title.length()) / 2,9 };
-	SetConsoleCursorPosition(hOut, posTitle);
-	cout << title << endl;
-	COORD posID{ 19,11 };
-	SetConsoleCursorPosition(hOut, posID);
-	cout << "ＩＤ：" << "1";
-	COORD posMoney{ 35,11 };
-	SetConsoleCursorPosition(hOut, posMoney);
+	cursor.add(3, -1, 12);
+	cursor << pair<string, int>(" 玩　家　資　訊 ", 49);
+	cursor.add(0, 6);
+	cursor << "ＩＤ：" << "1";
+	cursor.nextPos();
 	cout << "總資金＄" << money + saving;
-	COORD posCash{ 19,13 };
-	SetConsoleCursorPosition(hOut, posCash);
+	cursor.nextLine().nextLine();
 	cout << "現金＄" << money;
-	COORD posSavings{ 34,13 };
-	SetConsoleCursorPosition(hOut, posSavings);
+	cursor.nextPos();
 	cout << "存款＄" << saving;
-	COORD posDebt{ 49,13 };
-	SetConsoleCursorPosition(hOut, posDebt);
+	cursor.nextPos();
 	cout << "負債＄" << debit;
-	SetConsoleCursorPosition(hOut, posSavings);
-	COORD posStock{ 19,15 };
-	SetConsoleCursorPosition(hOut, posStock);
+	cursor.nextLine().nextLine();
 	cout << "持有股票：" << "抬機店x5" << "　" << "紅海x10";
-	COORD posLand{ 19,18 };
-	SetConsoleCursorPosition(hOut, posLand);
+	cursor.nextLine().nextLine().nextLine();
 	cout << "持有土地：";
 	vector<EstateBlock*>::iterator it;
 	for (it = ownedEstates.begin(); it != ownedEstates.end(); it++)
 	{
-		cout << (*it)->name << "　";
+		cout << (*it)->name;
+		cursor.nextPos();
 	}
-	COORD posItem{ 19,21 };
-	SetConsoleCursorPosition(hOut, posItem);
+	cursor.nextLine().nextLine().nextLine();
 	cout << "持有道具：" << "▲x5";
-	COORD endPos{ 0,34 };
-	SetConsoleCursorPosition(hOut, endPos);
 }
 
 void tagOverview(int choose)

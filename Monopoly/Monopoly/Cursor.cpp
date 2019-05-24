@@ -1,6 +1,8 @@
 #include "Cursor.h"
 
 extern HANDLE handleOutput;
+const int Cursor::BASIC_NOT_CHANGED = -1;
+const int Cursor::RIGHT_NOT_CHANGED = -1;
 
 Cursor::Cursor(int basicX,int basicY, int rightX, int rightY)
 	:basicX(basicX),basicY(basicY),rightX(rightX),rightY(rightY),drawX(0),drawY(0)
@@ -14,23 +16,10 @@ Cursor::Cursor(int basicX,int basicY, int rightX, int rightY)
 
 Cursor& Cursor::set(int newBasicX, int newBasicY, int newRightX, int newRightY)
 {
-	basicX = newBasicX;
-	basicY = newBasicY;
-	rightX = newRightX; 
-	rightY = newRightY;
-	drawX = 0;
-	drawY = 0;
-	COORD pos;
-	pos.X = basicX + drawX * rightX;
-	pos.Y = basicY + drawY * rightY;
-	SetConsoleCursorPosition(handleOutput, pos);
-	return *this;
-}
-
-Cursor& Cursor::set(int newBasicX, int newBasicY)
-{
-	basicX = newBasicX;
-	basicY = newBasicY;
+	if (newBasicX >= 0) basicX = newBasicX;
+	if (newBasicY >= 0) basicY = newBasicY;
+	if (newRightX != RIGHT_NOT_CHANGED) rightX = newRightX;
+	if (newRightY != RIGHT_NOT_CHANGED) rightY = newRightY;
 	drawX = 0;
 	drawY = 0;
 	COORD pos;
@@ -43,11 +32,6 @@ Cursor& Cursor::set(int newBasicX, int newBasicY)
 Cursor& Cursor::add(int newBasicX, int newBasicY, int newRightX, int newRightY)
 {
 	return set(newBasicX + basicX, newBasicY + basicY, newRightX, newRightY);
-}
-
-Cursor& Cursor::add(int newBasicX, int newBasicY)
-{
-	return set(newBasicX + basicX, newBasicY + basicY);
 }
 
 Cursor& Cursor::inputPos(int newDrawX, int newDrawY)
@@ -63,6 +47,7 @@ Cursor& Cursor::inputPos(int newDrawX, int newDrawY)
 
 Cursor& Cursor::nextLine()
 {
+	drawX = 0;
 	drawY++;
 	COORD pos;
 	pos.X = basicX + drawX * rightX;
@@ -97,7 +82,7 @@ void Cursor::setCursorHide()
 	SetConsoleCursorInfo(handleOutput, &lpCursor);
 }
 
-Cursor Cursor::getSubCursor(int newDrawX, int newDrawY, int newRightX, int newRightY)
+Cursor Cursor::getSubCursor(int newDrawX, int newDrawY, int newRightX, int newRightY) const
 {
 	return Cursor(basicX + newDrawX * rightX, basicY + newDrawY * rightY, newRightX, newRightY);
 }
@@ -114,7 +99,7 @@ Cursor& Cursor::operator<<(const pair<string, int> outputString)
 	int containerLength = outputString.second;
 	if (stringLength < containerLength) {
 		COORD pos;
-		pos.X = basicX + ((containerLength - stringLength) / 2) * rightX;
+		pos.X = basicX + ((containerLength - stringLength) / 2);
 		pos.Y = basicY + drawY * rightY;
 		SetConsoleCursorPosition(handleOutput, pos);
 	}
@@ -136,4 +121,5 @@ Cursor& Cursor::operator<<(const Cursor&)
 Cursor::~Cursor()
 {
 	Color::setTextColor(Color::DEF_COLOR);
+	Cursor::setCursorHide();
 }

@@ -30,10 +30,10 @@ void initGame(); //初始化遊戲
 
 int main() {
 	//全螢幕
-	keybd_event(VK_MENU, 0x38, 0, 0);
+	/*keybd_event(VK_MENU, 0x38, 0, 0);
 	keybd_event(VK_RETURN, 0x1c, 0, 0);
 	keybd_event(VK_MENU, 0xb8, KEYEVENTF_KEYUP, 0);
-	keybd_event(VK_RETURN, 0x9c, KEYEVENTF_KEYUP, 0);
+	keybd_event(VK_RETURN, 0x9c, KEYEVENTF_KEYUP, 0);*/
 
 	SetConsoleTitle("Monopoly");
 
@@ -43,7 +43,6 @@ int main() {
 	GetWindowRect(console, &ConsoleRect);
 	//控制數字部分以調整視窗尺寸
 	game = new Game;
-	Draw::drawDialogueBox("測試","測試測試測試測試測試測試測試測試測試測試測試測試測試測試測試測試測試測試測試測試測試測試");
 	Cursor::setCursorHide();
 	DWORD consoleCnt;
 	DWORD consoleMode;
