@@ -137,7 +137,6 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="StartBlock.cpp" />
     <ClCompile Include="Stock.cpp" />
-    <ClCompile Include="Testing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseBlock.h" />

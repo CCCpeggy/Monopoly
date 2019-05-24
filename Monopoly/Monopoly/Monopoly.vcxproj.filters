@@ -51,9 +51,6 @@
     <ClCompile Include="Stock.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
-    <ClCompile Include="Testing.cpp">
-      <Filter>來源檔案</Filter>
-    </ClCompile>
     <ClCompile Include="Cursor.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
