@@ -27,7 +27,7 @@ public:
 	void moveToBlock(BaseBlock*);
 	void tradeStock(Stock*,bool buyTrueSellFalse,int);
 	void earnMoney(int);//ах©З
-	void giveMoney(Player&, int);
+	void giveMoney(Player * , int);
 	void sellEstate(EstateBlock*);
 	void buyHouse(EstateBlock * estate);
 	void outputInformation();

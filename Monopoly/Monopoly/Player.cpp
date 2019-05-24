@@ -8,8 +8,9 @@
 using namespace std;
 void Player::gotoNextBlock()
 {
+	cleanPlayerLocation();
 	location = location->nextBlock;
-
+	drawPlayerLocation();
 }
 void Player::arriveBlock()
 {
@@ -47,9 +48,11 @@ void Player::moveForwardByStep(int step)
 	for (int i = 1; i <step; i++)
 	{
 		gotoNextBlock();
+		Sleep(100);
 		location->throughThisBlock(this);
 	}
 	gotoNextBlock();
+	Sleep(100);
 	location->arriveThisBlock(this);
 }
 
@@ -105,9 +108,9 @@ void Player::earnMoney(int money)
 	this->money += money;
 }
 
-void Player::giveMoney(Player& player, int money)
+void Player::giveMoney(Player * player, int money)
 {
-	player.earnMoney(money);
+	player->earnMoney(money);
 	this->money -= money;
 }
 

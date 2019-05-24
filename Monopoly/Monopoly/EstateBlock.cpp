@@ -11,35 +11,15 @@ void EstateBlock::arriveEvent(Player* player)
 	output();
 	if (this->owner==NULL)
 	{
-		//高拜琌璶禦 return bool
-		stringstream ss;
-		ss << "琌璶禦(基:" << initialPrice << ")";
-		bool result = Game::showDialog(ss.str(), pair<string, string>("琌", ""), Draw::FIRST);
-		if (result)
+		if (player->getMoney()>= initialPrice)
 		{
-			//cout << "潦禦Θ" << endl;
-			player->buyHouse(this);
-			this->owner = player;
-		}
-		else
-		{
-			return;
-		}
-	}
-	else if(this->owner != player)
-	{
-		player->giveMoney(*owner, tolls[houseLevel]);
-	}
-	else
-	{
-		if (houseLevel<=2)
-		{
+			//高拜琌璶禦 return bool
 			stringstream ss;
-			ss << "琌璶籠┬(基:" << initialPrice << ")";
+			ss << "琌璶禦(基:" << initialPrice << ")";
 			bool result = Game::showDialog(ss.str(), pair<string, string>("琌", ""), Draw::FIRST);
 			if (result)
 			{
-				//cout << "籠┬Θ" << endl;
+				//cout << "潦禦Θ" << endl;
 				player->buyHouse(this);
 				this->owner = player;
 			}
@@ -47,6 +27,49 @@ void EstateBlock::arriveEvent(Player* player)
 			{
 				return;
 			}
+		}
+		else
+		{
+			stringstream ss;
+			ss << "瞷ぃì(基:" << initialPrice << ")";
+			 Game::showDialog("礚猭禦", ss.str());
+		}
+		
+	}
+	else if(this->owner != player)
+	{
+		player->giveMoney(owner, currentTolls());
+		stringstream ss;
+		ss << "や 產 "<< (owner->index+1)<<" " << currentTolls() << " じ";
+		Game::showDialog("翅ぃ!", ss.str());
+	}
+	else
+	{
+		if (houseLevel<=2)
+		{
+			if (player->getMoney() >= initialPrice/2)
+			{
+				stringstream ss;
+				ss << "琌璶籠┬(基:" << initialPrice/2 << ")";
+				bool result = Game::showDialog(ss.str(), pair<string, string>("琌", ""), Draw::FIRST);
+				if (result)
+				{
+					//cout << "籠┬Θ" << endl;
+					player->buyHouse(this);
+					this->owner = player;
+				}
+				else
+				{
+					return;
+				}
+			}
+			else
+			{
+				stringstream ss;
+				ss << "瞷ぃì(基:" << initialPrice / 2 << ")";
+				Game::showDialog("礚猭籠┬", ss.str());
+			}
+			
 		}
 	}
 }
@@ -106,6 +129,11 @@ int EstateBlock::beSelled()
 	houseLevel = -1;
 	owner = NULL;
 	return initialPrice*0.5;
+}
+
+int EstateBlock::currentTolls()
+{	
+	return tolls[houseLevel];
 }
 
 /*void EstateBlock::drawDialogueBoxInfo(string text)

@@ -146,7 +146,7 @@ void Game::sellEstate()
 	vector<string> ownEstateNames;
 	stringstream ss;
 	for (int i = 0; i < currentPlayer->ownedEstates.size(); i++) {
-		ss << currentPlayer->ownedEstates[i]->name << "...$" << currentPlayer->ownedEstates[i]->initialPrice;
+		ss << currentPlayer->ownedEstates[i]->name << "...$" << currentPlayer->ownedEstates[i]->initialPrice/2;
 		ownEstateNames.push_back(ss.str());
 		ss.str("");
 		ss.clear();
@@ -196,6 +196,7 @@ void Game::doStock()
 		int number = showNumberDialog("請問要買多少張", 0, currentPlayer->getMoney() / stock[choose].prize, 0, 1, "張");
 		currentPlayer->tradeStock(&stock[choose], true, number);
 	}
+
 	else {
 		int number = showNumberDialog("請問要賣多少張", 0, stock[choose].beOwned[currentPlayer], 0, 1, "張");
 		currentPlayer->tradeStock(&stock[choose], false, number);
@@ -230,10 +231,10 @@ void Game::rollDice()
 	Player* currentPlayer = &player[playerIndex];
 	pair<int, int> dice = currentPlayer->rollDice();
 	showDice(dice);
-	currentPlayer->cleanPlayerLocation();
+	//currentPlayer->cleanPlayerLocation();
 	int sumDice = dice.first + dice.second;
 	currentPlayer->moveForwardByStep(sumDice);
-	currentPlayer->drawPlayerLocation();
+	//currentPlayer->drawPlayerLocation();
 	currentPlayer->location->drawLocationName();
 	showAllPlayerStatus();
 }

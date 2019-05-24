@@ -1,6 +1,7 @@
 #include "StartBlock.h"
 #include"Player.h"
 #include<iostream>
+#include"Game.h"
 #define 經過起點獲取金額 2000
 
 
@@ -21,6 +22,9 @@ void StartBlock::arriveEvent(Player* player)
 void StartBlock::throughEvent(Player* player)
 {
 	player->earnMoney(經過起點獲取金額);
+	stringstream ss;
+	ss<< "獲得 " << 經過起點獲取金額 << " 元";
+	Game::showDialog("經過起點",ss.str());
 	player->outputInformation();
 	return;
 }

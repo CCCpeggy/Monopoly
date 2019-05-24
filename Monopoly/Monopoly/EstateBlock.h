@@ -20,6 +20,7 @@ public:
 	void throughEvent(Player*);
 	void drawLocationName();
 	int beSelled();
+	int currentTolls();
 	void  drawDialogueBoxInfo(string text);
 	EstateBlock& operator=( EstateBlock&);
 	EstateBlock(int newIndex,string newName, int newInitialPrice, int* newTolls , Player* owner = NULL, int houseLevel = -1);
