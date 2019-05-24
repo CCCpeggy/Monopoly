@@ -27,9 +27,27 @@ Cursor& Cursor::set(int newBasicX, int newBasicY, int newRightX, int newRightY)
 	return *this;
 }
 
+Cursor& Cursor::set(int newBasicX, int newBasicY)
+{
+	basicX = newBasicX;
+	basicY = newBasicY;
+	drawX = 0;
+	drawY = 0;
+	COORD pos;
+	pos.X = basicX + drawX * rightX;
+	pos.Y = basicY + drawY * rightY;
+	SetConsoleCursorPosition(handleOutput, pos);
+	return *this;
+}
+
 Cursor& Cursor::add(int newBasicX, int newBasicY, int newRightX, int newRightY)
 {
 	return set(newBasicX + basicX, newBasicY + basicY, newRightX, newRightY);
+}
+
+Cursor& Cursor::add(int newBasicX, int newBasicY)
+{
+	return set(newBasicX + basicX, newBasicY + basicY);
 }
 
 Cursor& Cursor::inputPos(int newDrawX, int newDrawY)

@@ -62,18 +62,11 @@ void Player::moveToBlock(BaseBlock* block)
 
 void Player::displayPlayerLocation()
 {
-	HANDLE hOut;
-	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	string displayPlayer[4] = { "¢°","¢±","¢²","¢³" };
 
-	pair<int, int> pos = POSITION(location->x, location->y);
-	COORD initPos;
-	initPos.X = pos.first + 2 + (index) * 2;
-	initPos.Y = pos.second + 2;
-	SetConsoleCursorPosition(hOut, initPos);
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::F_PLAYER_COLOR[index]);
-	std::cout << displayPlayer[index];
-	index++;
+	Cursor subCursor = Map::cursor.getSubCursor(location->x, location->y, 2);
+	subCursor.add(2, 2).inputPos(index, 0);
+	subCursor << Color::F_PLAYER_COLOR[index] << displayPlayer[index];
 }
 
 Player::Player(int newIndex,int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):index(newIndex),money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)

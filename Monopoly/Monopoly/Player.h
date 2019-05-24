@@ -3,8 +3,9 @@
 #include <map>
 #include <windows.h>
 #include "Draw.h"
-#define POSITION(x,y)  pair<int, int>(0+(x)*10,0+(y)*4)
+#include "Cursor.h"
 using namespace std;
+extern HANDLE handleOutput;
 class Game;
 class BaseBlock;
 class EstateBlock;
@@ -12,6 +13,7 @@ class Stock;
 class Player
 {
 public:
+	Cursor cursor;
 	int index;
 	vector<EstateBlock*> ownedEstates;
 	//vector<Item>;

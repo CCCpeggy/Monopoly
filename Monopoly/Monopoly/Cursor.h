@@ -1,3 +1,6 @@
+#ifndef _Cursor_
+
+#define _Cursor_
 #include <conio.h>
 #include <Windows.h>
 #include "Color.h"
@@ -15,8 +18,10 @@ private:
 	int drawY;
 public:
 	Cursor(int = 0, int = 0,int = 1, int = 1);
-	Cursor& set(int = 0, int = 0, int = 1, int = 1);
-	Cursor& add(int = 0, int = 0, int = 1, int = 1);
+	Cursor& set(int, int, int, int = 1);
+	Cursor& set(int = 0, int = 0);
+	Cursor& add(int, int, int, int = 1);
+	Cursor& add(int = 0, int = 0);
 	Cursor& inputPos(int = 0, int = 0);
 	Cursor& nextLine();
 	Cursor& nextPos();
@@ -36,3 +41,6 @@ public:
 	~Cursor();
 };
 
+
+
+#endif // !_Cursor_
