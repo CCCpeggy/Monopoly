@@ -43,6 +43,7 @@ int main() {
 	GetWindowRect(console, &ConsoleRect);
 	//北计场だ秸俱跌怠へ
 	game = new Game;
+	Draw::drawDialogueBox("代刚","代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚代刚");
 	Cursor::setCursorHide();
 	DWORD consoleCnt;
 	DWORD consoleMode;

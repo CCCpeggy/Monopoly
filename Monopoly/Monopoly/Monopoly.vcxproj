@@ -126,6 +126,7 @@
     <ClCompile Include="BaseBlock.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="ChanceBlock.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="EstateBlock.cpp" />
     <ClCompile Include="FateBlock.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="BaseBlock.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="ChanceBlock.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="EstateBlock.h" />
     <ClInclude Include="FateBlock.h" />

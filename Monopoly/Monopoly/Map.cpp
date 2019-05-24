@@ -1,9 +1,6 @@
 #include "Map.h"
 #include"BaseBlock.h"
 
-
-
-
 Map::Map(string newMapName):mapName(newMapName)
 {
 	blockNums = -1;
