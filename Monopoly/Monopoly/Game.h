@@ -52,7 +52,6 @@ public:
 	void rollDice();
 	void showMap();
 	void showAllPlayerStatus(); //ª±®aª¬ºA
-	void showPlayerInfo();
 	void showMapContent();
 	void showPlayStatus();
 	void showActionMenu();

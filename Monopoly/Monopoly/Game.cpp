@@ -159,14 +159,17 @@ void Game::sellEstate()
 
 void Game::putTool()
 {
+	//TODO: 
 }
 
 void Game::saveMoney()
 {
+	//TODO: 
 }
 
 void Game::borrowMoney()
 {
+	//TODO: 
 }
 
 void Game::doStock()
@@ -250,10 +253,6 @@ void Game::showAllPlayerStatus()
 	Draw::drawCurrentPlayer(playerIndex, round);
 }
 
-void Game::showPlayerInfo()
-{
-}
-
 void Game::showMapContent()
 {
 	for (int i = 0; i < player.size(); i++) {
@@ -279,10 +278,13 @@ void Game::showPlayStatus()
 				player[playerIndex].drawPlayerInfo();
 				break;
 			case 1:
+				//TODO: 對應涵式
 				break;
 			case 2:
+				//TODO: 對應涵式
 				break;
 			case 3:
+				//TODO: 對應涵式
 				break;
 			}
 			Draw::drawPlayerInfoTitle(number);
