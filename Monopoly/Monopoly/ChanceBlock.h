@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _CHANCEBLOCK_
+#define _CHANCEBLOCK_
 #include<vector>
 #include<string>
 #include "BaseBlock.h"
@@ -19,3 +20,4 @@ public:
 	~ChanceBlock();
 };
 
+#endif // !_CHANCEBLOCK_

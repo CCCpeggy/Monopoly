@@ -1,11 +1,12 @@
-#pragma once
-#include<string>
+#ifndef _BaseBlock_
+#define _BaseBlock_ 
+#include <string>
 #include <windows.h>
-#include "Draw.h"
+#include <iostream>
 #include <utility>
-#define POSITION(x,y)  pair<int, int>(0+(x)*10,0+(y)*4)
+#include "Draw.h"
+#include "Player.h"
 using namespace std;
-class Player;
 class BaseBlock
 {
 public:
@@ -30,5 +31,6 @@ public:
 	virtual void drawLocationName();
 private:
 };
+#endif // !_BaseBlock_
 
 

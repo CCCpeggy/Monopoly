@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _CARD_
+#define _CARD_
 #include<string>
 using namespace std;
 class Player;
@@ -12,3 +13,4 @@ public:
 	~Card();
 };
 
+#endif // !_CARD_

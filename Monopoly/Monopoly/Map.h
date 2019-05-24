@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _MAP__
+#define _MAP__
 #include<vector>
 #include<string>
 #include "Cursor.h"
@@ -19,4 +20,5 @@ public:
 	~Map();
 private:
 };
+#endif // !_MAP__
 

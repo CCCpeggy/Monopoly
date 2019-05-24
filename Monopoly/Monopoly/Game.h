@@ -1,12 +1,16 @@
-#include "Draw.h"
-#include "Player.h"
+#ifndef _GAME_
+#define _GAME_
+#pragma region include
 #include "BaseBlock.h"
+#include "Player.h"
 #include "Map.h"
 #include "EstateBlock.h"
-#include "StartBlock.h"
 #include "FateBlock.h"
+#include "StartBlock.h"
 #include "ChanceBlock.h"
 #include "Stock.h""
+#include "Draw.h"
+#include "Cursor.h"
 #include <vector>
 #include <string>
 #include <iomanip>
@@ -14,13 +18,14 @@
 #include <utility>
 #include <fstream>
 #include <sstream>
-
+#pragma endregion
+#pragma region define
 #define LAND 0
 #define CHANCE 1
 #define FATE 2
 #define ALL -1
 #define LOADFILE "init2.txt"
-
+#pragma endregion
 class Game
 {
 private:
@@ -30,9 +35,6 @@ private:
 	int playerIndex;
 	int round;
 public:
-	static const int FRIST;
-	static const int SECOND;
-
 	Game(string = LOADFILE);
 	void loadFile(string);
 	void showMap();
@@ -44,6 +46,8 @@ public:
 	void showActionMenu();
 	void cleanPlayerPosition(int = ALL);
 	void cleanCenter();
-	bool showDialog(string, pair<string, string>, bool); 
+	bool showDialog(string, pair<string, string>, bool = Draw::FIRST);
+	int keyBoard();
 };
 
+#endif

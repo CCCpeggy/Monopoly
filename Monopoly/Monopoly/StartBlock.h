@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _BASEBLOCK_
+#define _BASEBLOCK_
 #include "BaseBlock.h"
 class Player;
 class StartBlock :
@@ -13,4 +14,6 @@ public:
 	//void drawLocationName();
 	~StartBlock();
 };
+#endif // !_BASEBLOCK_
+
 

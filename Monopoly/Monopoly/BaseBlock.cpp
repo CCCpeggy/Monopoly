@@ -1,8 +1,4 @@
 #include "BaseBlock.h"
-#include "Player.h"
-#include<iostream>
-using namespace std;
-
 BaseBlock::BaseBlock(string newName,int newIndex):name(newName),index(newIndex),nextBlock(NULL)
 {
 	x = 0;

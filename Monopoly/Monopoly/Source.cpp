@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "Draw.h"
 #include <cmath>
 using namespace std;
 
@@ -49,26 +48,24 @@ int main() {
 	INPUT_RECORD input;
 	while (ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &input, 1, &consoleCnt))
 	{
-		if (input.EventType == KEY_EVENT)
+		if (input.EventType == KEY_EVENT && input.Event.KeyEvent.bKeyDown == TRUE)
 		{
-			if (input.Event.KeyEvent.bKeyDown == TRUE)
-			{
-				switch (input.Event.KeyEvent.wVirtualKeyCode) {
-					//input.Event.KeyEvent.wVirtualKeyCode - VK_LEFT
-				case VK_UP: //26
-				case VK_DOWN: //28
-					break;
-				case VK_LEFT: //25
-				case VK_RIGHT: //27
-					break;
-				case VK_RETURN:
-					break;
-				case VK_ESCAPE:
-					break;
-				default:
-					break;
-				}
+			switch (input.Event.KeyEvent.wVirtualKeyCode) {
+				//input.Event.KeyEvent.wVirtualKeyCode - VK_LEFT
+			case VK_UP: //26
+			case VK_DOWN: //28
+				break;
+			case VK_LEFT: //25
+			case VK_RIGHT: //27
+				break;
+			case VK_RETURN:
+				break;
+			case VK_ESCAPE:
+				break;
+			default:
+				break;
 			}
+			
 		}
 	}
 }

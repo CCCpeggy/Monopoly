@@ -69,9 +69,12 @@ const string Draw::boundary[34] = { "．－－－－．－－－－．－－－�
 											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
 											 "．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．"
 };
+const int Draw::FIRST = true;
+const int Draw::SECOND = false;
+
 
 #define DIALOG_CONTENT_LEN 46
-void Draw::drawDialogueBox(string title, pair<string, string> chooseName, int status)
+void Draw::drawDialogueBox(string title, pair<string, string> chooseName, bool status)
 {
 	Cursor cursor(15, 10);
 	for (int i = 0; i <= 9; i++)
@@ -83,14 +86,14 @@ void Draw::drawDialogueBox(string title, pair<string, string> chooseName, int st
 	cursor.add(2,2);
 	cursor << pair<string, int>(title, DIALOG_CONTENT_LEN);
 
-	cursor.add(10, 5, 23);
-	if (status == 0)
+	cursor.add(0, 5, 23);
+	if (status == FIRST)
 	{
 		cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>(chooseName.first, DIALOG_CONTENT_LEN/2);
 		cursor.nextPos();
 		cursor << Color::DEF_COLOR << pair<string, int>(chooseName.second, DIALOG_CONTENT_LEN / 2);
 	}
-	else if (status == 1)
+	else if (status == SECOND)
 	{
 		cursor << Color::DEF_COLOR << pair<string, int>(chooseName.first, DIALOG_CONTENT_LEN / 2);
 		cursor.nextPos();

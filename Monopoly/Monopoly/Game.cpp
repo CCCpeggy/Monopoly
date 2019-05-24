@@ -1,8 +1,6 @@
 #include "Game.h"
 
 
-const int Game::FRIST = true;
-const int Game::SECOND = false;
 
 Game::Game(string fileName) :map()
 {
@@ -10,7 +8,7 @@ Game::Game(string fileName) :map()
 	showMap();
 	
 
-
+	showDialog("測試", pair<string, string>("我要買", "我要賣"), Draw::FIRST);
 
 	//player[0].rollDice(map.blockNums);
 }
@@ -167,7 +165,42 @@ void Game::cleanCenter()
 
 bool Game::showDialog(string content, pair<string, string> chooseName, bool chooseItem)
 {
-	Draw::drawDialogueBox(content, chooseName, chooseItem);
-	return false;
+	bool choose = chooseItem;
+	Draw::drawDialogueBox(content, chooseName, choose);
+	int getKey = keyBoard();
+	while(getKey != VK_RETURN) {
+		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
+			choose = !choose;
+			Draw::drawDialogueBox(content, chooseName, choose);
+		}
+		getKey = keyBoard();
+	}
+	cleanCenter();
+	return choose;
 }
+
+int Game::keyBoard()
+{
+	DWORD consoleCnt;
+	INPUT_RECORD input;
+	while (ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &input, 1, &consoleCnt))
+	{
+		if (input.EventType == KEY_EVENT && input.Event.KeyEvent.bKeyDown == TRUE)
+		{
+			switch (input.Event.KeyEvent.wVirtualKeyCode) {
+			case VK_UP: //26
+			case VK_DOWN: //28
+			case VK_LEFT: //25
+			case VK_RIGHT: //27
+			case VK_RETURN:
+			case VK_ESCAPE:
+				return input.Event.KeyEvent.wVirtualKeyCode;
+			}
+
+		}
+	}
+	
+}
+
+
 

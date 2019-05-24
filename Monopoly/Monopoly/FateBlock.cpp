@@ -1,7 +1,7 @@
 #include "FateBlock.h"
 #include "Card.h"
 #include "Player.h"
-#include<iostream>
+#include <iostream>
 using namespace std;
 FateBlock& FateBlock::operator=(FateBlock& block)
 {

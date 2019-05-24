@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _FATEBLOCK_
+#define _FATEBLOCK_
 #include<vector>
 #include<string>
 #include "BaseBlock.h"
@@ -18,3 +19,4 @@ public:
 	FateBlock();
 	~FateBlock();
 };
+#endif // !_FATEBLOCK_

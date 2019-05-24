@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _PLAYER_
+#define _PLAYER_
 #include <vector>
 #include <map>
 #include <windows.h>
@@ -6,8 +7,8 @@
 #include "Cursor.h"
 using namespace std;
 extern HANDLE handleOutput;
-class Game;
 class BaseBlock;
+class Game;
 class EstateBlock;
 class Stock;
 class Player
@@ -43,3 +44,4 @@ private:
 	int saving;
 };
 
+#endif // !_PLAYER_

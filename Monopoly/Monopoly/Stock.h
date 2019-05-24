@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _STOCK_
+#define _STOCK_
 #include<iostream>
 #include<map>
 #include<vector>
@@ -15,4 +16,4 @@ public:
 	void fluctuate(); 
 	~Stock();
 };
-
+#endif // !_STOCK_

@@ -1,5 +1,4 @@
 #ifndef _Cursor_
-
 #define _Cursor_
 #include <conio.h>
 #include <Windows.h>

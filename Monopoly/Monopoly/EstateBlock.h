@@ -1,8 +1,10 @@
-#pragma once
+#ifndef _EstateBlock_
+#define _EstateBlock_
 #include<vector>
 #include<string>
 #include "BaseBlock.h"
 using namespace std;
+class BaseBlock;
 class Player;
 class EstateBlock :public BaseBlock
 {
@@ -22,4 +24,4 @@ public:
 	EstateBlock();
 	~EstateBlock();
 };
-
+#endif // !_EstateBlock_
