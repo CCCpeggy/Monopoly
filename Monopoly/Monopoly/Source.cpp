@@ -18,7 +18,6 @@ HANDLE handleInput = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE handleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
 //關於遊戲
-LPCSTR projectName = "Monopoly";
 Game* game = nullptr;
 int gameMode;
 int dialogIndex = 0; //對話框選取項目
@@ -36,26 +35,18 @@ int main() {
 	keybd_event(VK_MENU, 0xb8, KEYEVENTF_KEYUP, 0);
 	keybd_event(VK_RETURN, 0x9c, KEYEVENTF_KEYUP, 0);
 
-	//游標隱藏
-	CONSOLE_CURSOR_INFO lpCursor;
-	lpCursor.dwSize = 1;
-	lpCursor.bVisible = false;
+	SetConsoleTitle("Monopoly");
 
-	SetConsoleTitle(projectName);
-
-	DWORD consoleCnt;
-	DWORD consoleMode;
-	INPUT_RECORD input;
-
-
-	//更改視窗大小
+	//全螢幕
 	HWND console = GetConsoleWindow();
 	RECT ConsoleRect;
 	GetWindowRect(console, &ConsoleRect);
 	//控制數字部分以調整視窗尺寸
 	game = new Game;
-	Draw::drawDialogueBox("測試", "１２３４５６７８1９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９");
-	
+	Cursor::setCursorHide();
+	DWORD consoleCnt;
+	DWORD consoleMode;
+	INPUT_RECORD input;
 	while (ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &input, 1, &consoleCnt))
 	{
 		if (input.EventType == KEY_EVENT)
