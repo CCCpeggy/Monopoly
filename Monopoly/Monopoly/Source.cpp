@@ -41,31 +41,10 @@ int main() {
 	RECT ConsoleRect;
 	GetWindowRect(console, &ConsoleRect);
 	//控制數字部分以調整視窗尺寸
-	game = new Game;
-	Cursor::setCursorHide();
-	DWORD consoleCnt;
-	DWORD consoleMode;
-	INPUT_RECORD input;
-	while (ReadConsoleInput(GetStdHandle(STD_INPUT_HANDLE), &input, 1, &consoleCnt))
-	{
-		if (input.EventType == KEY_EVENT && input.Event.KeyEvent.bKeyDown == TRUE)
-		{
-			switch (input.Event.KeyEvent.wVirtualKeyCode) {
-				//input.Event.KeyEvent.wVirtualKeyCode - VK_LEFT
-			case VK_UP: //26
-			case VK_DOWN: //28
-				break;
-			case VK_LEFT: //25
-			case VK_RIGHT: //27
-				break;
-			case VK_RETURN:
-				break;
-			case VK_ESCAPE:
-				break;
-			default:
-				break;
-			}
-			
-		}
+
+	while(true) {
+		game = new Game;
+		delete game;
 	}
+	
 }

@@ -27,13 +27,17 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0)
 			//錢不夠賣房子賣到錢夠，不夠賣就結束遊戲
 			if (!noMoney()) {
 				ss << "player" << playerIndex + 1 << "破產";
-				showDialog("遊戲結束", ss.str());
+				overGame(ss.str());
 				return;
 			}
 		}
 		stockFluctuate();
 		playerIndex = 0;
 		round++;
+		if (round >= 20) {
+			overGame("達到20回合");
+			return;
+		}
 	}
 	
 }
@@ -149,7 +153,7 @@ void Game::sellEstate()
 	}
 	int choose = showMenu("請選擇要賣掉的地", ownEstateNames);
 	
-	ss << "是否要賣地(價格:" << currentPlayer->ownedEstates[choose]->initialPrice << ")";
+	ss << "是否要賣地(價格:" << currentPlayer->ownedEstates[choose]->initialPrice / 2 << ")";
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
 	if (result) {
 		currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
@@ -232,6 +236,16 @@ void Game::rollDice()
 	currentPlayer->drawPlayerLocation();
 	currentPlayer->location->drawLocationName();
 	showAllPlayerStatus();
+}
+
+void Game::overGame(string reason)
+{
+	showDialog("遊戲結束", reason);
+	int isRestart = showDialog("是否重新開始",pair<string, string>("是", "否"));
+	if (!isRestart) {
+		Cursor cursor(0, 50);
+		ExitProcess(0);
+	}
 }
 
 void Game::showMap()

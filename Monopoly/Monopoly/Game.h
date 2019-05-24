@@ -50,6 +50,7 @@ public:
 	void doStock();
 	pair<vector<string>, std::map<int, void(Game::*)(void)> > getAction();
 	void rollDice();
+	void overGame(string = "");
 	void showMap();
 	void showAllPlayerStatus(); //ª±®aª¬ºA
 	void showMapContent();
