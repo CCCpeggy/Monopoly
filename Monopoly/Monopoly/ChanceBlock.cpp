@@ -22,7 +22,7 @@ void ChanceBlock::arriveEvent(Player* player)
 	}
 	else
 	{
-		cout << "沒有機會卡了" << endl;
+		Game::showDialog("機會", "沒有機會卡了");
 	}
 }
 

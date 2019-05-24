@@ -36,7 +36,7 @@ pair<int, int> Player::rollDice()
 	srand(time(NULL));
 	int dicePoint1 = rand() % 6 + 1;
 	int dicePoint2 = rand() % 6 + 1;
-	cout << "Player 擲出了" << dicePoint1<<"+"<<dicePoint2 << "點" << endl;
+	//cout << "Player 擲出了" << dicePoint1<<"+"<<dicePoint2 << "點" << endl;
 	return pair<int, int>(dicePoint1, dicePoint2);
 	
 }
@@ -61,15 +61,16 @@ void Player::moveToBlock(BaseBlock* block)
 
 void Player::cleanPlayerLocation()
 {
+	Cursor subCursor = Draw::cursor.getSubCursor(location->x, location->y, 2);
+	subCursor.add(2, 2).inputPos(index, 0);
+	subCursor << "　";
 }
 
 void Player::drawPlayerLocation()
 {
-	string displayPlayer[4] = { "１","２","３","４" };
-
 	Cursor subCursor = Draw::cursor.getSubCursor(location->x, location->y, 2);
 	subCursor.add(2, 2).inputPos(index, 0);
-	subCursor << Color::F_PLAYER_COLOR[index] << displayPlayer[index];
+	subCursor << Color::F_PLAYER_COLOR[index] << Draw::number[index];
 }
 
 Player::Player(int newIndex,int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):index(newIndex),money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)
@@ -140,8 +141,8 @@ void Player::buyHouse(EstateBlock * estate)
 
 void Player::outputInformation()
 {
-	cout <<	"玩家金錢:" << getMoney() <<"   ";
-	cout << "現在位置"<< location->index << endl;
+	//cout <<	"玩家金錢:" << getMoney() <<"   ";
+	//cout << "現在位置"<< location->index << endl;
 }
 
 void Player::drawPlayerInfo()

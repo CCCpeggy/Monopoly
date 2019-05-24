@@ -78,7 +78,7 @@ void BaseBlock::setLocationXY(int blockNums)
 
 void BaseBlock::output()
 {
-	cout << "name=" << name << ",index =" << index << ",x=" << x << ",y=" << y << endl;
+	//cout << "name=" << name << ",index =" << index << ",x=" << x << ",y=" << y << endl;
 }
 
 

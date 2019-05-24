@@ -22,7 +22,7 @@ void FateBlock::arriveEvent(Player* player)
 	}
 	else
 	{
-		cout << "沒有命運卡了" << endl;
+		Game::showDialog("命運", "沒有命運卡了");
 	}
 }
 

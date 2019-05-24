@@ -7,17 +7,17 @@ void EstateBlock::startEvent(Player*)
 }
 void EstateBlock::arriveEvent(Player* player)
 {
-	cout << "ARRIVE Estate" << endl;
+	//cout << "ARRIVE Estate" << endl;
 	output();
 	if (this->owner==NULL)
 	{
 		//高拜琌璶禦 return bool
-		char buychar;
-		cout << "琌璶禦(基:" << initialPrice << ")(Y/N)" << endl;
-		cin >> buychar;
-		if (buychar == 'Y' || buychar == 'y')
+		stringstream ss;
+		ss << "琌璶禦(基:" << initialPrice << ")";
+		bool result = Game::showDialog(ss.str(), pair<string, string>("琌", ""), Draw::FIRST);
+		if (result)
 		{
-			cout << "潦禦Θ" << endl;
+			//cout << "潦禦Θ" << endl;
 			player->buyHouse(this);
 			this->owner = player;
 		}
@@ -34,13 +34,12 @@ void EstateBlock::arriveEvent(Player* player)
 	{
 		if (houseLevel<=2)
 		{
-			
-			char buychar;
-			cout << "琌璶籠┬(基:" << initialPrice * 0.5 << ")(Y/N)" << endl;
-			cin >> buychar;
-			if (buychar == 'Y' || buychar == 'y')
+			stringstream ss;
+			ss << "琌璶籠┬(基:" << initialPrice << ")";
+			bool result = Game::showDialog(ss.str(), pair<string, string>("琌", ""), Draw::FIRST);
+			if (result)
 			{
-				cout << "籠┬Θ" << endl;
+				//cout << "籠┬Θ" << endl;
 				player->buyHouse(this);
 				this->owner = player;
 			}

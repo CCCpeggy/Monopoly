@@ -12,7 +12,7 @@ void StartBlock::startEvent(Player* player)
 
 void StartBlock::arriveEvent(Player* player)
 {
-	cout << "ARRIVE START" << endl;
+	//cout << "ARRIVE START" << endl;
 	output();
 	player->outputInformation();
 	return;

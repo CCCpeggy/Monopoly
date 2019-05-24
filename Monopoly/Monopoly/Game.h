@@ -25,10 +25,13 @@
 #define FATE 2
 #define ALL -1
 #define LOADFILE "init2.txt"
+#define ¯}²£ false
+#define ´I¯Î true
 #pragma endregion
 class Game
 {
 private:
+	//Cursor informCursor;
 	Map map;
 	vector<Stock> stock;
 	vector<Player> player;
@@ -37,17 +40,21 @@ private:
 public:
 	Game(string = LOADFILE);
 	void loadFile(string);
+	void stockFluctuate();
+	bool noMoney(); 
+	void sellEstate();
 	void showMap();
 	void showAllPlayerStatus(); //ª±®aª¬ºA
 	void showPlayerInfo();
-	void showPlayerPosition(int = ALL);
-	void showBlockContent();
+	void showMapContent();
 	void showPlayStatus(int);
 	void showActionMenu();
-	void cleanPlayerPosition(int = ALL);
-	void cleanCenter();
-	bool showDialog(string, pair<string, string>, bool = Draw::FIRST);
-	int keyBoard();
+	static void cleanCenter();
+	static bool showDialog(string, pair<string, string>, bool = Draw::FIRST);
+	static void showDialog(string, string);
+	static void showDice(pair<int, int>);
+	static int showMenu(string, vector<string>, int = 0);
+	static int keyBoard();
 };
 
 #endif

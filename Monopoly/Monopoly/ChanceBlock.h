@@ -3,6 +3,7 @@
 #include<vector>
 #include<string>
 #include "BaseBlock.h"
+#include "Game.h"
 using namespace std;
 class Player;
 class Card;

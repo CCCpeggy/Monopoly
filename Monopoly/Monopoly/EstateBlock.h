@@ -1,8 +1,10 @@
 #ifndef _EstateBlock_
 #define _EstateBlock_
-#include<vector>
-#include<string>
+#include <vector>
+#include <string>
+#include <sstream>
 #include "BaseBlock.h"
+#include "Game.h"
 using namespace std;
 class BaseBlock;
 class Player;
