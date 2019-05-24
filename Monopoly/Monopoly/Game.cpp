@@ -4,20 +4,28 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0)
 {
 	loadFile(fileName);
 	showMap();
+	
 	while (true) {
 		for (; playerIndex < player.size(); playerIndex++) {
-			showAllPlayerStatus();
+			stringstream ss;
+			ss << "第 " << round << " 回合, 第 " << playerIndex << " 玩家";
+			showDialog(ss.str(),"");
+			ss.str("");
+			ss.clear();
+
 			Player* currentPlayer = &player[playerIndex];
-			pair<int, int> dice = currentPlayer->rollDice();
-			showDice(dice);
-			currentPlayer->cleanPlayerLocation();
-			int sumDice = dice.first + dice.second;
-			currentPlayer->moveForwardByStep(sumDice);
-			currentPlayer->drawPlayerLocation();
-			currentPlayer->location->drawLocationName();
-			showAllPlayerStatus();
+			pair<vector<string>, std::map<int, void(Game::*)(void)> > action = getAction();
+
+			//做動作直到選擇骰骰子
+			int choose = showMenu("請選擇動作", action.first);
+			while (true) {
+				(this->*action.second[choose])();
+				if (choose == 0) break;
+				choose = showMenu("請選擇動作", action.first);
+			}
+			
+			//錢不夠賣房子賣到錢夠，不夠賣就結束遊戲
 			if (!noMoney()) {
-				stringstream ss;
 				ss << "player" << playerIndex + 1 << "破產";
 				showDialog("遊戲結束", ss.str());
 				return;
@@ -132,16 +140,95 @@ void Game::sellEstate()
 {
 	Player* currentPlayer = &player[playerIndex];
 	vector<string> ownEstateNames;
-	for (int i = 0; i < currentPlayer->ownedEstates.size(); i++)
-		ownEstateNames.push_back(currentPlayer->ownedEstates[i]->name);
-	int choose = showMenu("請選擇要賣掉的地", ownEstateNames);
 	stringstream ss;
+	for (int i = 0; i < currentPlayer->ownedEstates.size(); i++) {
+		ss << currentPlayer->ownedEstates[i]->name << "...$" << currentPlayer->ownedEstates[i]->initialPrice;
+		ownEstateNames.push_back(ss.str());
+		ss.str("");
+		ss.clear();
+	}
+	int choose = showMenu("請選擇要賣掉的地", ownEstateNames);
+	
 	ss << "是否要賣地(價格:" << currentPlayer->ownedEstates[choose]->initialPrice << ")";
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
 	if (result) {
-		currentPlayer->buyHouse(currentPlayer->ownedEstates[choose]);
+		currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
 		showAllPlayerStatus();
 	}
+}
+
+void Game::putTool()
+{
+}
+
+void Game::saveMoney()
+{
+}
+
+void Game::borrowMoney()
+{
+}
+
+void Game::doStock()
+{
+	Player* currentPlayer = &player[playerIndex];
+	vector<string> ownStockes;
+	stringstream ss;
+	for (int i = 0; i < stock.size(); i++) {
+		ss << stock[i].name << "...X" << stock[i].beOwned[currentPlayer];
+		ownStockes.push_back(ss.str());
+		ss.str("");
+		ss.clear();
+	}
+	
+	int choose = showMenu("請選擇股票", ownStockes);
+
+	ss << "請問要買還是要賣(價格:" << stock[choose].prize << ")";
+	bool result = Game::showDialog(ss.str(), pair<string, string>("買", "賣"), Draw::FIRST);
+	if (result) {
+		int number = showNumberDialog("請問要買多少張", 0, currentPlayer->getMoney() / stock[choose].prize, 0, 1, "張");
+		currentPlayer->tradeStock(&stock[choose], true, number);
+	}
+	else {
+		int number = showNumberDialog("請問要賣多少張", 0, stock[choose].beOwned[currentPlayer], 0, 1, "張");
+		currentPlayer->tradeStock(&stock[choose], false, number);
+	}
+	showDialog("交易完成", "");
+	showAllPlayerStatus();
+}
+
+pair<vector<string>, map<int, void(Game::*)(void) > > Game::getAction()
+{
+	Player* currentPlayer = &player[playerIndex];
+	pair<vector<string>, std::map<int, void(Game::*)(void)>> action;
+	int index = 0;
+	action.first.push_back("擲骰子");
+	action.second[index++] = &Game::rollDice;
+	action.first.push_back("放道具");
+	action.second[index++] = &Game::putTool;
+	action.first.push_back("存款");
+	action.second[index++] = &Game::saveMoney;
+	action.first.push_back("貸款");
+	action.second[index++] = &Game::borrowMoney;
+	action.first.push_back("股票");
+	action.second[index++] = &Game::doStock;
+	action.first.push_back("玩家資訊");
+	action.second[index++] = &Game::showPlayStatus;
+
+	return action;
+}
+
+void Game::rollDice()
+{
+	Player* currentPlayer = &player[playerIndex];
+	pair<int, int> dice = currentPlayer->rollDice();
+	showDice(dice);
+	currentPlayer->cleanPlayerLocation();
+	int sumDice = dice.first + dice.second;
+	currentPlayer->moveForwardByStep(sumDice);
+	currentPlayer->drawPlayerLocation();
+	currentPlayer->location->drawLocationName();
+	showAllPlayerStatus();
 }
 
 void Game::showMap()
@@ -177,9 +264,32 @@ void Game::showMapContent()
 	}
 }
 
-void Game::showPlayStatus(int index)
+void Game::showPlayStatus()
 {
-	player[0].drawPlayerInfo();
+	player[playerIndex].drawPlayerInfo();
+	Draw::drawPlayerInfoTitle(0);
+	int number = 0;
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN) {
+		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
+			number += getKey == VK_RIGHT ? 1 : 4 ;
+			number %= 5;
+			switch(number){
+			case 0:
+				player[playerIndex].drawPlayerInfo();
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			}
+			Draw::drawPlayerInfoTitle(number);
+		}
+		getKey = keyBoard();
+	}
+	cleanCenter();
 }
 
 void Game::showActionMenu()
@@ -187,14 +297,30 @@ void Game::showActionMenu()
 
 }
 
+int Game::showNumberDialog(string title, int number, int max, int min, int right, string unit)
+{
+	Draw::drawDialogueBox(title, number, unit);
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN) {
+		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
+			number += getKey == VK_RIGHT ? 1 * right : -1 * right;
+			number = number > max ? max : number;
+			number = number < min ? min : number;
+			Draw::drawDialogueBox(title, number, unit);
+		}
+		getKey = keyBoard();
+	}
+	cleanCenter();
+	return number;
+}
+
 void Game::cleanCenter()
 {
 	Draw::cleanCenter();
 }
 
-bool Game::showDialog(string content, pair<string, string> chooseName, bool chooseItem)
+bool Game::showDialog(string content, pair<string, string> chooseName, bool choose)
 {
-	bool choose = chooseItem;
 	Draw::drawDialogueBox(content, chooseName, choose);
 	int getKey = keyBoard();
 	while(getKey != VK_RETURN) {
@@ -224,10 +350,9 @@ void Game::showDice(pair<int, int> dice)
 	cleanCenter();
 }
 
-int Game::showMenu(string name, vector<string> items, int index)
+int Game::showMenu(string name, vector<string> items, int choose)
 {
-	int choose = index;
-	Draw::drawMenu(items, name, index);
+	Draw::drawMenu(items, name, choose);
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
 		if (getKey == VK_UP || getKey == VK_DOWN) {

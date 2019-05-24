@@ -18,6 +18,7 @@
 #include <utility>
 #include <fstream>
 #include <sstream>
+#include <map>
 #pragma endregion
 #pragma region define
 #define LAND 0
@@ -43,12 +44,19 @@ public:
 	void stockFluctuate();
 	bool noMoney(); 
 	void sellEstate();
+	void putTool();
+	void saveMoney();
+	void borrowMoney();
+	void doStock();
+	pair<vector<string>, std::map<int, void(Game::*)(void)> > getAction();
+	void rollDice();
 	void showMap();
 	void showAllPlayerStatus(); //ª±®aª¬ºA
 	void showPlayerInfo();
 	void showMapContent();
-	void showPlayStatus(int);
+	void showPlayStatus();
 	void showActionMenu();
+	int showNumberDialog(string, int = 0, int = 10000, int = -10000, int = 1, string unit = "");
 	static void cleanCenter();
 	static bool showDialog(string, pair<string, string>, bool = Draw::FIRST);
 	static void showDialog(string, string);

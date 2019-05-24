@@ -23,6 +23,7 @@ public:
 	static const string boundary[34];
 	static const Cursor cursor;
 	static const string number[10];
+	static const string playInfoTitle[5];
 	static const int FIRST;
 	static const int SECOND;
 
@@ -31,9 +32,11 @@ public:
 	static void drawCurrentPlayer(int, int);
 	static void drawDialogueBox(string title, pair<string, string> chooseName, bool status);
 	static void drawDialogueBox(string title, string content = "");
+	static void drawDialogueBox(string title, int num, string unit = "");
 	static void drawMap();
 	static void drawDice(int dice1, int dice2);
 	static void drawMenu(vector<string>, string, int);
+	static void drawPlayerInfoTitle(int);
 	static void cleanCenter();
 };
 #endif // !_DRAW_

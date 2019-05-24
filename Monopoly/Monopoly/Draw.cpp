@@ -70,11 +70,13 @@ const string Draw::boundary[34] = { "．－－－－．－－－－．－－－�
 											 "．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．"
 };
 const string Draw::number[10] = { "１", "２", "３", "４", "５", "６", "７", "８", "９", "０" };
+const string Draw::playInfoTitle[5] = { "　　　　","　　　　", "　　　　", "　　　　", "　　　　" };
 const int Draw::FIRST = true;
 const int Draw::SECOND = false;
 
 
 #define DIALOG_CONTENT_LEN 46
+#define DIALOG_TITLE_LEN 50
 void Draw::drawDialogueBox(string title, pair<string, string> chooseName, bool status)
 {
 	Cursor cursor(15, 10);
@@ -122,6 +124,23 @@ void Draw::drawDialogueBox(string title, string content) {
 		cursor << content.substr(i * DIALOG_CONTENT_LEN, DIALOG_CONTENT_LEN);
 		cursor.nextLine();
 	}
+}
+
+void Draw::drawDialogueBox(string title, int num, string unit)
+{
+	//TODO: 顯示數字對話框
+	Cursor cursor(15, 10);
+	cursor << pair<string, int> (title, DIALOG_TITLE_LEN);
+	cursor.nextLine();
+	for (int i = 0; i <= 9; i++)
+	{
+		cursor << dialogueBox[i];
+		cursor.nextLine();
+	}
+	stringstream ss;
+	ss << num << unit;
+	cursor.add(0, 4);
+	cursor << pair<string, int>(ss.str(), DIALOG_TITLE_LEN);
 }
 
 void Draw::drawPlayerList(vector<int> dollarinfo)
@@ -200,7 +219,7 @@ void Draw::drawMenu(vector<string> items, string name, int index)
 {
 	//TODO:選單
 	Cursor cursor(15, 10);
-	cursor << pair<string, int>(name, DIALOG_CONTENT_LEN);
+	cursor << pair<string, int>(name, DIALOG_TITLE_LEN);
 	cursor.nextLine();
 	for (int i = 0; i <= 9; i++)
 	{
@@ -212,8 +231,19 @@ void Draw::drawMenu(vector<string> items, string name, int index)
 	{
 		if (i == index) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
-		cursor << items[i];
+		cursor << pair<string, int>(items[i], DIALOG_CONTENT_LEN);
 		cursor.nextLine();
+	}
+}
+
+void Draw::drawPlayerInfoTitle(int index)
+{
+	Cursor cursor(18, 9, 10);
+	for (int i = 0; i < 5; i++) {
+		if (i == index) cursor << Color::TAG_CHOOSE_COLOR;
+		else cursor << Color::DEF_COLOR;
+		cursor << pair<string, int>(playInfoTitle[i], 4);
+		cursor.nextPos();
 	}
 }
 
