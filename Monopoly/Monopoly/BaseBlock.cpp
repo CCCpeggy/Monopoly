@@ -88,18 +88,7 @@ void BaseBlock::output()
 
 void BaseBlock::drawLocationName()
 {
-	HANDLE hOut;
-	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	pair<int, int> pos = POSITION(x, y);
-	COORD initPos;
-	string tempName=name;
-	if (name.length() >=9)
-	{
-		tempName.erase(8, tempName.length() - 8);
-	}
-	initPos.X = pos.first +(9-tempName.length())/2+2;
-	initPos.Y =pos.second+1 ;
-	SetConsoleCursorPosition(hOut, initPos);
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
-	cout << tempName;
+	Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
+	subCursor.add(2, 1);
+	subCursor << pair<string, int>(name.substr(0,9), 9);
 }

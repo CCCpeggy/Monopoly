@@ -22,7 +22,7 @@ public:
 	Cursor(int = 0, int = 0,int = 1, int = 1);
 	Cursor& set(int = BASIC_NOT_CHANGED, int = BASIC_NOT_CHANGED, int = RIGHT_NOT_CHANGED, int = RIGHT_NOT_CHANGED);
 	Cursor& add(int = 0, int = 0, int = RIGHT_NOT_CHANGED, int = RIGHT_NOT_CHANGED);
-	Cursor& inputPos(int = 0, int = 0);
+	Cursor& inputPos(int = 0, int = 0);//ßÔ≈‹draw
 	Cursor& nextLine();
 	Cursor& nextPos();
 	static void inputPos(int drawX, int drawY, int basicX, int basicY, int rightX = 1, int rightY = 1);

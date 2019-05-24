@@ -90,26 +90,16 @@ EstateBlock::~EstateBlock()
 
 void EstateBlock::drawLocationName()
 {
-	HANDLE hOut;
-	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	pair<int, int> pos = POSITION(x, y);
-	COORD initPos;
-	string tempName = name;
-	if (name.length() >= 9)
+	Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
+	subCursor.add(2, 1);
+	if (owner != NULL)
 	{
-		tempName.erase(8, tempName.length() - 8);
+		subCursor << Color::B_PLAYER_COLOR[owner->index]<<pair<string, int>(name.substr(0, 9), 9);
 	}
-	initPos.X = pos.first + (9 - tempName.length()) / 2 + 2;
-	initPos.Y = pos.second + 1;
-	SetConsoleCursorPosition(hOut, initPos);
-	if (owner == nullptr) {
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::DEF_COLOR);
-	}
-	else 
+	else
 	{
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), Color::B_PLAYER_COLOR[owner->index]);
+		subCursor << pair<string, int>(name.substr(0, 9), 9);
 	}
-	cout << tempName;
 }
 
 int EstateBlock::beSelled()
