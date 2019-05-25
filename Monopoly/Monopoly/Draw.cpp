@@ -70,8 +70,7 @@ const string Draw::boundary[34] = { "．－－－－．－－－－．－－－�
 											 "．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．"
 };
 const string Draw::number[10] = { "１", "２", "３", "４", "５", "６", "７", "８", "９", "０" };
-//TODO: 標題
-const string Draw::playInfoTitle[5] = { "　　　　","　　　　", "　　　　", "　　　　", "　　　　" };
+const string Draw::playInfoTitle[5] = { "　總覽　","　資金　", "　地產　", "　股票　", "　道具　" };
 const int Draw::FIRST = true;
 const int Draw::SECOND = false;
 

@@ -207,7 +207,7 @@ void Game::doStock()
 	ss << "請問要買還是要賣(價格:" << stock[choose].prize << ")";
 	bool result = Game::showDialog(ss.str(), pair<string, string>("買", "賣"), Draw::FIRST);
 	if (result) {
-		int number = showNumberDialog("請問要買多少張", 1, currentPlayer->getMoney() / stock[choose].prize, 0, 1, "張");
+		int number = showNumberDialog("請問要買多少張", 1, currentPlayer->getSaving() / stock[choose].prize, 0, 1, "張");
 		currentPlayer->tradeStock(&stock[choose], true, number);
 	}
 
