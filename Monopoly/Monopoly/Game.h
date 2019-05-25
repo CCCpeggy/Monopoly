@@ -47,6 +47,7 @@ public:
 	void putTool();
 	void saveMoney();
 	void borrowMoney();
+	void returnMoney();
 	void doStock();
 	pair<vector<string>, std::map<int, void(Game::*)(void)> > getAction();
 	void rollDice();

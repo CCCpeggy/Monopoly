@@ -7,6 +7,7 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0)
 	
 	while (true) {
 		for (; playerIndex < player.size(); playerIndex++) {
+			showAllPlayerStatus();
 			stringstream ss;
 			ss << "第 " << round << " 回合, 第 " << playerIndex << " 玩家";
 			showDialog(ss.str(),"");
@@ -14,15 +15,14 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0)
 			ss.clear();
 
 			Player* currentPlayer = &player[playerIndex];
-			pair<vector<string>, std::map<int, void(Game::*)(void)> > action = getAction();
-
+			
+			int choose;
 			//做動作直到選擇骰骰子
-			int choose = showMenu("請選擇動作", action.first);
-			while (true) {
-				(this->*action.second[choose])();
-				if (choose == 0) break;
+			do {
+				pair<vector<string>, std::map<int, void(Game::*)(void)> > action = getAction();
 				choose = showMenu("請選擇動作", action.first);
-			}
+				(this->*action.second[choose])();
+			} while (choose != 0);
 			
 			//錢不夠賣房子賣到錢夠，不夠賣就結束遊戲
 			if (!noMoney()) {
@@ -156,7 +156,9 @@ void Game::sellEstate()
 	ss << "是否要賣地(價格:" << currentPlayer->ownedEstates[choose]->initialPrice / 2 << ")";
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
 	if (result) {
+		EstateBlock* block = currentPlayer->ownedEstates[choose];
 		currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
+		block->drawLocationName();
 		showAllPlayerStatus();
 	}
 }
@@ -169,11 +171,23 @@ void Game::putTool()
 void Game::saveMoney()
 {
 	//TODO: 
+	Player* currentPlayer = &player[playerIndex];
+	int money = showNumberDialog("請輸入金額", 0 , currentPlayer->getMoney(), 0, 100, "元");
 }
 
 void Game::borrowMoney()
 {
 	//TODO: 
+	Player* currentPlayer = &player[playerIndex];
+	int max = currentPlayer->getMoney() + currentPlayer->getSaving() - currentPlayer->getDebit();
+	int money = showNumberDialog("請輸入金額", 0, max, 0, 100, "元");
+}
+
+void Game::returnMoney()
+{
+	//TODO: 
+	Player* currentPlayer = &player[playerIndex];
+	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getDebit(), 0, 100, "元");
 }
 
 void Game::doStock()
@@ -212,16 +226,34 @@ pair<vector<string>, map<int, void(Game::*)(void) > > Game::getAction()
 	int index = 0;
 	action.first.push_back("擲骰子");
 	action.second[index++] = &Game::rollDice;
+
 	action.first.push_back("放道具");
 	action.second[index++] = &Game::putTool;
-	action.first.push_back("存款");
-	action.second[index++] = &Game::saveMoney;
+
+	if (currentPlayer->getMoney() > 0) {
+		action.first.push_back("存款");
+		action.second[index++] = &Game::saveMoney;
+	}
+
 	action.first.push_back("貸款");
 	action.second[index++] = &Game::borrowMoney;
+
+	if (currentPlayer->getDebit() > 0) {
+		action.first.push_back("還款");
+		action.second[index++] = &Game::returnMoney;
+	}
+
 	action.first.push_back("股票");
 	action.second[index++] = &Game::doStock;
+
 	action.first.push_back("玩家資訊");
 	action.second[index++] = &Game::showPlayStatus;
+
+	if (currentPlayer->ownedEstates.size() > 0) {
+		action.first.push_back("賣地");
+		action.second[index++] = &Game::sellEstate;
+	}
+	
 
 	return action;
 }
