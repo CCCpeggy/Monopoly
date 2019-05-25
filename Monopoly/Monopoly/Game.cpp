@@ -172,7 +172,7 @@ void Game::saveMoney()
 {
 	//TODO: 
 	Player* currentPlayer = &player[playerIndex];
-	int money = showNumberDialog("請輸入金額", 0 , currentPlayer->getMoney(), 0, 100, "元");
+	int money = showNumberDialog("請輸入金額", 100 , currentPlayer->getMoney(), 0, 100, "元");
 }
 
 void Game::borrowMoney()
@@ -180,14 +180,14 @@ void Game::borrowMoney()
 	//TODO: 
 	Player* currentPlayer = &player[playerIndex];
 	int max = currentPlayer->getMoney() + currentPlayer->getSaving() - currentPlayer->getDebit();
-	int money = showNumberDialog("請輸入金額", 0, max, 0, 100, "元");
+	int money = showNumberDialog("請輸入金額", 100, max, 0, 100, "元");
 }
 
 void Game::returnMoney()
 {
 	//TODO: 
 	Player* currentPlayer = &player[playerIndex];
-	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getDebit(), 0, 100, "元");
+	int money = showNumberDialog("請輸入金額", 100, currentPlayer->getDebit(), 0, 100, "元");
 }
 
 void Game::doStock()
@@ -207,12 +207,12 @@ void Game::doStock()
 	ss << "請問要買還是要賣(價格:" << stock[choose].prize << ")";
 	bool result = Game::showDialog(ss.str(), pair<string, string>("買", "賣"), Draw::FIRST);
 	if (result) {
-		int number = showNumberDialog("請問要買多少張", 0, currentPlayer->getMoney() / stock[choose].prize, 0, 1, "張");
+		int number = showNumberDialog("請問要買多少張", 1, currentPlayer->getMoney() / stock[choose].prize, 0, 1, "張");
 		currentPlayer->tradeStock(&stock[choose], true, number);
 	}
 
 	else {
-		int number = showNumberDialog("請問要賣多少張", 0, stock[choose].beOwned[currentPlayer], 0, 1, "張");
+		int number = showNumberDialog("請問要賣多少張", 1, stock[choose].beOwned[currentPlayer], 0, 1, "張");
 		currentPlayer->tradeStock(&stock[choose], false, number);
 	}
 	showDialog("交易完成", "");
