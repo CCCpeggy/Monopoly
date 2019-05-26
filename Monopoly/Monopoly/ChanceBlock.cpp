@@ -23,6 +23,8 @@ void ChanceBlock::arriveEvent(Player* player)
 	srand(time(NULL));
 	int index = rand() % 4+1;
 	chance.drawDialogueBox("機會",card[index]);
+	vector<EstateBlock*>::iterator it = player->ownedEstates.begin();
+	int total = 0;
 	switch (index)
 	{
 	case 0://銀行付你利息，500元
@@ -32,16 +34,14 @@ void ChanceBlock::arriveEvent(Player* player)
 		player->earnMoney(1000);
 		break;
 	case 2://整修自己所有房屋，每棟250元
-		vector<EstateBlock*>::iterator it;
-		int total = 0;
-		for (it = player->ownedEstates.begin(); it != player->ownedEstates.end(); it++)
+		for (; it != player->ownedEstates.end(); it++)
 		{
 			if ((*it)->houseLevel != 0 && (*it)->houseLevel != -1) { total = total + (*it)->houseLevel; }
 		}
-		player->earnMoney
+		player->loseMoney(total*250);
 		break;
 	case 3:
-
+		break;
 	}
 }
 
