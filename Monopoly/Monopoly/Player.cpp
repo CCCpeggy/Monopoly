@@ -174,7 +174,15 @@ bool Player::getIsBroken()
 
 void Player::setBankrupt()
 {
+	stringstream ss;
+	ss << name << "¯}²£";
+	Game::showDialog(ss.str(), "");
 	isBankrupt = true;
+	vector<EstateBlock*>::iterator it = ownedEstates.begin();
+	for (; it != ownedEstates.end(); it++)
+	{
+		(*it)->beSelled();
+	}
 }
 
 string Player::getName()

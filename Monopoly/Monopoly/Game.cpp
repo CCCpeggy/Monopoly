@@ -154,7 +154,6 @@ bool Game::sellEstate()
 	if (result) {
 		EstateBlock* block = currentPlayer->ownedEstates[choose];
 		currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
-		block->drawLocationName();
 		showAllPlayerStatus();
 	}
 	return false;
@@ -330,10 +329,7 @@ bool Game::checkMoney()
 
 bool Game::checkMoney(Player* player)
 {
-	if (getPlayerAsset() < 0) {
-		stringstream ss;
-		ss << player->getName() << "破產";
-		showDialog(ss.str(), "");
+	if (getPlayerAsset(player) < 0) {
 		player->setBankrupt();
 		return false;
 	}
@@ -384,7 +380,6 @@ bool Game::rollDice()
 	pair<int, int> dice = currentPlayer->rollDice();
 	showDice(dice);
 	currentPlayer->moveForwardByStep(dice.first + dice.second);
-	currentPlayer->location->drawLocationName();
 	showAllPlayerStatus();
 	return true;
 }
@@ -469,9 +464,6 @@ bool Game::playerBroken()
 {
 	bool result = showDialog("是否確定要宣告破產", pair<string, string>("是", "否"));
 	if (result) {
-		stringstream ss;
-		ss << getPlayer()->getName() << "破產";
-		showDialog(ss.str(), "");
 		getPlayer()->setBankrupt();
 	}
 	return result;
@@ -481,9 +473,9 @@ int Game::getDice(int dice)
 {
 	int change, sum;
 	do{
-		change = rand() % 5 + 1;
-	}while ((dice + change) % 6 + dice == 7);
-	return (dice + change) % 6;
+		change = rand() % 5;
+	}while ((dice + change) % 6 + dice == 6);
+	return (dice + change) % 6 + 1;
 }
 
 int Game::showNumberDialog(string title, int number, int max, int min, int right, string unit)
@@ -594,18 +586,20 @@ void Game::getMoneyFromEveryPlayer(int money)
 	Player* currentPlayer = getPlayer();
 	for (int i = 0; i < player.size(); i++) {
 		if (&player[i] == currentPlayer) continue;
+		if (player[i].getIsBroken()) continue;
 		player[i].giveMoney(currentPlayer, money);
+		checkMoney(&player[i]);
 	}
 }
 
-void Game::giveMoneyFromEveryPlayer(int money)
+void Game::giveMoneyToEveryPlayer(int money)
 {
 	Player* currentPlayer = getPlayer();
 	for (int i = 0; i < player.size(); i++) {
 		if (&player[i] == currentPlayer) continue;
+		if (player[i].getIsBroken()) continue;
 		currentPlayer->giveMoney(&player[i], money);
+		checkMoney(&player[i]);
 	}
 }
-
-
 

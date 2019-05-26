@@ -25,7 +25,7 @@
 #define CHANCE 1
 #define FATE 2
 #define ALL -1
-#define LOADFILE "init.txt"
+#define LOADFILE "init2.txt"
 #define 破產 false
 #define 富翁 true
 #define 所有動作 false
@@ -78,7 +78,7 @@ public:
 	static int keyBoard();
 	Player* getPlayer();
 	void getMoneyFromEveryPlayer(int);
-	void giveMoneyFromEveryPlayer(int);
+	void giveMoneyToEveryPlayer(int);
 };
 
 #endif
