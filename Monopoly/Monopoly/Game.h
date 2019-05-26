@@ -25,7 +25,7 @@
 #define CHANCE 1
 #define FATE 2
 #define ALL -1
-#define LOADFILE "init2.txt"
+#define LOADFILE "init.txt"
 #define 破產 false
 #define 富翁 true
 #define 所有動作 false
@@ -63,8 +63,7 @@ private:
 	pair<vector<string>, std::map<int, bool(Game::*)(void)> > getAction(int = 所有動作);
 	double getPlayerAsset();
 	double getPlayerAsset(Player*);
-	bool checkMoney();
-	bool checkMoney(Player*);
+	void checkMoney();
 	bool checkGameStatus();
 	void showWinner();
 public:

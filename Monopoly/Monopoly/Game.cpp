@@ -322,18 +322,14 @@ double Game::getPlayerAsset(Player* player)
 	return asset;
 }
 
-bool Game::checkMoney()
+void Game::checkMoney()
 {
-	return checkMoney(getPlayer());
-}
-
-bool Game::checkMoney(Player* player)
-{
-	if (getPlayerAsset(player) < 0) {
-		player->setBankrupt();
-		return false;
+	for (int i = 0; i < player.size(); i++) {
+		if (getPlayerAsset(&player[i]) < 0 && !player[i].getIsBroken()) {
+			player[i].setBankrupt();
+			showAllPlayerStatus();
+		}
 	}
-	return true;
 }
 
 bool Game::checkGameStatus()
@@ -525,7 +521,7 @@ void Game::showDialog(string title, string content)
 void Game::showDice(pair<int, int> dice)
 {
 	pair<int, int> tmpDice = dice;
-	for(int i=0;i<10;i++) {
+	for(int i=0;i<0;i++) {
 		tmpDice.first = getDice(tmpDice.first);
 		tmpDice.second = getDice(tmpDice.second);
 		Draw::drawDice(tmpDice.first, tmpDice.second);
@@ -588,7 +584,6 @@ void Game::getMoneyFromEveryPlayer(int money)
 		if (&player[i] == currentPlayer) continue;
 		if (player[i].getIsBroken()) continue;
 		player[i].giveMoney(currentPlayer, money);
-		checkMoney(&player[i]);
 	}
 }
 
@@ -599,7 +594,6 @@ void Game::giveMoneyToEveryPlayer(int money)
 		if (&player[i] == currentPlayer) continue;
 		if (player[i].getIsBroken()) continue;
 		currentPlayer->giveMoney(&player[i], money);
-		checkMoney(&player[i]);
 	}
 }
 
