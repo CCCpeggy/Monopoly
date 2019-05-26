@@ -19,10 +19,8 @@ void ChanceBlock::startEvent(Player*)
 
 void ChanceBlock::arriveEvent(Player* player)
 {
-	Draw chance;
-	srand(time(NULL));
 	int index = rand() % 4+1;
-	chance.drawDialogueBox("機會",card[index]);
+	Game::showDialog("機會", card[index]);
 	vector<EstateBlock*>::iterator it = player->ownedEstates.begin();
 	int total = 0;
 	switch (index)
@@ -40,7 +38,7 @@ void ChanceBlock::arriveEvent(Player* player)
 		}
 		player->loseMoney(total*250);
 		break;
-	case 3:
+	case 3://
 		break;
 	}
 }
