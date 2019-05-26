@@ -148,6 +148,17 @@ void Player::buyHouse(EstateBlock * estate)
 	estate->houseLevel++;
 }
 
+int Player::getTotalHouse()
+{
+	vector<EstateBlock*>::iterator it = ownedEstates.begin();
+	int total = 0;
+	for (; it != ownedEstates.end(); it++)
+	{
+		if ((*it)->houseLevel != -1)  total += (*it)->houseLevel; 
+	}
+	return total;
+}
+
 void Player::outputInformation()
 {
 	//cout <<	"ª±®aª÷¿ú:" << getMoney() <<"   ";
