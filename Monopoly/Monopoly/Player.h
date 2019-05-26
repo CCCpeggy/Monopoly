@@ -27,6 +27,7 @@ public:
 	void moveToBlock(BaseBlock*);
 	void tradeStock(Stock*,bool buyTrueSellFalse,int);
 	void earnMoney(int);//賺錢
+	void loseMoney(int);//失去金錢
 	void giveMoney(Player * , int);
 	void sellEstate(EstateBlock*);
 	void buyHouse(EstateBlock * estate);

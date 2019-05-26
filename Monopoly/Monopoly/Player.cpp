@@ -108,6 +108,11 @@ void Player::earnMoney(int money)
 	this->money += money;
 }
 
+void Player::loseMoney(int money)
+{
+	this->money -= money;
+}
+
 void Player::giveMoney(Player * player, int money)
 {
 	player->earnMoney(money);
