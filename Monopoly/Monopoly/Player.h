@@ -38,6 +38,8 @@ public:
 	void gotoNextBlock();
 	void cleanPlayerLocation();
 	void drawPlayerInfo();
+	void drawPlayerAllMoney();
+	static const string playerID[];
 private:
 	void arriveBlock();
 	int money;

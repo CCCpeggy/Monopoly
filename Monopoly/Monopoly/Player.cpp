@@ -6,6 +6,7 @@
 #include <time.h>
 #include<iostream>
 using namespace std;
+const string Player::playerID[] = { "１","２","３","４" };
 void Player::gotoNextBlock()
 {
 	cleanPlayerLocation();
@@ -164,7 +165,7 @@ void Player::drawPlayerInfo()
 	cursor.add(3, -1, 12);
 	cursor << pair<string, int>(" 玩　家　資　訊 ", 49);
 	cursor.add(0, 6);
-	cursor << "ＩＤ：" << "1";
+	cursor << "ＩＤ："<<playerID[index] ;
 	cursor.nextPos();
 	cout << "總資金＄" << money + saving;
 	cursor.nextLine().nextLine();
@@ -180,9 +181,15 @@ void Player::drawPlayerInfo()
 	vector<EstateBlock*>::iterator it;
 	for (it = ownedEstates.begin(); it != ownedEstates.end(); it++)
 	{
-		cout << (*it)->name;
+		cout << (*it)->name<<"　";
 		cursor.nextPos();
 	}
 	cursor.nextLine().nextLine().nextLine();
 	cout << "持有道具：" << "▲x5";
+}
+
+void Player::drawPlayerAllMoney()
+{
+	Cursor cursor(19,11);
+	
 }
