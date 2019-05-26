@@ -25,7 +25,7 @@
 #define CHANCE 1
 #define FATE 2
 #define ALL -1
-#define LOADFILE "init2.txt"
+#define LOADFILE "chance.txt"
 #define ¯}²£ false
 #define ´I¯Î true
 #pragma endregion
@@ -38,11 +38,9 @@ private:
 	vector<Player> player;
 	int playerIndex;
 	int round;
-public:
-	Game(string = LOADFILE);
 	void loadFile(string);
 	void stockFluctuate();
-	bool noMoney(); 
+	bool noMoney();
 	void sellEstate();
 	void putTool();
 	void saveMoney();
@@ -57,13 +55,20 @@ public:
 	void showMapContent();
 	void showPlayStatus();
 	void showActionMenu();
-	int showNumberDialog(string, int = 0, int = 10000, int = -10000, int = 1, string unit = "");
+	void playerBroken();
+	static int getDice(int);
+public:
+	Game(string = LOADFILE);
+	static int showNumberDialog(string, int = 0, int = 10000, int = -10000, int = 1, string unit = "");
 	static void cleanCenter();
 	static bool showDialog(string, pair<string, string>, bool = Draw::FIRST);
 	static void showDialog(string, string);
 	static void showDice(pair<int, int>);
 	static int showMenu(string, vector<string>, int = 0);
 	static int keyBoard();
+	Player* getPlayer();
+	void getMoneyFromEveryPlayer(int);
+	void giveMoneyFromEveryPlayer(int);
 };
 
 #endif

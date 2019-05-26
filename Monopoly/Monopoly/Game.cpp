@@ -14,22 +14,16 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0)
 			ss.str("");
 			ss.clear();
 
-			Player* currentPlayer = &player[playerIndex];
-			
+			Player* currentPlayer = getPlayer();
+
 			int choose;
 			//做動作直到選擇骰骰子
+			pair<vector<string>, std::map<int, void(Game::*)(void)> > action;
 			do {
-				pair<vector<string>, std::map<int, void(Game::*)(void)> > action = getAction();
+				action = getAction();
 				choose = showMenu("請選擇動作", action.first);
 				(this->*action.second[choose])();
-			} while (choose != 0);
-			
-			//錢不夠賣房子賣到錢夠，不夠賣就結束遊戲
-			if (!noMoney()) {
-				ss << "player" << playerIndex + 1 << "破產";
-				overGame(ss.str());
-				return;
-			}
+			} while (action.first[choose].compare("擲骰子"));
 		}
 		stockFluctuate();
 		playerIndex = 0;
@@ -67,14 +61,14 @@ void Game::loadFile(string fileName)
 			StartBlock * block = new StartBlock(blockName, index);
 			map.insertBlock(block);
 		}
-		else if (blockCategory == -2)
-		{
-			FateBlock *block = new FateBlock(index, blockName);
-			map.insertBlock(block);
-		}
 		else if (blockCategory == -1)
 		{
-			ChanceBlock *block = new ChanceBlock(index, blockName);
+			FateBlock *block = new FateBlock(index, blockName, this);
+			map.insertBlock(block);
+		}
+		else if (blockCategory == -2)
+		{
+			ChanceBlock *block = new ChanceBlock(index, blockName, this);
 			map.insertBlock(block);
 		}
 		else
@@ -132,7 +126,7 @@ void Game::stockFluctuate()
 
 bool Game::noMoney()
 {
-	Player* currentPlayer = &player[playerIndex];
+	Player* currentPlayer = getPlayer();
 	while (currentPlayer->getMoney() < 0){
 		if (currentPlayer->ownedEstates.size() == 0) return 破產;
 		sellEstate();
@@ -142,7 +136,7 @@ bool Game::noMoney()
 
 void Game::sellEstate()
 {
-	Player* currentPlayer = &player[playerIndex];
+	Player* currentPlayer = getPlayer();
 	vector<string> ownEstateNames;
 	stringstream ss;
 	for (int i = 0; i < currentPlayer->ownedEstates.size(); i++) {
@@ -171,14 +165,14 @@ void Game::putTool()
 void Game::saveMoney()
 {
 	//TODO: 
-	Player* currentPlayer = &player[playerIndex];
+	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 100 , currentPlayer->getMoney(), 0, 100, "元");
 }
 
 void Game::borrowMoney()
 {
 	//TODO: 
-	Player* currentPlayer = &player[playerIndex];
+	Player* currentPlayer = getPlayer();
 	int max = currentPlayer->getMoney() + currentPlayer->getSaving() - currentPlayer->getDebit();
 	int money = showNumberDialog("請輸入金額", 100, max, 0, 100, "元");
 }
@@ -186,13 +180,13 @@ void Game::borrowMoney()
 void Game::returnMoney()
 {
 	//TODO: 
-	Player* currentPlayer = &player[playerIndex];
+	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 100, currentPlayer->getDebit(), 0, 100, "元");
 }
 
 void Game::doStock()
 {
-	Player* currentPlayer = &player[playerIndex];
+	Player* currentPlayer = getPlayer();
 	vector<string> ownStockes;
 	stringstream ss;
 	for (int i = 0; i < stock.size(); i++) {
@@ -221,12 +215,22 @@ void Game::doStock()
 
 pair<vector<string>, map<int, void(Game::*)(void) > > Game::getAction()
 {
-	Player* currentPlayer = &player[playerIndex];
+	Player* currentPlayer = getPlayer();
 	pair<vector<string>, std::map<int, void(Game::*)(void)>> action;
 	int index = 0;
-	action.first.push_back("擲骰子");
-	action.second[index++] = &Game::rollDice;
+	int total = currentPlayer->getMoney() + currentPlayer->getSaving() - currentPlayer->getDebit();
 
+
+	if (total < 0) {
+		action.first.push_back("宣告破產");
+		action.second[index++] = &Game::playerBroken;
+	}
+
+	if (currentPlayer->getMoney() > 0) {
+		action.first.push_back("擲骰子");
+		action.second[index++] = &Game::rollDice;
+	}
+	
 	action.first.push_back("放道具");
 	action.second[index++] = &Game::putTool;
 
@@ -235,8 +239,10 @@ pair<vector<string>, map<int, void(Game::*)(void) > > Game::getAction()
 		action.second[index++] = &Game::saveMoney;
 	}
 
-	action.first.push_back("貸款");
-	action.second[index++] = &Game::borrowMoney;
+	if (total > 0) {
+		action.first.push_back("貸款");
+		action.second[index++] = &Game::borrowMoney;
+	}
 
 	if (currentPlayer->getDebit() > 0) {
 		action.first.push_back("還款");
@@ -253,20 +259,16 @@ pair<vector<string>, map<int, void(Game::*)(void) > > Game::getAction()
 		action.first.push_back("賣地");
 		action.second[index++] = &Game::sellEstate;
 	}
-	
 
 	return action;
 }
 
 void Game::rollDice()
 {
-	Player* currentPlayer = &player[playerIndex];
+	Player* currentPlayer = getPlayer();
 	pair<int, int> dice = currentPlayer->rollDice();
 	showDice(dice);
-	//currentPlayer->cleanPlayerLocation();
-	int sumDice = dice.first + dice.second;
-	currentPlayer->moveForwardByStep(sumDice);
-	//currentPlayer->drawPlayerLocation();
+	currentPlayer->moveForwardByStep(dice.first + dice.second);
 	currentPlayer->location->drawLocationName();
 	showAllPlayerStatus();
 }
@@ -346,6 +348,22 @@ void Game::showActionMenu()
 
 }
 
+void Game::playerBroken()
+{
+	stringstream ss;
+	ss << "player" << playerIndex + 1 << "破產";
+	showDialog(ss.str(), "");
+}
+
+int Game::getDice(int dice)
+{
+	int change, sum;
+	do{
+		change = rand() % 5 + 1;
+	}while ((dice + change) % 6 + dice == 7);
+	return (dice + change) % 6;
+}
+
 int Game::showNumberDialog(string title, int number, int max, int min, int right, string unit)
 {
 	Draw::drawDialogueBox(title, number, unit);
@@ -386,16 +404,22 @@ bool Game::showDialog(string content, pair<string, string> chooseName, bool choo
 void Game::showDialog(string title, string content)
 {
 	Draw::drawDialogueBox(title, content);
-	int getKey = keyBoard();
-	while (getKey != VK_RETURN) {	}
+	while (keyBoard() != VK_RETURN) {	}
 	cleanCenter();
 }
 
 void Game::showDice(pair<int, int> dice)
 {
+	pair<int, int> tmpDice = dice;
+	for(int i=0;i<10;i++) {
+		tmpDice.first = getDice(tmpDice.first);
+		tmpDice.second = getDice(tmpDice.second);
+		Draw::drawDice(tmpDice.first, tmpDice.second);
+		Sleep(100);
+	}
+
 	Draw::drawDice(dice.first, dice.second);
-	int getKey = keyBoard();
-	while (getKey != VK_RETURN) {}
+	while (keyBoard() != VK_RETURN) {}
 	cleanCenter();
 }
 
@@ -436,6 +460,29 @@ int Game::keyBoard()
 		}
 	}
 	
+}
+
+Player* Game::getPlayer()
+{
+	return &player[playerIndex];
+}
+
+void Game::getMoneyFromEveryPlayer(int money)
+{
+	Player* currentPlayer = getPlayer();
+	for (int i = 0; i < player.size(); i++) {
+		if (&player[i] == currentPlayer) continue;
+		player[i].giveMoney(currentPlayer, money);
+	}
+}
+
+void Game::giveMoneyFromEveryPlayer(int money)
+{
+	Player* currentPlayer = getPlayer();
+	for (int i = 0; i < player.size(); i++) {
+		if (&player[i] == currentPlayer) continue;
+		currentPlayer->giveMoney(&player[i], money);
+	}
 }
 
 

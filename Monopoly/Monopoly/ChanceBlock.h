@@ -10,14 +10,16 @@ class Card;
 class ChanceBlock :
 	public BaseBlock
 {
+private:
+	Game* game;
 public:
 	vector<Card> chanceCards;
 	ChanceBlock& operator=(ChanceBlock&);
 	void startEvent(Player*);
 	void arriveEvent(Player*);
 	void throughEvent(Player*);
-	ChanceBlock(int newIndex, string newName);
-	ChanceBlock();
+	ChanceBlock(int newIndex, string newName, Game* game);
+	ChanceBlock(Game *game);
 	static const string card[];
 	~ChanceBlock();
 };

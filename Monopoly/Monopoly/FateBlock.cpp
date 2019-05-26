@@ -16,26 +16,23 @@ void FateBlock::startEvent(Player*)
 
 void FateBlock::arriveEvent(Player* player)
 {
-	int index = rand() % 4 + 1;
+	int index = rand() % 4;
 	Game::showDialog("命運", card[index]);
-	vector<EstateBlock*>::iterator it = player->ownedEstates.begin();
+	Player* currentPlayer = game->getPlayer();
 	int total = 0;
 	switch (index)
 	{
 	case 0://銀行付你利息，500元
-		player->earnMoney(2000);
+		currentPlayer->earnMoney(500);
 		break;
 	case 1://經營小本生意，獲利1000元
-		player->earnMoney(1000);
+		currentPlayer->earnMoney(1000);
 		break;
 	case 2://整修自己所有房屋，每棟250元
-		for (; it != player->ownedEstates.end(); it++)
-		{
-			if ((*it)->houseLevel != 0 && (*it)->houseLevel != -1) { total = total + (*it)->houseLevel; }
-		}
-		player->loseMoney(total * 250);
+		currentPlayer->loseMoney(currentPlayer->getTotalHouse() * 250);
 		break;
-	case 3://
+	case 3://這是你的生日，向每人收取禮金1000元
+		game->getMoneyFromEveryPlayer(1000);
 		break;
 	}
 }
@@ -46,11 +43,11 @@ void FateBlock::throughEvent(Player* player)
 	return;
 }
 
-FateBlock::FateBlock(int newIndex, string newName):BaseBlock(newName,newIndex)
+FateBlock::FateBlock(int newIndex, string newName, Game* game):BaseBlock(newName,newIndex),game(game)
 {
 }
 
-FateBlock::FateBlock()
+FateBlock::FateBlock(Game* game): game(game)
 {
 }
 
