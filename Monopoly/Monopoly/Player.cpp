@@ -174,6 +174,7 @@ bool Player::getIsBroken()
 
 void Player::setBankrupt()
 {
+	cleanPlayerLocation();
 	stringstream ss;
 	ss << name << "¯}²£";
 	Game::showDialog(ss.str(), "");
