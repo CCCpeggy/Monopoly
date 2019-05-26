@@ -18,6 +18,7 @@ public:
 	void throughEvent(Player*);
 	ChanceBlock(int newIndex, string newName);
 	ChanceBlock();
+	static const string card[];
 	~ChanceBlock();
 };
 

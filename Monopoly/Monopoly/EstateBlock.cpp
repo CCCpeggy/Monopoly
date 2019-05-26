@@ -136,24 +136,3 @@ int EstateBlock::currentTolls()
 	return tolls[houseLevel];
 }
 
-/*void EstateBlock::drawDialogueBoxInfo(string text)
-{
-	DialogueBox();
-	string title = "確定要購買　　　　　　嗎？";
-	string yesNo = "　　　　是　　　　　　　　　　　　　否　　　　";
-	COORD posLand;
-	posLand.X = 27;
-	posLand.Y = 12;
-	HANDLE hOut;
-	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleCursorPosition(hOut, posLand);
-	cout << title<< endl;
-	COORD posLocationName;
-	posLocationName.X = 39+(13-name.length())/2;
-	posLocationName.Y = 12;
-	COORD posChoice;
-	posChoice.X = 17;
-	posChoice.Y = 17; 
-	SetConsoleCursorPosition(hOut, posChoice);
-	cout << yesNo << endl;
-}*/

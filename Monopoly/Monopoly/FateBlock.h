@@ -18,6 +18,7 @@ public:
 	void throughEvent(Player*);
 	FateBlock(int newIndex, string newName);
 	FateBlock();
+	static const string card[];
 	~FateBlock();
 };
 #endif // !_FATEBLOCK_
