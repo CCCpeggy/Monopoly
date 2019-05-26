@@ -22,6 +22,7 @@ void EstateBlock::arriveEvent(Player* player)
 				//cout << "ÁÊ¶R¦¨¥\" << endl;
 				player->buyHouse(this);
 				this->owner = player;
+				drawLocationName();
 			}
 			else
 			{
@@ -128,6 +129,7 @@ int EstateBlock::beSelled()
 {
 	houseLevel = -1;
 	owner = NULL;
+	drawLocationName();
 	return initialPrice*0.5;
 }
 

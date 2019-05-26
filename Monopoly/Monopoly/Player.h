@@ -2,6 +2,7 @@
 #define _PLAYER_
 #include <vector>
 #include <map>
+#include <sstream>
 #include <windows.h>
 #include "Draw.h"
 #include "Cursor.h"
@@ -36,18 +37,23 @@ public:
 	void buyHouse(EstateBlock * estate);
 	int getTotalHouse();
 	void outputInformation();
-	void drawPlayerLocation();
+	bool getIsBroken();
+	void setBankrupt();
+	string getName();
 	Player(int newIndex=0,int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
 	~Player();
 	void gotoNextBlock();
 	void cleanPlayerLocation();
+	void drawPlayerLocation();
 	void drawPlayerInfo();
 	void drawPlayerAllMoney();
 	static const string playerID[];
 private:
+	string name;
 	int money;
 	int debit;
 	int saving;
+	bool isBankrupt;
 };
 
 #endif // !_PLAYER_

@@ -89,11 +89,14 @@ void Player::drawPlayerLocation()
 	subCursor << Color::F_PLAYER_COLOR[index] << Draw::number[index];
 }
 
-Player::Player(int newIndex,int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):index(newIndex),money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)
+Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation) :index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(false)
 {
 	ownedItems.push_back(&Item::itemList[0]);	
 	ownedItems.push_back(&Item::itemList[1]);
 	controlDiceNum =  0;
+	stringstream ss;
+	ss << "player" << index + 1;
+	name = ss.str();
 }
 
 
@@ -193,6 +196,30 @@ void Player::outputInformation()
 {
 	//cout <<	"玩家金錢:" << getMoney() <<"   ";
 	//cout << "現在位置"<< location->index << endl;
+}
+
+bool Player::getIsBroken()
+{
+	return isBankrupt;
+}
+
+void Player::setBankrupt()
+{
+	cleanPlayerLocation();
+	stringstream ss;
+	ss << name << "破產";
+	Game::showDialog(ss.str(), "");
+	isBankrupt = true;
+	vector<EstateBlock*>::iterator it = ownedEstates.begin();
+	for (; it != ownedEstates.end(); it++)
+	{
+		(*it)->beSelled();
+	}
+}
+
+string Player::getName()
+{
+	return name;
 }
 
 void Player::drawPlayerInfo()
