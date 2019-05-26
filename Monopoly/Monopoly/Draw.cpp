@@ -215,7 +215,7 @@ void Draw::drawDice(int dice1, int dice2)
 	cout << dice1 << " " << dice2;
 }
 
-void Draw::drawMenu(vector<string> items, string name, int index)
+void Draw::drawMenu(vector<string> itemList, string name, int index)
 {
 	//TODO:選單
 	Cursor cursor(15, 10);
@@ -227,11 +227,11 @@ void Draw::drawMenu(vector<string> items, string name, int index)
 		cursor.nextLine();
 	}
 	cursor.add(2, 3);
-	for (int i = 0; i < items.size(); i++)
+	for (int i = 0; i < itemList.size(); i++)
 	{
 		if (i == index) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
-		cursor << pair<string, int>(items[i], DIALOG_CONTENT_LEN);
+		cursor << pair<string, int>(itemList[i], DIALOG_CONTENT_LEN);
 		cursor.nextLine();
 	}
 }

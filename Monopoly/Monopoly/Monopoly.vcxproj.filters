@@ -57,6 +57,9 @@
     <ClCompile Include="Color.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -96,6 +99,9 @@
       <Filter>標頭檔</Filter>
     </ClInclude>
     <ClInclude Include="Color.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>

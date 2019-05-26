@@ -423,15 +423,15 @@ void Game::showDice(pair<int, int> dice)
 	cleanCenter();
 }
 
-int Game::showMenu(string name, vector<string> items, int choose)
+int Game::showMenu(string name, vector<string> itemList, int choose)
 {
-	Draw::drawMenu(items, name, choose);
+	Draw::drawMenu(itemList, name, choose);
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
 		if (getKey == VK_UP || getKey == VK_DOWN) {
-			choose += getKey == VK_DOWN ? 1 : items.size()-1;
-			choose %= items.size();
-			Draw::drawMenu(items, name, choose);
+			choose += getKey == VK_DOWN ? 1 : itemList.size()-1;
+			choose %= itemList.size();
+			Draw::drawMenu(itemList, name, choose);
 		}
 		getKey = keyBoard();
 	}

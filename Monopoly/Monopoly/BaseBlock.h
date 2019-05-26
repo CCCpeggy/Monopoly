@@ -14,6 +14,7 @@ public:
 	int x;
 	int y;
 	int index;
+	bool hasRoadBlock;
 	BaseBlock* nextBlock;
 	BaseBlock(string newName,int index);
 	BaseBlock();
@@ -21,7 +22,7 @@ public:
 	~BaseBlock();
 	void startByThisBlock(Player*);
 	void arriveThisBlock(Player*);
-	bool throughThisBlock(Player*); 
+	void throughThisBlock(Player*); 
 	virtual void  startEvent(Player*) {};
 	virtual void  arriveEvent(Player*) {};
 	virtual void  throughEvent(Player*) {};

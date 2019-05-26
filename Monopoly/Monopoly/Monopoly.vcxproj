@@ -132,6 +132,7 @@
     <ClCompile Include="FateBlock.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="FateBlock.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Draw.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="StartBlock.h" />

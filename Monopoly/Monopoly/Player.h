@@ -11,13 +11,15 @@ class BaseBlock;
 class Game;
 class EstateBlock;
 class Stock;
+class Item;
 class Player
 {
 public:
 	Cursor cursor;
 	int index;
 	vector<EstateBlock*> ownedEstates;
-	//vector<Item>;
+	vector<Item*> ownedItems;//remember to pop after use
+	int controlDiceNum;
 	BaseBlock* location;
 	int getMoney();//return money
 	int getDebit();//return debit
@@ -29,6 +31,7 @@ public:
 	void earnMoney(int);//賺錢
 	void loseMoney(int);//失去金錢
 	void giveMoney(Player * , int);
+	void useItem(int itemIndex);
 	void sellEstate(EstateBlock*);
 	void buyHouse(EstateBlock * estate);
 	int getTotalHouse();
@@ -42,7 +45,6 @@ public:
 	void drawPlayerAllMoney();
 	static const string playerID[];
 private:
-	void arriveBlock();
 	int money;
 	int debit;
 	int saving;

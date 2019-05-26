@@ -1,11 +1,11 @@
 #include "BaseBlock.h"
-BaseBlock::BaseBlock(string newName,int newIndex):name(newName),index(newIndex),nextBlock(NULL)
+BaseBlock::BaseBlock(string newName, int newIndex) :name(newName), index(newIndex), nextBlock(NULL), hasRoadBlock(false)
 {
 	x = 0;
 	y = 0;
 }
 
-BaseBlock::BaseBlock() :name("BlockName"), index(0), nextBlock(NULL)
+BaseBlock::BaseBlock() :name("BlockName"), index(0), nextBlock(NULL), hasRoadBlock(false)
 {
 	x = 0;
 	y = 0;
@@ -37,15 +37,9 @@ void BaseBlock::arriveThisBlock(Player* player)
 	arriveEvent(player);
 }
 
-bool BaseBlock::throughThisBlock(Player* player)
+void BaseBlock::throughThisBlock(Player* player)
 {
-	
-	if (false)//¦³¸ô»Ù
-	{
-		return false;
-	}
 	throughEvent(player);
-	return true;
 }
 
 void BaseBlock::setLocationXY(int blockNums)

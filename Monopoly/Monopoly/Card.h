@@ -8,7 +8,7 @@ class Card
 public:
 	string title;
 	string content;
-	void event(Player*);
+	void event(Player* player);
 	Card();
 	~Card();
 };

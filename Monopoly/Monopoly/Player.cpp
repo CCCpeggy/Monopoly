@@ -3,6 +3,7 @@
 #include "EstateBlock.h"
 #include "Stock.h"
 #include "Game.h"
+#include "Item.h"
 #include <time.h>
 #include<iostream>
 using namespace std;
@@ -13,10 +14,7 @@ void Player::gotoNextBlock()
 	location = location->nextBlock;
 	drawPlayerLocation();
 }
-void Player::arriveBlock()
-{
-	location->arriveEvent(this);
-}
+
 
 int Player::getMoney()
 {
@@ -45,12 +43,26 @@ pair<int, int> Player::rollDice()
 
 void Player::moveForwardByStep(int step)
 {
+	if (controlDiceNum>0)
+	{
+		step = controlDiceNum;
+		controlDiceNum = 0;
+	}
 	location->startByThisBlock(this);
 	for (int i = 1; i <step; i++)
 	{
 		gotoNextBlock();
 		Sleep(100);
-		location->throughThisBlock(this);
+		if (!location->hasRoadBlock)
+		{
+			location->throughThisBlock(this);
+		}
+		else
+		{	//路障觸發
+			location->hasRoadBlock = false;
+			location->arriveThisBlock(this);
+			return;
+		}
 	}
 	gotoNextBlock();
 	Sleep(100);
@@ -79,7 +91,9 @@ void Player::drawPlayerLocation()
 
 Player::Player(int newIndex,int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):index(newIndex),money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)
 {
-
+	ownedItems.push_back(&Item::itemList[0]);	
+	ownedItems.push_back(&Item::itemList[1]);
+	controlDiceNum =  0;
 }
 
 
@@ -118,6 +132,22 @@ void Player::giveMoney(Player * player, int money)
 {
 	player->earnMoney(money);
 	this->money -= money;
+}
+
+void Player::useItem(int itemIndex)
+{
+	if (ownedItems[itemIndex]==&Item::itemList[0])
+	{
+		//路障 選擇格子
+		//BaseBlock* b = ???;
+		//b->hasRoadBlock = true;
+	}
+	else if (ownedItems[itemIndex] == &Item::itemList[1])
+	{
+		//遙控骰子  選擇格數
+		//controlDiceNum = ???;
+	}
+	ownedItems.erase(ownedItems.begin() + itemIndex);
 }
 
 void Player::sellEstate(EstateBlock* estate)
