@@ -25,9 +25,11 @@
 #define CHANCE 1
 #define FATE 2
 #define ALL -1
-#define LOADFILE "chance.txt"
+#define LOADFILE "init.txt"
 #define 破產 false
 #define 富翁 true
+#define 所有動作 false
+#define 取錢動作 true
 #pragma endregion
 class Game
 {
@@ -38,31 +40,39 @@ private:
 	vector<Player> player;
 	int playerIndex;
 	int round;
+	bool isOver;
 	void loadFile(string);
 	void stockFluctuate();
 	bool noMoney();
-	void sellEstate();
-	void putTool();
-	void saveMoney();
-	void borrowMoney();
-	void returnMoney();
-	void doStock();
-	pair<vector<string>, std::map<int, void(Game::*)(void)> > getAction();
-	void rollDice();
-	void overGame(string = "");
+	bool sellEstate();
+	bool putTool();
+	bool saveMoney();
+	bool borrowMoney();
+	bool returnMoney();
+	bool withdrawMoney();
+	bool doStock();
+	bool rollDice();
+	void overGame();
 	void showMap();
 	void showAllPlayerStatus(); //玩家狀態
 	void showMapContent();
-	void showPlayStatus();
+	bool showPlayStatus();
 	void showActionMenu();
-	void playerBroken();
+	bool playerBroken();
 	static int getDice(int);
+	pair<vector<string>, std::map<int, bool(Game::*)(void)> > getAction(int = 所有動作);
+	double getPlayerAsset();
+	double getPlayerAsset(Player*);
+	bool checkMoney();
+	bool checkMoney(Player*);
+	bool checkGameStatus();
+	void showWinner();
 public:
 	Game(string = LOADFILE);
 	static int showNumberDialog(string, int = 0, int = 10000, int = -10000, int = 1, string unit = "");
 	static void cleanCenter();
 	static bool showDialog(string, pair<string, string>, bool = Draw::FIRST);
-	static void showDialog(string, string);
+	static void showDialog(string = "", string = "");
 	static void showDice(pair<int, int>);
 	static int showMenu(string, vector<string>, int = 0);
 	static int keyBoard();

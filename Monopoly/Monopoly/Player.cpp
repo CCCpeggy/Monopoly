@@ -77,9 +77,11 @@ void Player::drawPlayerLocation()
 	subCursor << Color::F_PLAYER_COLOR[index] << Draw::number[index];
 }
 
-Player::Player(int newIndex,int newMoney, int newDebit, int newSaving, BaseBlock* newLocation):index(newIndex),money(newMoney),debit(newDebit),saving(newSaving),location(newLocation)
+Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation) :index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(false)
 {
-
+	stringstream ss;
+	ss << "player" << index + 1;
+	name = ss.str();
 }
 
 
@@ -163,6 +165,21 @@ void Player::outputInformation()
 {
 	//cout <<	"玩家金錢:" << getMoney() <<"   ";
 	//cout << "現在位置"<< location->index << endl;
+}
+
+bool Player::getIsBroken()
+{
+	return isBankrupt;
+}
+
+void Player::setBankrupt()
+{
+	isBankrupt = true;
+}
+
+string Player::getName()
+{
+	return name;
 }
 
 void Player::drawPlayerInfo()
