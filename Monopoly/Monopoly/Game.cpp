@@ -164,9 +164,24 @@ bool Game::sellEstate()
 	return false;
 }
 
-bool Game::putTool()
+bool Game::putItem()
 {
-	//TODO: 
+	//TODO:
+	Player* currentPlayer = getPlayer();
+	vector<string> ownItemsNames;
+	stringstream ss;
+	for (int i = 0; i < currentPlayer->ownedItems.size(); i++) {
+		ownItemsNames.push_back(currentPlayer->ownedItems[i]->name);
+	}
+	int choose = showMenu("請選擇道具", ownItemsNames);
+
+	ss << "確定要使用" << ownItemsNames[choose];
+	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
+	if (result) {
+		EstateBlock* block = currentPlayer->ownedEstates[choose];
+		currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
+		showAllPlayerStatus();
+	}
 	return false;
 }
 
@@ -184,7 +199,7 @@ bool Game::borrowMoney()
 {
 	//TODO: 
 	Player* currentPlayer = getPlayer();
-	int max = currentPlayer->getMoney() + currentPlayer->getSaving() - currentPlayer->getDebit();
+	int max = currentPlayer->get;
 	int money = showNumberDialog("請輸入金額", 0, max, 0, 100, "元");
 	currentPlayer->loan(money);
 	showAllPlayerStatus();
@@ -284,7 +299,7 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 			action.second[index++] = &Game::saveMoney;
 		}
 
-		if (status == 銀行 && total > 0) {
+		if (status == 銀行 && (total - currentPlayer->getMoney()) > 0) {
 			action.first.push_back("貸款");
 			action.second[index++] = &Game::borrowMoney;
 		}
@@ -305,7 +320,7 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 
 		if (status == 所有動作) {
 			action.first.push_back("放道具");
-			action.second[index++] = &Game::putTool;
+			action.second[index++] = &Game::putItem;
 		}
 
 		if (status == 銀行) {

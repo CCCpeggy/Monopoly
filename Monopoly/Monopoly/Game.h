@@ -12,6 +12,7 @@
 #include "Stock.h""
 #include "Draw.h"
 #include "Cursor.h"
+#include "Item.h"
 #include <vector>
 #include <string>
 #include <iomanip>
@@ -46,7 +47,7 @@ private:
 	void stockFluctuate();
 	bool noMoney();
 	bool sellEstate();
-	bool putTool();
+	bool putItem();
 	bool saveMoney();
 	bool borrowMoney();
 	bool returnMoney();

@@ -30,6 +30,8 @@ public:
 	int getDebit();//return debit
 	int getSaving();//return saving
 	int getStocksValue();
+	int getEstateValue();
+	int getAsset();
 	pair<int,int> rollDice();
 	int getTotalHouse();
 	void outputInformation();

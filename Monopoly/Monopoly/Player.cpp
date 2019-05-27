@@ -41,6 +41,21 @@ int Player::getStocksValue()
 	return sum;
 }
 
+int Player::getEstateValue()
+{
+	int value = 0;
+	vector<EstateBlock*>::iterator iter = ownedEstates.begin();
+	for (; iter != ownedEstates.end(); iter++) {
+		value += (*iter)->initialPrice / 2;
+	}
+	return value;
+}
+
+int Player::getAsset()
+{
+	return money - debit + saving + getStocksValue() + getEstateValue();
+}
+
 pair<int, int> Player::rollDice()
 {
 	srand(time(NULL));
