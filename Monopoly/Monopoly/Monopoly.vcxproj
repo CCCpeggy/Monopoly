@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BankBlock.cpp" />
     <ClCompile Include="BaseBlock.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="ChanceBlock.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="Stock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BankBlock.h" />
     <ClInclude Include="BaseBlock.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="ChanceBlock.h" />

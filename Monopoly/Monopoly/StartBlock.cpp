@@ -14,8 +14,8 @@ void StartBlock::startEvent(Player* player)
 void StartBlock::arriveEvent(Player* player)
 {
 	//cout << "ARRIVE START" << endl;
-	output();
-	player->outputInformation();
+	//output();
+	//player->outputInformation();
 	return;
 }
 
@@ -25,7 +25,7 @@ void StartBlock::throughEvent(Player* player)
 	stringstream ss;
 	ss<< "獲得 " << 經過起點獲取金額 << " 元";
 	Game::showDialog("經過起點",ss.str());
-	player->outputInformation();
+	//player->outputInformation();
 	return;
 }
 

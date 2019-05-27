@@ -36,6 +36,13 @@ pair<int, int> Player::rollDice()
 	srand(time(NULL));
 	int dicePoint1 = rand() % 6 + 1;
 	int dicePoint2 = rand() % 6 + 1;
+	if (controlDiceNum > 0)//遙控骰子
+	{
+		dicePoint1 = controlDiceNum / 2;
+		dicePoint2 = controlDiceNum - dicePoint1;
+		controlDiceNum = 0;
+	}
+	
 	//cout << "Player 擲出了" << dicePoint1<<"+"<<dicePoint2 << "點" << endl;
 	return pair<int, int>(dicePoint1, dicePoint2);
 	
@@ -43,11 +50,6 @@ pair<int, int> Player::rollDice()
 
 void Player::moveForwardByStep(int step)
 {
-	if (controlDiceNum>0)
-	{
-		step = controlDiceNum;
-		controlDiceNum = 0;
-	}
 	location->startByThisBlock(this);
 	for (int i = 1; i <step; i++)
 	{
@@ -215,6 +217,38 @@ void Player::setBankrupt()
 	{
 		(*it)->beSelled();
 	}
+}
+
+void Player::deposit(int n)
+{
+	loseMoney(n);
+	changeSaving(n);
+}
+
+void Player::withdraw(int n)
+{
+	earnMoney(n);
+	changeSaving(-n);
+}
+
+void Player::changeSaving(int n)
+{
+	saving += n;
+}
+
+void Player::loan(int n)
+{
+	changeDebit(n);
+}
+
+void Player::returnLoan(int n)
+{
+	changeDebit(-n);
+}
+
+void Player::changeDebit(int n)
+{
+	debit += n;
 }
 
 string Player::getName()

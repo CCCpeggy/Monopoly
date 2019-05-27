@@ -16,40 +16,68 @@ class Item;
 class Player
 {
 public:
+	//資料
 	Cursor cursor;
 	int index;
 	vector<EstateBlock*> ownedEstates;
 	vector<Item*> ownedItems;//remember to pop after use
-	int controlDiceNum;
 	BaseBlock* location;
+	static const string playerID[];
+
+	//獲取資料
 	int getMoney();//return money
 	int getDebit();//return debit
 	int getSaving();//return saving
 	pair<int,int> rollDice();
-	void moveForwardByStep(int step);
-	void moveToBlock(BaseBlock*);
-	void tradeStock(Stock*,bool buyTrueSellFalse,int);
-	void earnMoney(int);//賺錢
-	void loseMoney(int);//失去金錢
-	void giveMoney(Player * , int);
-	void useItem(int itemIndex);
-	void sellEstate(EstateBlock*);
-	void buyHouse(EstateBlock * estate);
 	int getTotalHouse();
 	void outputInformation();
 	bool getIsBroken();
-	void setBankrupt();
 	string getName();
-	Player(int newIndex=0,int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
-	~Player();
-	void gotoNextBlock();
+
+	//角色操作
+	public:
+		void moveForwardByStep(int step);
+		void moveToBlock(BaseBlock*);
+	private:
+		void gotoNextBlock();
+
+	//金流操作
+	public:
+		void tradeStock(Stock*,bool buyTrueSellFalse,int);
+		void earnMoney(int);//賺錢
+		void loseMoney(int);//失去金錢
+		void giveMoney(Player * , int);
+		void setBankrupt();
+		void deposit(int);//存錢 現金->存款
+		void withdraw(int);//提款 存款->現金
+		void loan(int);//貸款
+		void returnLoan(int);//還貸款
+	private:
+		void changeSaving(int);//存款變動
+		void changeDebit(int);//負債值變動
+
+	//房地產操作
+	public:
+		void sellEstate(EstateBlock*);
+		void buyHouse(EstateBlock* estate);
+
+	//道具操作
+	void useItem(int itemIndex);
+
+	//繪製
 	void cleanPlayerLocation();
 	void drawPlayerLocation();
 	void drawPlayerInfo();
 	void drawPlayerAllMoney();
-	static const string playerID[];
+
+	//建構
+	Player(int newIndex=0,int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
+	~Player();
+
+
 private:
 	string name;
+	int controlDiceNum;
 	int money;
 	int debit;
 	int saving;
