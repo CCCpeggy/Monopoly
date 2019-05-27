@@ -521,7 +521,7 @@ void Game::showDialog(string title, string content)
 void Game::showDice(pair<int, int> dice)
 {
 	pair<int, int> tmpDice = dice;
-	for(int i=0;i<0;i++) {
+	for(int i=0;i<5;i++) {
 		tmpDice.first = getDice(tmpDice.first);
 		tmpDice.second = getDice(tmpDice.second);
 		Draw::drawDice(tmpDice.first, tmpDice.second);
