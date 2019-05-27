@@ -73,7 +73,7 @@ public:
 	void drawPlayerLocation();
 	void drawPlayerInfo();
 	void drawPlayerAllMoney();
-
+	void drawPlayerAllEstate();
 	//«Øºc
 	private:
 		void initStocks(vector<Stock>* stocks);

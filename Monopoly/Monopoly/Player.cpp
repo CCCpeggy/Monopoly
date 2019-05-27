@@ -345,6 +345,34 @@ void Player::drawPlayerInfo()
 
 void Player::drawPlayerAllMoney()
 {
-	Cursor cursor(19,11);
-	
+	Cursor cursor(19,11,1,2);
+	cursor << "總資產＄"<<getAsset();
+	cursor.nextLine();
+	cursor << "存款＄"<<getSaving();
+	cursor.nextLine();
+	cursor << "現金＄" << getMoney();
+	cursor.nextLine();
+	cursor << "負債＄" << getDebit();
+}
+
+void Player::drawPlayerAllEstate()
+{
+	vector<EstateBlock*>::iterator it;
+	Cursor cursor(19,11,2,2);
+	cursor << "所有地產：";
+	int c = 0;
+	for (it = ownedEstates.begin(); it != ownedEstates.end(); it++)
+	{    
+		if(c%2==0)
+		{
+			cursor.nextPos();
+			cursor << (*it)->name << "　";
+		}
+		else
+		{
+			cursor.nextLine();
+			cursor << (*it)->name;
+		}
+		c++;
+	}
 }

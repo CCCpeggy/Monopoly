@@ -199,7 +199,7 @@ bool Game::borrowMoney()
 {
 	//TODO: 
 	Player* currentPlayer = getPlayer();
-	int max = currentPlayer->get;
+	int max = currentPlayer->getAsset();
 	int money = showNumberDialog("請輸入金額", 0, max, 0, 100, "元");
 	currentPlayer->loan(money);
 	showAllPlayerStatus();
