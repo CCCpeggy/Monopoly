@@ -21,6 +21,7 @@ public:
 	int index;
 	vector<EstateBlock*> ownedEstates;
 	vector<Item*> ownedItems;//remember to pop after use
+	map<Stock*, int> ownedStocks;
 	BaseBlock* location;
 	static const string playerID[];
 
@@ -28,6 +29,7 @@ public:
 	int getMoney();//return money
 	int getDebit();//return debit
 	int getSaving();//return saving
+	int getStocksValue();
 	pair<int,int> rollDice();
 	int getTotalHouse();
 	void outputInformation();
@@ -71,6 +73,7 @@ public:
 	void drawPlayerAllMoney();
 
 	//«Øºc
+	void initStocks(vector<Stock>& stocks);
 	Player(int newIndex=0,int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
 	~Player();
 

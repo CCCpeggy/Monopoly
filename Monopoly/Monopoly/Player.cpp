@@ -31,6 +31,16 @@ int Player::getSaving()
 	return saving;
 }
 
+int Player::getStocksValue()
+{
+	int sum = 0;
+	for (auto stock:ownedStocks)
+	{
+		sum += stock.first->prize * stock.second;
+	}
+	return sum;
+}
+
 pair<int, int> Player::rollDice()
 {
 	srand(time(NULL));
@@ -74,7 +84,7 @@ void Player::moveForwardByStep(int step)
 void Player::moveToBlock(BaseBlock* block)
 {
 	location = block;
-	location->arriveEvent(this);
+	location->arriveThisBlock(this);
 }
 
 void Player::cleanPlayerLocation()
@@ -89,6 +99,14 @@ void Player::drawPlayerLocation()
 	Cursor subCursor = Draw::cursor.getSubCursor(location->x, location->y, 2);
 	subCursor.add(2, 2).inputPos(index, 0);
 	subCursor << Color::F_PLAYER_COLOR[index] << Draw::number[index];
+}
+
+void Player::initStocks(vector<Stock>& stocks)
+{
+	for (Stock stock:stocks)
+	{
+		ownedStocks.insert(make_pair(&stock, 0));
+	}
 }
 
 Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation) :index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(false)
@@ -110,6 +128,19 @@ void Player::tradeStock(Stock* stock, bool buyTrueSellFalse, int quantity)
 {
 	if (buyTrueSellFalse)
 	{
+		ownedStocks[stock] += quantity;
+		changeSaving(-(stock->prize * quantity));
+	}
+	else
+	{
+		if (ownedStocks[stock] >= quantity)
+		{
+			ownedStocks[stock] -= quantity;
+			changeSaving(stock->prize * quantity);
+		}
+	}
+	/*if (buyTrueSellFalse)
+	{
 		stock->beOwned[this] += quantity;
 		saving -= stock->prize * quantity;
 	}
@@ -120,7 +151,7 @@ void Player::tradeStock(Stock* stock, bool buyTrueSellFalse, int quantity)
 			stock->beOwned[this] -= quantity;
 			saving += stock->prize * quantity;
 		}
-	}
+	}*/
 }
 
 void Player::earnMoney(int money)
@@ -239,11 +270,13 @@ void Player::changeSaving(int n)
 void Player::loan(int n)
 {
 	changeDebit(n);
+	earnMoney(n);
 }
 
 void Player::returnLoan(int n)
 {
 	changeDebit(-n);
+	loseMoney(n);
 }
 
 void Player::changeDebit(int n)

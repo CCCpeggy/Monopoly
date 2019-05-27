@@ -10,7 +10,7 @@ class Stock
 public:
 	map<Player*, int> beOwned;
 	string name;
-	double prize;
+	int prize;
 	Stock(string newName, double newPrize, vector<Player*> players);
 	Stock(vector<Player*> players);
 	void fluctuate(); 
