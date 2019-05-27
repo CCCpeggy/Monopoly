@@ -73,8 +73,12 @@ public:
 	void drawPlayerAllMoney();
 
 	//«Øºc
-	void initStocks(vector<Stock>& stocks);
-	Player(int newIndex=0,int newMoney=0,int newDebit=0,int newSaving=0,BaseBlock* newLocation=NULL);
+	private:
+		void initStocks(vector<Stock>* stocks);
+	public:
+		Player(int newIndex = 0, int newMoney = 0, int newDebit = 0, int newSaving = 0, BaseBlock* newLocation = NULL, vector<Stock>* stocks=NULL);
+
+	//¸Ñºc
 	~Player();
 
 

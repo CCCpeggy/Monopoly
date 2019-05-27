@@ -101,19 +101,24 @@ void Player::drawPlayerLocation()
 	subCursor << Color::F_PLAYER_COLOR[index] << Draw::number[index];
 }
 
-void Player::initStocks(vector<Stock>& stocks)
+void Player::initStocks(vector<Stock>* stocks)
 {
-	for (Stock stock:stocks)
+	if (stocks==NULL)
+	{
+		return;
+	}
+	for (Stock stock:(*stocks))
 	{
 		ownedStocks.insert(make_pair(&stock, 0));
 	}
 }
 
-Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation) :index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(false)
+Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation, vector<Stock>* stocks) :index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(false)
 {
 	ownedItems.push_back(&Item::itemList[0]);	
 	ownedItems.push_back(&Item::itemList[1]);
 	controlDiceNum =  0;
+	initStocks(stocks);
 	stringstream ss;
 	ss << "player" << index + 1;
 	name = ss.str();
