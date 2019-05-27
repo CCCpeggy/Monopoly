@@ -73,6 +73,11 @@ void Game::loadFile(string fileName)
 			ChanceBlock *block = new ChanceBlock(index, blockName, this);
 			map.insertBlock(block);
 		}
+		else if (blockCategory == 2)
+		{
+			BankBlock* block = new BankBlock(blockName, index, this);
+			map.insertBlock(block);
+		}
 		else
 		{
 			int price;
@@ -170,6 +175,8 @@ bool Game::saveMoney()
 	//TODO: 
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0 , currentPlayer->getMoney(), 0, 100, "元");
+	currentPlayer->deposit(money);
+	showAllPlayerStatus();
 	return false;
 }
 
@@ -179,6 +186,8 @@ bool Game::borrowMoney()
 	Player* currentPlayer = getPlayer();
 	int max = currentPlayer->getMoney() + currentPlayer->getSaving() - currentPlayer->getDebit();
 	int money = showNumberDialog("請輸入金額", 0, max, 0, 100, "元");
+	currentPlayer->loan(money);
+	showAllPlayerStatus();
 	return false;
 }
 
@@ -187,6 +196,8 @@ bool Game::returnMoney()
 	//TODO: 
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getDebit(), 0, 100, "元");
+	currentPlayer->returnLoan(money);
+	showAllPlayerStatus();
 	return false;
 }
 
@@ -194,6 +205,8 @@ bool Game::withdrawMoney()
 {
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getSaving(), 0, 100, "元");
+	currentPlayer->withdraw(money);
+	showAllPlayerStatus();
 	return false;
 }
 
@@ -260,28 +273,28 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 			action.second[index++] = &Game::rollDice;
 		}
 
-		if (currentPlayer->ownedEstates.size() > 0) {
+		if (status == 所有動作 && currentPlayer->ownedEstates.size() > 0) {
 			action.first.push_back("賣地");
 			action.second[index++] = &Game::sellEstate;
 		}
 
 
-		if (status == 所有動作 && currentPlayer->getMoney() > 0) {
+		if (status == 銀行 && currentPlayer->getMoney() > 0) {
 			action.first.push_back("存款");
 			action.second[index++] = &Game::saveMoney;
 		}
 
-		if (total > 0) {
+		if (status == 銀行 && total > 0) {
 			action.first.push_back("貸款");
 			action.second[index++] = &Game::borrowMoney;
 		}
 
-		if (status == 所有動作 && currentPlayer->getDebit() > 0) {
+		if (status == 銀行 && currentPlayer->getDebit() > 0) {
 			action.first.push_back("還款");
 			action.second[index++] = &Game::returnMoney;
 		}
 
-		if (currentPlayer->getSaving() > 0) {
+		if (status == 銀行 && currentPlayer->getSaving() > 0) {
 			action.first.push_back("領款");
 			action.second[index++] = &Game::withdrawMoney;
 		}
@@ -293,6 +306,11 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 		if (status == 所有動作) {
 			action.first.push_back("放道具");
 			action.second[index++] = &Game::putTool;
+		}
+
+		if (status == 銀行) {
+			action.first.push_back("結束");
+			action.second[index++] = &Game::endMenu;
 		}
 
 	}
@@ -388,6 +406,11 @@ void Game::overGame()
 		Cursor cursor(0, 50);
 		ExitProcess(0);
 	}
+}
+
+bool Game::endMenu()
+{
+	return true;
 }
 
 void Game::showMap()

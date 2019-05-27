@@ -15,13 +15,14 @@ void BankBlock::throughEvent(Player* player)
 
 	Game::showDialog("經過銀行", "可以進行相關操作");
 	//TODO:操作面板
-	/*
-	可使用 Player::
-		void deposit (int);//存錢 現金->存款
-		void withdraw(int);//提款 存款->現金
-		void loan(int);//貸款
-		void returnLoan(int);//還貸款
-	*/
+	pair<vector<string>, std::map<int, bool(Game::*)(void)> > action;
+	bool doNext;
+	int choose;
+	do {
+		action = game->getAction(銀行);
+		choose = game->showMenu("請選擇動作", action.first);
+		doNext = (game->*action.second[choose])();
+	} while (!doNext);
 	return;
 }
 
@@ -31,7 +32,7 @@ BankBlock& BankBlock::operator=(const BankBlock& b)
 	return *this;
 }
 
-BankBlock::BankBlock(string newName, int newIndex) :BaseBlock(newName, newIndex)
+BankBlock::BankBlock(string newName, int newIndex, Game *game) :BaseBlock(newName, newIndex),game(game)
 {
 }
 

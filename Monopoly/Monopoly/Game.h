@@ -8,6 +8,7 @@
 #include "FateBlock.h"
 #include "StartBlock.h"
 #include "ChanceBlock.h"
+#include "BankBlock.h"
 #include "Stock.h""
 #include "Draw.h"
 #include "Cursor.h"
@@ -29,7 +30,7 @@
 #define 破產 false
 #define 富翁 true
 #define 所有動作 false
-#define 取錢動作 true
+#define 銀行 true
 #pragma endregion
 class Game
 {
@@ -53,6 +54,7 @@ private:
 	bool doStock();
 	bool rollDice();
 	void overGame();
+	bool endMenu();
 	void showMap();
 	void showAllPlayerStatus(); //玩家狀態
 	void showMapContent();
@@ -60,7 +62,6 @@ private:
 	void showActionMenu();
 	bool playerBroken();
 	static int getDice(int);
-	pair<vector<string>, std::map<int, bool(Game::*)(void)> > getAction(int = 所有動作);
 	double getPlayerAsset();
 	double getPlayerAsset(Player*);
 	void checkMoney();
@@ -78,6 +79,8 @@ public:
 	Player* getPlayer();
 	void getMoneyFromEveryPlayer(int);
 	void giveMoneyToEveryPlayer(int);
+	pair<vector<string>, std::map<int, bool(Game::*)(void)> > getAction(int = 所有動作);
+
 };
 
 #endif
