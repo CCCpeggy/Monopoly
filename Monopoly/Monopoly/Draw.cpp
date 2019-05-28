@@ -15,7 +15,7 @@ const string Draw::dialogueBox[10] = { "■————————————�
 										"∥　　　　　　　　　　　　　　　　　　　　　　　∥",
 										"∥　　　　　　　　　　　　　　　　　　　　　　　∥",
 										"■———————————————————————■" };
-const string Draw::infoBlock[] = {
+const string Draw::infoBlock[18] = {
 										   "■————————————————————————■",
 										   "∥　　　　｜　　　　｜　　　　｜　　　　｜　　　　∥",
 										   "∥————————————————————————∥" ,
@@ -69,6 +69,16 @@ const string Draw::boundary[34] = { "．－－－－．－－－－．－－－�
 											 "∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣　　　　∣",
 											 "．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．－－－－．"
 };
+const string Draw::gameStatusFrame[9] = {
+"．———————————————————————————————————————．"
+,"｜　玩家　                ｜                ｜                ｜                ｜"
+,"｜　現金　                ｜                ｜                ｜                ｜"
+,"｜　借款　                ｜                ｜                ｜                ｜"
+,"｜　存款　                ｜                ｜                ｜                ｜"
+,"．———————————————————————————————————————．"
+,"｜目前遊戲者                                                          當前回合數｜"
+,"｜                                                                              ｜"
+,"．———————————————————————————————————————．" };
 const string Draw::number[10] = { "１", "２", "３", "４", "５", "６", "７", "８", "９", "０" };
 const string Draw::playInfoTitle[5] = { "　總覽　","　資金　", "　地產　", "　股票　", "　道具　" };
 const int Draw::FIRST = true;
@@ -143,54 +153,6 @@ void Draw::drawDialogueBox(string title, int num, string unit)
 	cursor << pair<string, int>(ss.str(), DIALOG_TITLE_LEN);
 }
 
-void Draw::drawPlayerList(vector<int> dollarinfo)
-{
-	Cursor cursor(0, 34);
-	cursor << rowLine;
-
-	cursor.nextLine();
-	cursor << verticalBar << "　玩家　";
-	cursor << Color::B_BLUE  << left << setw(16) << "1" << Color::DEF_COLOR << verticalBar;
-	cursor << Color::B_GREEN << left << setw(16) << "2" << Color::DEF_COLOR << verticalBar;
-	cursor << Color::B_CYAN << left << setw(16) << "3" << Color::DEF_COLOR << verticalBar;
-	cursor << Color::B_RED << left << setw(16) << "4" << Color::DEF_COLOR << verticalBar;
-	cursor.nextLine();
-
-	cursor << verticalBar << "　現金　";
-	cursor << " " << left << setw(15) << dollarinfo[0] << verticalBar;
-	cursor << " " << left << setw(15) << dollarinfo[3] << verticalBar;
-	cursor << " " << left << setw(15) << dollarinfo[6] << verticalBar;
-	cursor << " " << left << setw(15) << dollarinfo[9] << verticalBar;
-	cursor.nextLine();
-
-	cursor << verticalBar << "　借款　";
-	cursor << " " << left << setw(15) << dollarinfo[1] << verticalBar;
-	cursor << " " << left << setw(15) << dollarinfo[4] << verticalBar;
-	cursor << " " << left << setw(15) << dollarinfo[7] << verticalBar;
-	cursor << " " << left << setw(15) << dollarinfo[10] << verticalBar;
-	cursor.nextLine();
-
-	cursor << verticalBar << "　存款　";
-	cursor << " " << left << setw(15) << dollarinfo[2] << verticalBar;
-	cursor << " " << left << setw(15) << dollarinfo[5] << verticalBar;
-	cursor << " " << left << setw(15) << dollarinfo[8] << verticalBar;
-	cursor << " " << left << setw(15) << dollarinfo[11] << verticalBar;
-	cursor.nextLine();
-	cout << rowLine;
-}
-
-void Draw::drawCurrentPlayer(int playerIndex, int round)
-{
-	stringstream ss;
-	ss << playerIndex;
-	Cursor cursor(0, 40);
-	cursor << verticalBar << "目前遊戲者" << setw(58) << " " << "當前回合數" << verticalBar;
-	cursor.nextLine();
-	cursor << verticalBar << setw(2) << playerIndex << setw(75) << " " << round << verticalBar;
-	cursor.nextLine();
-	cursor << rowLine;
-}
-
 void Draw::drawMap()
 {
 	Cursor cursor(0, 0);
@@ -255,6 +217,15 @@ void Draw::drawPlayerInfoFrame()
 	{
 		cursor.nextLine();
 		cursor << Draw::infoBlock[i];
+	}
+}
+
+void Draw::drawGameStatusFrame()
+{
+	Cursor cursor(0, 34);
+	for (int i = 0; i < 9; i++) {
+		cursor << gameStatusFrame[i];
+		cursor.nextLine();
 	}
 }
 

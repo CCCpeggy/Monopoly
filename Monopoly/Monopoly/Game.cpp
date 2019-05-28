@@ -10,8 +10,8 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0),isOver(false)
 			if (isOver = !checkGameStatus() && (!isOver)) break;
 			Player* currentPlayer = getPlayer();
 			if (currentPlayer->getIsBroken()) continue;
-
-			showAllPlayerStatus();
+			
+			showGameStatus();
 			stringstream ss;
 			ss << "第 " << round << " 回合, 輪到 " << currentPlayer->getName();
 			showDialog(ss.str(),"");
@@ -159,7 +159,6 @@ bool Game::sellEstate()
 	if (result) {
 		EstateBlock* block = currentPlayer->ownedEstates[choose];
 		currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
-		showAllPlayerStatus();
 	}
 	return false;
 }
@@ -178,9 +177,10 @@ bool Game::putItem()
 	ss << "確定要使用" << ownItemsNames[choose];
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
 	if (result) {
-		EstateBlock* block = currentPlayer->ownedEstates[choose];
-		currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
-		showAllPlayerStatus();
+		//TODOL
+		//EstateBlock* block = currentPlayer->ownedEstates[choose];
+		//currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
+		//showAllPlayerStatus();
 	}
 	return false;
 }
@@ -191,7 +191,6 @@ bool Game::saveMoney()
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0 , currentPlayer->getMoney(), 0, 100, "元");
 	currentPlayer->deposit(money);
-	showAllPlayerStatus();
 	return false;
 }
 
@@ -202,7 +201,6 @@ bool Game::borrowMoney()
 	int max = currentPlayer->getAsset();
 	int money = showNumberDialog("請輸入金額", 0, max, 0, 100, "元");
 	currentPlayer->loan(money);
-	showAllPlayerStatus();
 	return false;
 }
 
@@ -212,7 +210,6 @@ bool Game::returnMoney()
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getDebit(), 0, 100, "元");
 	currentPlayer->returnLoan(money);
-	showAllPlayerStatus();
 	return false;
 }
 
@@ -221,7 +218,6 @@ bool Game::withdrawMoney()
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getSaving(), 0, 100, "元");
 	currentPlayer->withdraw(money);
-	showAllPlayerStatus();
 	return false;
 }
 
@@ -248,7 +244,6 @@ bool Game::doStock()
 			int number = showNumberDialog("請問要買多少張", 1, max, 0, 1, "張");
 			currentPlayer->tradeStock(&stock[choose], true, number);
 			showDialog("交易完成", "");
-			showAllPlayerStatus();
 		}
 		else {
 			showDialog("您的存款金額不足喔");
@@ -261,7 +256,6 @@ bool Game::doStock()
 			int number = showNumberDialog("請問要賣多少張", 1, max, 0, 1, "張");
 			currentPlayer->tradeStock(&stock[choose], false, number);
 			showDialog("交易完成", "");
-			showAllPlayerStatus();
 		}
 		else {
 			showDialog("您沒有此股票喔");
@@ -283,7 +277,7 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 		action.second[index++] = &Game::playerBroken;
 	}
 	else {
-		if (status == 所有動作 && currentPlayer->getMoney() >= 0) {
+		if (status == 所有動作) {
 			action.first.push_back("擲骰子");
 			action.second[index++] = &Game::rollDice;
 		}
@@ -360,7 +354,6 @@ void Game::checkMoney()
 	for (int i = 0; i < player.size(); i++) {
 		if (getPlayerAsset(&player[i]) < 0 && !player[i].getIsBroken()) {
 			player[i].setBankrupt();
-			showAllPlayerStatus();
 		}
 	}
 }
@@ -408,8 +401,7 @@ bool Game::rollDice()
 	Player* currentPlayer = getPlayer();
 	pair<int, int> dice = currentPlayer->rollDice();
 	showDice(dice);
-	currentPlayer->moveForwardByStep(6);
-	showAllPlayerStatus();
+	currentPlayer->moveForwardByStep(dice.first + dice.second);
 	return true;
 }
 
@@ -437,14 +429,19 @@ void Game::showMap()
 
 void Game::showAllPlayerStatus()
 {
-	vector<int> dollaerinfo;
-	for (int i = 0; i < 4; i++) {
-		dollaerinfo.push_back(player[i].getMoney());
-		dollaerinfo.push_back(player[i].getDebit());
-		dollaerinfo.push_back(player[i].getSaving());
+	Draw::drawGameStatusFrame();
+	for (int i = 0; i < player.size(); i++) {
+		player[i].drawStatusPlayerName();
+		player[i].drawPlayerMoneyStatus();
 	}
-	Draw::drawPlayerList(dollaerinfo);
-	Draw::drawCurrentPlayer(playerIndex, round);
+	showGameStatus();
+}
+
+void Game::showGameStatus() {
+	Cursor cursor(2, 41, 76);
+	cursor << left << setw(2) << playerIndex;
+	cursor.nextPos();
+	cursor << right << setw(2) << round;
 }
 
 void Game::showMapContent()
@@ -628,6 +625,7 @@ void Game::getMoneyFromEveryPlayer(int money)
 		if (player[i].getIsBroken()) continue;
 		player[i].giveMoney(currentPlayer, money);
 	}
+	showAllPlayerStatus();
 }
 
 void Game::giveMoneyToEveryPlayer(int money)
@@ -638,5 +636,6 @@ void Game::giveMoneyToEveryPlayer(int money)
 		if (player[i].getIsBroken()) continue;
 		currentPlayer->giveMoney(&player[i], money);
 	}
+	showAllPlayerStatus();
 }
 

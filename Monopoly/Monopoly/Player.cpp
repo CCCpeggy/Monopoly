@@ -177,17 +177,20 @@ void Player::tradeStock(Stock* stock, bool buyTrueSellFalse, int quantity)
 void Player::earnMoney(int money)
 {
 	this->money += money;
+	drawPlayerMoneyStatus();
 }
 
 void Player::loseMoney(int money)
 {
 	this->money -= money;
+	drawPlayerMoneyStatus();
 }
 
 void Player::giveMoney(Player * player, int money)
 {
 	player->earnMoney(money);
 	this->money -= money;
+	drawPlayerMoneyStatus();
 }
 
 void Player::useItem(int itemIndex)
@@ -232,6 +235,8 @@ void Player::buyHouse(EstateBlock * estate)
 		money -= (int)(estate->initialPrice*0.5);
 	}
 	estate->houseLevel++;
+	drawPlayerMoneyStatus();
+
 }
 
 int Player::getTotalHouse()
@@ -268,6 +273,7 @@ void Player::setBankrupt()
 	{
 		(*it)->beSelled();
 	}
+	drawPlayerMoneyStatus();
 }
 
 void Player::deposit(int n)
@@ -285,6 +291,7 @@ void Player::withdraw(int n)
 void Player::changeSaving(int n)
 {
 	saving += n;
+	drawPlayerMoneyStatus();
 }
 
 void Player::loan(int n)
@@ -302,6 +309,8 @@ void Player::returnLoan(int n)
 void Player::changeDebit(int n)
 {
 	debit += n;
+	drawPlayerMoneyStatus();
+
 }
 
 string Player::getName()
@@ -367,4 +376,30 @@ void Player::drawPlayerAllEstate()
 		}
 		c++;
 	}
+}
+
+void Player::drawPlayerMoneyStatus()
+{
+	Cursor cursor = Cursor(10, 36, 18).getSubCursor(index, 0, 1, 1 );
+	for (int i = 0; i < 3; i++) {
+		cursor << "           ";
+		cursor.nextLine();
+	}
+	cursor.inputPos(0, 0);
+	if (isBankrupt)
+		cursor << "¯}²£";
+	else {
+		cursor << money;
+		cursor.nextLine();
+		cursor << debit;
+		cursor.nextLine();
+		cursor << saving;
+	}
+}
+
+void Player::drawStatusPlayerName()
+{
+	Cursor cursor(10, 35, 18);
+	cursor.inputPos(index);
+	cursor << Color::B_PLAYER_COLOR[index] << left << setw(16) << name << Color::DEF_COLOR;
 }

@@ -18,18 +18,16 @@ public:
 	
 	static const string rowLine;
 	static const string verticalBar;
-	static const string infoBlock[];
+	static const string infoBlock[18];
 	static const string dialogueBox[10];
 	static const string boundary[34];
 	static const Cursor cursor;
 	static const string number[10];
 	static const string playInfoTitle[5];
+	static const string gameStatusFrame[9];
 	static const int FIRST;
 	static const int SECOND;
 
-
-	static void drawPlayerList(vector<int>);
-	static void drawCurrentPlayer(int, int);
 	static void drawDialogueBox(string title, pair<string, string> chooseName, bool status);
 	static void drawDialogueBox(string title, string content = "");
 	static void drawDialogueBox(string title, int num, string unit = "");
@@ -38,6 +36,7 @@ public:
 	static void drawMenu(vector<string>, string, int);
 	static void drawPlayerInfoTitle(int);
 	static void drawPlayerInfoFrame();
+	static void drawGameStatusFrame();
 	static void cleanCenter();
 	static void cleanPlayerInfoContent();
 };
