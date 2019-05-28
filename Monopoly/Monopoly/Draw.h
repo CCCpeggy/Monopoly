@@ -37,6 +37,8 @@ public:
 	static void drawDice(int dice1, int dice2);
 	static void drawMenu(vector<string>, string, int);
 	static void drawPlayerInfoTitle(int);
+	static void drawPlayerInfoFrame();
 	static void cleanCenter();
+	static void cleanPlayerInfoContent();
 };
 #endif // !_DRAW_

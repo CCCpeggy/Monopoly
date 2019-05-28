@@ -408,7 +408,7 @@ bool Game::rollDice()
 	Player* currentPlayer = getPlayer();
 	pair<int, int> dice = currentPlayer->rollDice();
 	showDice(dice);
-	currentPlayer->moveForwardByStep(dice.first + dice.second);
+	currentPlayer->moveForwardByStep(6);
 	showAllPlayerStatus();
 	return true;
 }
@@ -459,11 +459,13 @@ void Game::showMapContent()
 
 bool Game::showPlayStatus()
 {
+	Draw::drawPlayerInfoFrame();
 	player[playerIndex].drawPlayerInfo();
 	Draw::drawPlayerInfoTitle(0);
 	int number = 0;
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
+		Draw::cleanPlayerInfoContent();
 		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
 			number += getKey == VK_RIGHT ? 1 : 4 ;
 			number %= 5;
@@ -472,12 +474,15 @@ bool Game::showPlayStatus()
 				player[playerIndex].drawPlayerInfo();
 				break;
 			case 1:
-				//TODO: 對應涵式
+				player[playerIndex].drawPlayerAllMoney();
 				break;
 			case 2:
-				//TODO: 對應涵式
+				player[playerIndex].drawPlayerAllEstate();
 				break;
 			case 3:
+				//TODO: 對應涵式
+				break;
+			case 4:
 				//TODO: 對應涵式
 				break;
 			}

@@ -247,11 +247,33 @@ void Draw::drawPlayerInfoTitle(int index)
 	}
 }
 
+void Draw::drawPlayerInfoFrame()
+{
+	Cursor cursor(16, 7);
+	cursor << pair<string, int>(" 玩　家　資　訊 ", 49);
+	for (int i = 0; i <= 17; i++)
+	{
+		cursor.nextLine();
+		cursor << Draw::infoBlock[i];
+	}
+}
+
 void Draw::cleanCenter()
 {
 	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　　　　　　";
 	Cursor cursor(14, 5);
-	for (int i = 5; i <= 27; i++)
+	for (int i = 0; i <= 22; i++)
+	{
+		cursor << nothing;
+		cursor.nextLine();
+	}
+}
+
+void Draw::cleanPlayerInfoContent()
+{
+	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　　";
+	Cursor cursor(18, 11);
+	for (int i = 0; i <= 13; i++)
 	{
 		cursor << nothing;
 		cursor.nextLine();

@@ -311,15 +311,7 @@ string Player::getName()
 
 void Player::drawPlayerInfo()
 {
-	Cursor cursor(16, 8);
-	for (int i = 0; i <= 17; i++)
-	{
-		cursor << Draw::infoBlock[i];
-		cursor.nextLine();
-	}
-	cursor.add(3, -1, 12);
-	cursor << pair<string, int>(" 玩　家　資　訊 ", 49);
-	cursor.add(0, 6);
+	Cursor cursor(19, 13, 12);
 	cursor << "ＩＤ："<<playerID[index] ;
 	cursor.nextPos();
 	cout << "總資金＄" << money + saving;
