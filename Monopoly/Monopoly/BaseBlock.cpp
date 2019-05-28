@@ -82,3 +82,13 @@ void BaseBlock::drawLocationName()
 	subCursor.add(2, 1);
 	subCursor << pair<string, int>(name.substr(0,9), 9);
 }
+
+void BaseBlock::drawItem()
+{
+	if (hasRoadBlock)
+	{
+		Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
+		subCursor.add(2, 3);
+		subCursor << "¡¶";
+	}
+}

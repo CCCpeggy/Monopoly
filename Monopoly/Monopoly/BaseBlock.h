@@ -26,10 +26,10 @@ public:
 	virtual void  startEvent(Player*) {};
 	virtual void  arriveEvent(Player*) {};
 	virtual void  throughEvent(Player*) {};
-	//virtual void drawDialogueBoxInfo(string text);
 	void setLocationXY(int blockNums);
 	void output();
 	virtual void drawLocationName();
+	void drawItem();
 private:
 };
 #endif // !_BaseBlock_
