@@ -61,6 +61,7 @@ private:
 	void showMapContent();
 	bool showPlayStatus();
 	void showActionMenu();
+	void showGameStatus();
 	bool playerBroken();
 	static int getDice(int);
 	double getPlayerAsset();
