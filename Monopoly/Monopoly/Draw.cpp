@@ -81,6 +81,36 @@ const string Draw::gameStatusFrame[9] = {
 ,"．———————————————————————————————————————．" };
 const string Draw::number[10] = { "１", "２", "３", "４", "５", "６", "７", "８", "９", "０" };
 const string Draw::playInfoTitle[5] = { "　總覽　","　資金　", "　地產　", "　股票　", "　道具　" };
+const string diceone[5] = { "．———．",
+							"｜　　　｜",
+							"｜　●　｜",
+							"｜　　　｜",
+							"．———．" };
+const string dicetwo[5] = { "．———．",
+							"｜　●　｜",
+							"｜　　　｜",
+							"｜　●　｜",
+							"．———．" };
+const string dicethree[5] = { "．———．",
+							"｜　●　｜",
+							"｜　●　｜",
+							"｜　●　｜",
+							"．———．" };
+const string dicefour[5] = { "．———．",
+							"｜●　●｜",
+							"｜　　　｜",
+							"｜●　●｜",
+							"．———．" };
+const string dicefive[5] = { "．———．",
+							"｜●　●｜",
+							"｜　●　｜",
+							"｜●　●｜",
+							"．———．" };
+const string dicesix[5] = { "．———．",
+							"｜●　●｜",
+							"｜●　●｜",
+							"｜●　●｜",
+							"．———．" };
 const int Draw::FIRST = true;
 const int Draw::SECOND = false;
 
@@ -204,7 +234,7 @@ void Draw::drawPlayerInfoTitle(int index)
 	for (int i = 0; i < 5; i++) {
 		if (i == index) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
-		cursor << pair<string, int>(playInfoTitle[i], 4);
+
 		cursor.nextPos();
 	}
 }
