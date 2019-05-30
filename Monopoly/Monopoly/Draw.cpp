@@ -181,7 +181,12 @@ void Draw::drawDialogueBox(string title, int num, string unit)
 	stringstream ss;
 	ss << num << unit;
 	cursor.add(0, 4);
-	cursor << pair<string, int>(ss.str(), DIALOG_TITLE_LEN);
+	cursor << Color::TAG_CHOOSE_COLOR<<pair<string, int>(ss.str(), DIALOG_TITLE_LEN);
+	cursor.nextLine();
+	cursor.add(0, 5, DIALOG_TITLE_LEN / 2);
+	cursor << Color::TAG_CHOOSE_COLOR<< pair<string, int>("－", DIALOG_TITLE_LEN / 2);
+	cursor.nextPos();
+	cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>("＋", DIALOG_TITLE_LEN / 2);
 }
 
 void Draw::drawMap()
