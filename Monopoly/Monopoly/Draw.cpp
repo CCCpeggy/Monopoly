@@ -1,7 +1,8 @@
 ﻿#include "Draw.h"
 
 extern HANDLE handleOutput;
-const string Draw::estateInfoTitle[3] = { "名稱","等級","過路費" };
+const string Draw::playerEstateInfoTitle[3] = { "名稱","等級","過路費" };
+const string Draw::playerStockInfoTitle[3] = { "名稱","張數","股價" };
 const Cursor Draw::cursor(0, 0, 10, 4);
 const string Draw::rowLine = "．———————————————————————————————————————．";
 const string Draw::verticalBar = "｜";
