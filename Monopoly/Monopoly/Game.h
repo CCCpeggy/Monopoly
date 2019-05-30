@@ -1,6 +1,7 @@
 #ifndef _GAME_
 #define _GAME_
 #pragma region include
+#include "Item.h"
 #include "BaseBlock.h"
 #include "Player.h"
 #include "Map.h"
@@ -12,7 +13,6 @@
 #include "Stock.h""
 #include "Draw.h"
 #include "Cursor.h"
-#include "Item.h"
 #include <vector>
 #include <string>
 #include <iomanip>
@@ -43,6 +43,7 @@ private:
 	int playerIndex;
 	int round;
 	bool isOver;
+	bool isAbleChoose;
 	void loadFile(string);
 	void stockFluctuate();
 	bool noMoney();
@@ -62,6 +63,7 @@ private:
 	bool showPlayStatus();
 	void showActionMenu();
 	void showGameStatus();
+	int showChoosingMap();
 	bool playerBroken();
 	static int getDice(int);
 	double getPlayerAsset();
@@ -82,7 +84,8 @@ public:
 	void getMoneyFromEveryPlayer(int);
 	void giveMoneyToEveryPlayer(int);
 	pair<vector<string>, std::map<int, bool(Game::*)(void)> > getAction(int = 所有動作);
-
+	void setAbleChooseDice();
+	void setStopItem();
 };
 
 #endif

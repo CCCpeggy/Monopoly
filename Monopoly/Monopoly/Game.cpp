@@ -1,20 +1,20 @@
 #include "Game.h"
 
-Game::Game(string fileName) :map(),round(0),playerIndex(0),isOver(false)
+Game::Game(string fileName) :map(), round(0), playerIndex(0), isOver(false), isAbleChoose(false)
 {
 	loadFile(fileName);
 	showMap();
-	
+
 	while (!isOver) {
 		for (; playerIndex < player.size(); playerIndex++) {
 			if (isOver = !checkGameStatus() && (!isOver)) break;
-			Player* currentPlayer = getPlayer();
+			Player * currentPlayer = getPlayer();
 			if (currentPlayer->getIsBroken()) continue;
-			
+
 			showGameStatus();
 			stringstream ss;
 			ss << "第 " << round << " 回合, 輪到 " << currentPlayer->getName();
-			showDialog(ss.str(),"");
+			showDialog(ss.str(), "");
 			ss.str("");
 			ss.clear();
 
@@ -29,7 +29,7 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0),isOver(false)
 			} while (!doNext);
 
 			checkMoney();
-			
+
 		}
 		stockFluctuate();
 		playerIndex = 0;
@@ -59,18 +59,18 @@ void Game::loadFile(string fileName)
 		ss << line;
 		ss >> index >> blockName >> blockCategory;
 
-		if (blockCategory == 0){
-			StartBlock * block = new StartBlock(blockName, index);
+		if (blockCategory == 0) {
+			StartBlock* block = new StartBlock(blockName, index);
 			map.insertBlock(block);
 		}
 		else if (blockCategory == -1)
 		{
-			FateBlock *block = new FateBlock(index, blockName, this);
+			FateBlock* block = new FateBlock(index, blockName, this);
 			map.insertBlock(block);
 		}
 		else if (blockCategory == -2)
 		{
-			ChanceBlock *block = new ChanceBlock(index, blockName, this);
+			ChanceBlock* block = new ChanceBlock(index, blockName, this);
 			map.insertBlock(block);
 		}
 		else if (blockCategory == 2)
@@ -88,7 +88,7 @@ void Game::loadFile(string fileName)
 				ss >> tmp;
 				toll[i] = tmp;
 			}
-			EstateBlock *block = new EstateBlock(index, blockName, price, toll);
+			EstateBlock* block = new EstateBlock(index, blockName, price, toll);
 			map.insertBlock(block);
 		}
 		ss.str("");
@@ -100,7 +100,7 @@ void Game::loadFile(string fileName)
 	ss >> line >> playerIndex;
 	ss.str("");
 	ss.clear();
-	for(int i = 0; i < playerCount; i++) {
+	for (int i = 0; i < playerCount; i++) {
 		getline(fin, line);
 		ss << line;
 		int index, position, money;
@@ -121,7 +121,7 @@ void Game::loadFile(string fileName)
 		ss.str("");
 		ss.clear();
 	}
-	
+
 }
 
 void Game::stockFluctuate()
@@ -134,7 +134,7 @@ void Game::stockFluctuate()
 bool Game::noMoney()
 {
 	Player* currentPlayer = getPlayer();
-	while (currentPlayer->getMoney() < 0){
+	while (currentPlayer->getMoney() < 0) {
 		if (currentPlayer->ownedEstates.size() == 0) return 破產;
 		sellEstate();
 	}
@@ -147,13 +147,13 @@ bool Game::sellEstate()
 	vector<string> ownEstateNames;
 	stringstream ss;
 	for (int i = 0; i < currentPlayer->ownedEstates.size(); i++) {
-		ss << currentPlayer->ownedEstates[i]->name << "...$" << currentPlayer->ownedEstates[i]->initialPrice/2;
+		ss << currentPlayer->ownedEstates[i]->name << "...$" << currentPlayer->ownedEstates[i]->initialPrice / 2;
 		ownEstateNames.push_back(ss.str());
 		ss.str("");
 		ss.clear();
 	}
 	int choose = showMenu("請選擇要賣掉的地", ownEstateNames);
-	
+
 	ss << "是否要賣地(價格:" << currentPlayer->ownedEstates[choose]->initialPrice / 2 << ")";
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
 	if (result) {
@@ -177,10 +177,8 @@ bool Game::putItem()
 	ss << "確定要使用" << ownItemsNames[choose];
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
 	if (result) {
-		//TODOL
-		//EstateBlock* block = currentPlayer->ownedEstates[choose];
-		//currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
-		//showAllPlayerStatus();
+		currentPlayer->useItem(choose);
+		currentPlayer->ownedItems[choose]->doFunction(this);
 	}
 	return false;
 }
@@ -189,7 +187,7 @@ bool Game::saveMoney()
 {
 	//TODO: 
 	Player* currentPlayer = getPlayer();
-	int money = showNumberDialog("請輸入金額", 0 , currentPlayer->getMoney(), 0, 100, "元");
+	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getMoney(), 0, 100, "元");
 	currentPlayer->deposit(money);
 	return false;
 }
@@ -232,6 +230,7 @@ bool Game::doStock()
 		ss.str("");
 		ss.clear();
 	}
+
 	int choose = showMenu("請選擇股票", ownStockes);
 
 	ss << "請問要買還是要賣(價格:" << stock[choose].prize << ")";
@@ -329,12 +328,22 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 	return action;
 }
 
+void Game::setAbleChooseDice()
+{
+	isAbleChoose = true;
+}
+
+void Game::setStopItem()
+{
+
+}
+
 double Game::getPlayerAsset()
 {
 	return getPlayerAsset(getPlayer());
 }
 
-double Game::getPlayerAsset(Player* player)
+double Game::getPlayerAsset(Player * player)
 {
 	double asset = player->getMoney() + player->getSaving() - player->getDebit();
 	vector<EstateBlock*>::iterator iter = player->ownedEstates.begin();
@@ -362,7 +371,7 @@ bool Game::checkGameStatus()
 	if (round >= 20) {
 		return false;
 	}
-		
+
 	int livingPlayer = 0;
 	for (int i = 0; i < player.size(); i++) {
 		if (!player[i].getIsBroken()) livingPlayer++;
@@ -371,7 +380,7 @@ bool Game::checkGameStatus()
 		return false;
 	}
 	return true;
-	
+
 }
 
 void Game::showWinner()
@@ -385,7 +394,7 @@ void Game::showWinner()
 		}
 	}
 	for (; i < player.size(); i++) {
-		if (!player[i].getIsBroken() && getPlayerAsset(&player[i]) > getPlayerAsset(winner) ) {
+		if (!player[i].getIsBroken() && getPlayerAsset(&player[i]) > getPlayerAsset(winner)) {
 			winner = &player[i];
 			break;
 		}
@@ -398,16 +407,24 @@ void Game::showWinner()
 bool Game::rollDice()
 {
 	Player* currentPlayer = getPlayer();
-	pair<int, int> dice = currentPlayer->rollDice();
-	showDice(dice);
-	currentPlayer->moveForwardByStep(dice.first + dice.second);
+	int step;
+	if (isAbleChoose) {
+		step = showChoosingMap();
+		isAbleChoose = false;
+	}
+	else {
+		pair<int, int> dice = currentPlayer->rollDice();
+		showDice(dice);
+		step = dice.first + dice.second;
+	}
+	currentPlayer->moveForwardByStep(step);
 	return true;
 }
 
 void Game::overGame()
 {
 	showWinner();
-	int isRestart = showDialog("是否重新開始",pair<string, string>("是", "否"));
+	int isRestart = showDialog("是否重新開始", pair<string, string>("是", "否"));
 	if (!isRestart) {
 		Cursor cursor(0, 50);
 		ExitProcess(0);
@@ -443,6 +460,11 @@ void Game::showGameStatus() {
 	cursor << right << setw(2) << round;
 }
 
+int Game::showChoosingMap()
+{
+	return 0;
+}
+
 void Game::showMapContent()
 {
 	for (int i = 0; i < player.size(); i++) {
@@ -463,9 +485,9 @@ bool Game::showPlayStatus()
 	while (getKey != VK_RETURN) {
 		Draw::cleanPlayerInfoContent();
 		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
-			number += getKey == VK_RIGHT ? 1 : 4 ;
+			number += getKey == VK_RIGHT ? 1 : 4;
 			number %= 5;
-			switch(number){
+			switch (number) {
 			case 0:
 				player[playerIndex].drawPlayerInfo();
 				break;
@@ -507,9 +529,9 @@ bool Game::playerBroken()
 int Game::getDice(int dice)
 {
 	int change, sum;
-	do{
+	do {
 		change = rand() % 5;
-	}while ((dice + change) % 6 + dice == 6);
+	} while ((dice + change) % 6 + dice == 6);
 	return (dice + change) % 6 + 1;
 }
 
@@ -539,7 +561,7 @@ bool Game::showDialog(string content, pair<string, string> chooseName, bool choo
 {
 	Draw::drawDialogueBox(content, chooseName, choose);
 	int getKey = keyBoard();
-	while(getKey != VK_RETURN) {
+	while (getKey != VK_RETURN) {
 		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
 			choose = !choose;
 			Draw::drawDialogueBox(content, chooseName, choose);
@@ -553,14 +575,14 @@ bool Game::showDialog(string content, pair<string, string> chooseName, bool choo
 void Game::showDialog(string title, string content)
 {
 	Draw::drawDialogueBox(title, content);
-	while (keyBoard() != VK_RETURN) {	}
+	while (keyBoard() != VK_RETURN) {}
 	cleanCenter();
 }
 
 void Game::showDice(pair<int, int> dice)
 {
 	pair<int, int> tmpDice = dice;
-	for(int i=0;i<5;i++) {
+	for (int i = 0; i < 5; i++) {
 		tmpDice.first = getDice(tmpDice.first);
 		tmpDice.second = getDice(tmpDice.second);
 		Draw::drawDice(tmpDice.first, tmpDice.second);
@@ -578,7 +600,7 @@ int Game::showMenu(string name, vector<string> itemList, int choose)
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
 		if (getKey == VK_UP || getKey == VK_DOWN) {
-			choose += getKey == VK_DOWN ? 1 : itemList.size()-1;
+			choose += getKey == VK_DOWN ? 1 : itemList.size() - 1;
 			choose %= itemList.size();
 			Draw::drawMenu(itemList, name, choose);
 		}
@@ -608,7 +630,7 @@ int Game::keyBoard()
 
 		}
 	}
-	
+
 }
 
 Player* Game::getPlayer()

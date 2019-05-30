@@ -130,8 +130,8 @@ void Player::initStocks(vector<Stock>* stocks)
 
 Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation, vector<Stock>* stocks) :index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(false)
 {
-	ownedItems.push_back(&Item::itemList[0]);	
-	ownedItems.push_back(&Item::itemList[1]);
+	//ownedItems.push_back(&Item::itemList[0]);	
+	//ownedItems.push_back(&Item::itemList[1]);
 	controlDiceNum =  0;
 	initStocks(stocks);
 	stringstream ss;
@@ -195,17 +195,6 @@ void Player::giveMoney(Player * player, int money)
 
 void Player::useItem(int itemIndex)
 {
-	if (ownedItems[itemIndex]==&Item::itemList[0])
-	{
-		//路障 選擇格子
-		//BaseBlock* b = ???;
-		//b->hasRoadBlock = true;
-	}
-	else if (ownedItems[itemIndex] == &Item::itemList[1])
-	{
-		//遙控骰子  選擇格數
-		//controlDiceNum = ???;
-	}
 	ownedItems.erase(ownedItems.begin() + itemIndex);
 }
 
