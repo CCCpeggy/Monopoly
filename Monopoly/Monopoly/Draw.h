@@ -25,6 +25,12 @@ public:
 	static const string number[10];
 	static const string playInfoTitle[5];
 	static const string gameStatusFrame[9];
+	static const string diceone[5];
+	static const string dicetwo[5];
+	static const string dicethree[5];
+	static const string dicefour[5];
+	static const string dicefive[5];
+	static const string dicesix[5];
 	static const int FIRST;
 	static const int SECOND;
 

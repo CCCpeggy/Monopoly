@@ -81,36 +81,37 @@ const string Draw::gameStatusFrame[9] = {
 ,"．———————————————————————————————————————．" };
 const string Draw::number[10] = { "１", "２", "３", "４", "５", "６", "７", "８", "９", "０" };
 const string Draw::playInfoTitle[5] = { "　總覽　","　資金　", "　地產　", "　股票　", "　道具　" };
-const string diceone[5] = { "．———．",
+const string Draw::diceone[5] = { "．———．",
 							"｜　　　｜",
 							"｜　●　｜",
 							"｜　　　｜",
 							"．———．" };
-const string dicetwo[5] = { "．———．",
+const string Draw::dicetwo[5] = { "．———．",
 							"｜　●　｜",
 							"｜　　　｜",
 							"｜　●　｜",
 							"．———．" };
-const string dicethree[5] = { "．———．",
+const string Draw::dicethree[5] = { "．———．",
 							"｜　●　｜",
 							"｜　●　｜",
 							"｜　●　｜",
 							"．———．" };
-const string dicefour[5] = { "．———．",
+const string Draw::dicefour[5] = { "．———．",
 							"｜●　●｜",
 							"｜　　　｜",
 							"｜●　●｜",
 							"．———．" };
-const string dicefive[5] = { "．———．",
+const string Draw::dicefive[5] = { "．———．",
 							"｜●　●｜",
 							"｜　●　｜",
 							"｜●　●｜",
 							"．———．" };
-const string dicesix[5] = { "．———．",
+const string Draw::dicesix[5] = { "．———．",
 							"｜●　●｜",
 							"｜●　●｜",
 							"｜●　●｜",
 							"．———．" };
+
 const int Draw::FIRST = true;
 const int Draw::SECOND = false;
 
@@ -196,15 +197,58 @@ void Draw::drawMap()
 
 void Draw::drawDice(int dice1, int dice2)
 {
-	//TODO: 畫骰子
 	Cursor cursor(15, 10);
 	for (int i = 0; i <= 9; i++)
 	{
 		cursor << dialogueBox[i];
 		cursor.nextLine();
 	}
-	cursor.add(DIALOG_CONTENT_LEN / 2 - 1, 4).inputPos(0, 0);
-	cout << dice1 << " " << dice2;
+	cursor.add(2, 3, DIALOG_CONTENT_LEN / 2).inputPos(0, 0);
+
+	for (int i = 0; i < 5; i++) {
+		switch (dice1) {
+		case 1:
+			cursor << pair<string, int>(diceone[i], DIALOG_CONTENT_LEN/2);
+			break;
+		case 2:
+			cursor << pair<string, int>(dicetwo[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		case 3:
+			cursor << pair<string, int>(dicethree[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		case 4:
+			cursor << pair<string, int>(dicefour[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		case 5:
+			cursor << pair<string, int>(diceone[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		case 6:
+			cursor << pair<string, int>(dicesix[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		}
+		cursor.nextPos();
+		switch (dice2) {
+		case 1:
+			cursor << pair<string, int>(diceone[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		case 2:
+			cursor << pair<string, int>(dicetwo[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		case 3:
+			cursor << pair<string, int>(dicethree[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		case 4:
+			cursor << pair<string, int>(dicefour[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		case 5:
+			cursor << pair<string, int>(diceone[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		case 6:
+			cursor << pair<string, int>(dicesix[i], DIALOG_CONTENT_LEN / 2);
+			break;
+		}
+		cursor.nextLine();
+	}	
 }
 
 void Draw::drawMenu(vector<string> itemList, string name, int index)
