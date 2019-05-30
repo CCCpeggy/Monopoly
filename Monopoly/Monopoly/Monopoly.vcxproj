@@ -157,6 +157,14 @@
     <ClInclude Include="StartBlock.h" />
     <ClInclude Include="Stock.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="basemap.txt" />
+    <Text Include="chance.txt" />
+    <Text Include="fate.txt" />
+    <Text Include="init.txt" />
+    <Text Include="init2.txt" />
+    <Text Include="init3.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

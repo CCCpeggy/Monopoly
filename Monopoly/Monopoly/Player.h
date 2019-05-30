@@ -67,6 +67,7 @@ public:
 
 	//道具操作
 	void useItem(int itemIndex);
+	void addItem(int itemIndex);
 
 	//繪製
 	void cleanPlayerLocation();

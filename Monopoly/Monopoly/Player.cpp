@@ -130,8 +130,6 @@ void Player::initStocks(vector<Stock>* stocks)
 
 Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation, vector<Stock>* stocks) :index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(false)
 {
-	ownedItems.push_back(&Item::itemList[0]);	
-	ownedItems.push_back(&Item::itemList[1]);
 	controlDiceNum =  0;
 	initStocks(stocks);
 	stringstream ss;
@@ -207,6 +205,11 @@ void Player::useItem(int itemIndex)
 		//controlDiceNum = ???;
 	}
 	ownedItems.erase(ownedItems.begin() + itemIndex);
+}
+
+void Player::addItem(int itemIndex)
+{
+	ownedItems.push_back(&Item::itemList[itemIndex]);
 }
 
 void Player::sellEstate(EstateBlock* estate)

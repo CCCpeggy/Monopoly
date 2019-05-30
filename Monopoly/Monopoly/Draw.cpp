@@ -278,7 +278,7 @@ void Draw::drawMenu(vector<string> itemList, string name, int index)
 	for (int i = 0; i < itemCount; i++) {
 		if (i == index % itemCount) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
-		cursor << pair<string, int>(itemList[i + (count * itemReminder)], DIALOG_CONTENT_LEN);
+		cursor << pair<string, int>(itemList[i + (count * itemCount)], DIALOG_CONTENT_LEN);
 		cursor.nextLine();
 	}
 

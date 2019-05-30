@@ -111,4 +111,24 @@
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="basemap.txt">
+      <Filter>資源檔</Filter>
+    </Text>
+    <Text Include="chance.txt">
+      <Filter>資源檔</Filter>
+    </Text>
+    <Text Include="fate.txt">
+      <Filter>資源檔</Filter>
+    </Text>
+    <Text Include="init.txt">
+      <Filter>資源檔</Filter>
+    </Text>
+    <Text Include="init2.txt">
+      <Filter>資源檔</Filter>
+    </Text>
+    <Text Include="init3.txt">
+      <Filter>資源檔</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

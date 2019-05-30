@@ -110,8 +110,10 @@ void Game::loadFile(string fileName)
 		ss.str("");
 		ss.clear();
 	}
+	getline(fin, line);
 	//股票
 	while (getline(fin, line)) {
+		if (line[0] == 'i') break;
 		string name;
 		double prize;
 		ss << line;
@@ -121,7 +123,23 @@ void Game::loadFile(string fileName)
 		ss.str("");
 		ss.clear();
 	}
-	
+	//道具
+	while (getline(fin, line)) {
+		ss << line;
+		int inputPlayerIndex;
+		ss >> inputPlayerIndex;
+		int inputItemIndex, count;
+		while (ss >> inputItemIndex >> count)
+		{
+			if (inputPlayerIndex < player.size() && inputItemIndex < Item::itemList.size()) {
+				while(count--)
+					player[inputPlayerIndex].addItem(inputItemIndex);
+			}
+		}
+
+		ss.str("");
+		ss.clear();
+	}
 }
 
 void Game::stockFluctuate()
@@ -313,11 +331,12 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 			action.second[index++] = &Game::withdrawMoney;
 		}
 
-		action.first.push_back("股票");
-		action.second[index++] = &Game::doStock;
+		if (status == 所有動作 && stock.size() > 0) {
+			action.first.push_back("股票");
+			action.second[index++] = &Game::doStock;
+		}
 
-
-		if (status == 所有動作) {
+		if (status == 所有動作 && currentPlayer->ownedItems.size() > 0) {
 			action.first.push_back("放道具");
 			action.second[index++] = &Game::putItem;
 		}
