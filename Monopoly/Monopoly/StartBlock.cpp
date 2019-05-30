@@ -6,6 +6,11 @@
 
 
 
+int StartBlock::getCategory()
+{
+	return 0;
+}
+
 void StartBlock::startEvent(Player* player)
 {
 

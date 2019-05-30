@@ -13,6 +13,7 @@ class FateBlock :
 private:
 	Game* game;
 public:
+	virtual int getCategory();
 	vector<Card> fateCards;
 	FateBlock& operator=(FateBlock&);
 	void startEvent(Player*);

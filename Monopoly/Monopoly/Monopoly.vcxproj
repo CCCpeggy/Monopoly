@@ -158,6 +158,7 @@
     <ClInclude Include="Stock.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="back.txt" />
     <Text Include="basemap.txt" />
     <Text Include="chance.txt" />
     <Text Include="fate.txt" />

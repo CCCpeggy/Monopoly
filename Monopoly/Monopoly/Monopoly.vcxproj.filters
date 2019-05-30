@@ -130,5 +130,8 @@
     <Text Include="init3.txt">
       <Filter>資源檔</Filter>
     </Text>
+    <Text Include="back.txt">
+      <Filter>資源檔</Filter>
+    </Text>
   </ItemGroup>
 </Project>

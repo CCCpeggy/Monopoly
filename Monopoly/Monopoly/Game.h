@@ -45,6 +45,7 @@ private:
 	int round;
 	bool isOver;
 	void loadFile(string);
+	void saveFile(string);
 	void stockFluctuate();
 	bool noMoney();
 	bool sellEstate();

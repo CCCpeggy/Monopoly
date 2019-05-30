@@ -4,6 +4,10 @@
 #include <iostream>
 using namespace std;
 const string FateBlock::card[] = { "銀行付你利息，500元","經營小本生意，獲利1000元","整修自己所有房屋，每棟250元","這是你的生日，向每人收取禮金1000元" };
+int FateBlock::getCategory()
+{
+	return -1;
+}
 FateBlock& FateBlock::operator=(FateBlock& block)
 {
 	BaseBlock::operator=(block);

@@ -26,6 +26,11 @@ BaseBlock::~BaseBlock()
 {
 }
 
+int BaseBlock::getCategory()
+{
+	return -3;
+}
+
 void BaseBlock::startByThisBlock(Player* player)
 {
 	startEvent(player);

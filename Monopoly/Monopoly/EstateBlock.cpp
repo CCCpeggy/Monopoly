@@ -138,3 +138,13 @@ int EstateBlock::currentTolls()
 	return tolls[houseLevel];
 }
 
+int EstateBlock::getLevelTolls(int level)
+{
+	return tolls[level];
+}
+
+int EstateBlock::getCategory()
+{
+	return 1;
+}
+

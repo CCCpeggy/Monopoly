@@ -20,6 +20,7 @@ public:
 	BaseBlock();
 	BaseBlock& operator = (const BaseBlock&);
 	~BaseBlock();
+	virtual int getCategory();
 	void startByThisBlock(Player*);
 	void arriveThisBlock(Player*);
 	void throughThisBlock(Player*); 

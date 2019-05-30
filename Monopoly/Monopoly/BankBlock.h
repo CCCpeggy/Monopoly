@@ -10,6 +10,7 @@ class BankBlock :
 private:
 	Game* game;
 public:
+	virtual int getCategory();
 	void startEvent(Player*);
 	void arriveEvent(Player*);
 	void throughEvent(Player*);

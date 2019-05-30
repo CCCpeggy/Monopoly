@@ -13,6 +13,7 @@ class ChanceBlock :
 private:
 	Game* game;
 public:
+	virtual int getCategory();
 	vector<Card> chanceCards;
 	ChanceBlock& operator=(ChanceBlock&);
 	void startEvent(Player*);

@@ -2,7 +2,8 @@
 
 Game::Game(string fileName) :map(),round(0),playerIndex(0),isOver(false)
 {
-	loadFile(fileName);
+	loadFile(fileName); 
+	saveFile("back.txt");
 	showMap();
 
 	while (!isOver) {
@@ -40,7 +41,7 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0),isOver(false)
 
 void Game::loadFile(string fileName)
 {
-	fstream fin(LOADFILE, ios::in);
+	fstream fin(fileName, ios::in);
 	string line, mapName;
 	stringstream ss;
 	int playerCount;
@@ -140,6 +141,53 @@ void Game::loadFile(string fileName)
 		ss.str("");
 		ss.clear();
 	}
+	fin.close();
+}
+
+void Game::saveFile(string fileName)
+{
+	fstream fin(fileName, ios::out);
+	//基本資料
+	fin << map.mapName << " ";
+	fin << round << " ";
+	fin << player.size() << endl;
+	for (int i = 0; i < map.blockNums; i++) {
+		fin << setfill('0') << setprecision(2) << map[i]->index << " ";
+		fin << map[i]->name << " ";
+		fin << map[i]->getCategory() << " ";
+		if (map[i]->getCategory() == 1) {
+			EstateBlock* block = (EstateBlock*)map[i];
+			fin << block->initialPrice;
+			for (int j = 0; j <= 3; j++) fin << " " << block->getLevelTolls(j);
+		}
+		fin << endl;
+	}
+
+	fin << "playerstate " << playerIndex << endl;
+	for (int i = 0; i < player.size(); i++) {
+		fin << player[i].index << " ";
+		fin << player[i].location << " ";
+		fin << player[i].getMoney() << " ";
+		fin << endl;
+	}
+
+	fin << "stock" << endl;
+	for (int i = 0; i < stock.size(); i++) {
+		fin << i << " ";
+		fin << stock[i].name << " ";
+		fin << stock[i].prize << endl;
+	}
+	/*
+	fin << "item" << endl;
+	for (int i = 0; i < player.size(); i++) {
+		fin << player[i].index << " ";
+		for (int j = 0; j < player[i].ownedItems.size; j++) {
+			fin << i << " ";
+			fin << player[i].ownedItems[i];
+		}
+		fin << endl;
+	}*/
+	fin.close();
 }
 
 void Game::stockFluctuate()
@@ -209,6 +257,7 @@ bool Game::saveMoney()
 	//TODO: 
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0 , currentPlayer->getMoney(), 0, 100, "元");
+	if (money != 沒有選擇) 	currentPlayer->loan(money);
 	currentPlayer->deposit(money);
 	return false;
 }

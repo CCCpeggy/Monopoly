@@ -2,6 +2,11 @@
 #include "Game.h"
 
 
+int BankBlock::getCategory()
+{
+	return 2;
+}
+
 void BankBlock::startEvent(Player*)
 {
 }

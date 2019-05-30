@@ -6,6 +6,7 @@ class StartBlock :
 	public BaseBlock
 {
 public:
+	virtual int getCategory();
 	void startEvent(Player*);
 	void arriveEvent(Player*);
 	void throughEvent(Player*);

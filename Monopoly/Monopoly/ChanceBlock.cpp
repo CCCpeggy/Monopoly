@@ -7,6 +7,10 @@
 #include "EstateBlock.h"
 using namespace std;
 const string ChanceBlock::card[] = {"銀行付你利息，500元","經營小本生意，獲利1000元","整修自己所有房屋，每棟250元","這是你的生日，向每人收取禮金1000元"};
+int ChanceBlock::getCategory()
+{
+	return -2;
+}
 ChanceBlock& ChanceBlock::operator=(ChanceBlock& chance)
 {
 	BaseBlock::operator=(chance);
