@@ -171,22 +171,22 @@ void Draw::drawDialogueBox(string title, int num, string unit)
 {
 	//TODO: 顯示數字對話框
 	Cursor cursor(15, 10);
-	cursor << pair<string, int> (title, DIALOG_TITLE_LEN);
-	cursor.nextLine();
+	
 	for (int i = 0; i <= 9; i++)
 	{
 		cursor << dialogueBox[i];
 		cursor.nextLine();
 	}
+	cursor.add(2, 2, DIALOG_CONTENT_LEN /3);
+	cursor << pair<string, int>(title, DIALOG_CONTENT_LEN);
 	stringstream ss;
 	ss << num << unit;
-	cursor.add(0, 4);
-	cursor << Color::TAG_CHOOSE_COLOR<<pair<string, int>(ss.str(), DIALOG_TITLE_LEN);
-	cursor.nextLine();
-	cursor.add(0, 5, DIALOG_TITLE_LEN / 2);
-	cursor << Color::TAG_CHOOSE_COLOR<< pair<string, int>("－", DIALOG_TITLE_LEN / 2);
+	cursor.nextLine().nextLine().nextLine().nextLine();
+	cursor << Color::DEF_COLOR<< pair<string, int>("　－　", DIALOG_CONTENT_LEN / 3);
 	cursor.nextPos();
-	cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>("＋", DIALOG_TITLE_LEN / 2);
+	cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>(ss.str(), DIALOG_CONTENT_LEN / 3);
+	cursor.nextPos();
+	cursor << Color::DEF_COLOR << pair<string, int>("　＋　", DIALOG_CONTENT_LEN / 3);
 }
 
 void Draw::drawMap()
@@ -267,17 +267,17 @@ void Draw::drawMenu(vector<string> itemList, string name, int index)
 		cursor.nextLine();
 	}
 	cursor.add(2, 3);
-
-	int itemreminder = itemList.size() % 5;
-	int count = index / 5;
-	for (int i = 0; i < 5 - itemreminder; i++) {
+	const int itemCount = 6;
+	int itemReminder = itemList.size() % itemCount;
+	int count = index / itemCount;
+	for (int i = 0; i < itemCount - itemReminder; i++) {
 		itemList.push_back("　　　　　　　　　");
 	}
 
-	for (int i = 0; i < 5; i++) {
-		if (i == index % 5) cursor << Color::TAG_CHOOSE_COLOR;
+	for (int i = 0; i < itemCount; i++) {
+		if (i == index % itemCount) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
-		cursor << pair<string, int>(itemList[i + (count * 5)], DIALOG_CONTENT_LEN);
+		cursor << pair<string, int>(itemList[i + (count * itemReminder)], DIALOG_CONTENT_LEN);
 		cursor.nextLine();
 	}
 
