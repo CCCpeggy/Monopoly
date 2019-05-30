@@ -524,7 +524,7 @@ bool Game::showPlayStatus()
 				player[playerIndex].drawPlayerAllEstate();
 				break;
 			case 3:
-				//TODO: 對應涵式
+				player[playerIndex].drawPlayerStock();
 				break;
 			case 4:
 				//TODO: 對應涵式

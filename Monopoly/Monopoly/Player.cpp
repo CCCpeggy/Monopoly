@@ -355,8 +355,8 @@ void Player::drawPlayerAllEstate()
 {
 	vector<EstateBlock*>::iterator it;
 	Cursor cursor(18, 11, 15,2);
-	for (int i = 0; i < 5; i++) {
-		cursor << pair<string, int>(Draw::estateInfoTitle[i], 15);
+	for (int i = 0; i < 3; i++) {
+		cursor << pair<string, int>(Draw::playerEstateInfoTitle[i], 15);
 		cursor.nextPos();
 	}
 	cursor.nextLine();
@@ -397,7 +397,23 @@ void Player::drawStatusPlayerName()
 	cursor << Color::B_PLAYER_COLOR[index] << left << setw(16) << name << Color::DEF_COLOR;
 }
 
-void Player::drawOwnedStock()
+void Player::drawPlayerStock()
 {
-
+	map<Stock*,int>::iterator it;
+	Cursor cursor(18, 11, 15, 2);
+	for (int i = 0; i < 3; i++) 
+	{
+		cursor << pair<string, int>(Draw::playerStockInfoTitle[i], 15);
+		cursor.nextPos();
+	}
+	cursor.nextLine();
+	for (it = ownedStocks.begin(); it != ownedStocks.end(); it++)
+	{
+		cursor << pair<string, int>((*it).first->name, 15);
+		cursor.nextPos();
+		cursor << pair<string, int>(to_string((*it).second), 15);
+		cursor.nextPos();
+		cursor << pair<string, int>(to_string((*it).first->prize), 15);
+		cursor.nextLine();
+	}
 }

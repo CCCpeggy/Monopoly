@@ -76,7 +76,7 @@ public:
 	void drawPlayerAllEstate();
 	void drawPlayerMoneyStatus();
 	void drawStatusPlayerName();
-	void drawOwnedStock();
+	void drawPlayerStock();
 	//«Øºc
 	private:
 		void initStocks(vector<Stock>* stocks);
