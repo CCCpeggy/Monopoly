@@ -14,18 +14,18 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0),isOver(false)
 			showGameStatus();
 			stringstream ss;
 			ss << "第 " << round << " 回合, 輪到 " << currentPlayer->getName();
-			showDialog(ss.str(),"");
+			showDialog(ss.str());
 			ss.str("");
 			ss.clear();
 
 			int choose;
 			//做動作直到選擇骰骰子
 			pair<vector<string>, std::map<int, bool(Game::*)(void)> > action;
-			bool doNext;
+			bool doNext = false;
 			do {
 				action = getAction();
 				choose = showMenu("請選擇動作", action.first);
-				doNext = (this->*action.second[choose])();
+				if(choose != 沒有選擇) doNext = (this->*action.second[choose])();
 			} while (!doNext);
 
 			checkMoney();
@@ -153,7 +153,7 @@ bool Game::sellEstate()
 		ss.clear();
 	}
 	int choose = showMenu("請選擇要賣掉的地", ownEstateNames);
-	
+	if (choose == 沒有選擇) return false;
 	ss << "是否要賣地(價格:" << currentPlayer->ownedEstates[choose]->initialPrice / 2 << ")";
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
 	if (result) {
@@ -173,6 +173,7 @@ bool Game::putItem()
 		ownItemsNames.push_back(currentPlayer->ownedItems[i]->name);
 	}
 	int choose = showMenu("請選擇道具", ownItemsNames);
+	if (choose == 沒有選擇) return false;
 
 	ss << "確定要使用" << ownItemsNames[choose];
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
@@ -200,7 +201,7 @@ bool Game::borrowMoney()
 	Player* currentPlayer = getPlayer();
 	int max = currentPlayer->getAsset();
 	int money = showNumberDialog("請輸入金額", 0, max, 0, 100, "元");
-	currentPlayer->loan(money);
+	if (money != 沒有選擇) 	currentPlayer->loan(money);
 	return false;
 }
 
@@ -209,7 +210,7 @@ bool Game::returnMoney()
 	//TODO: 
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getDebit(), 0, 100, "元");
-	currentPlayer->returnLoan(money);
+	if (money != 沒有選擇) currentPlayer->returnLoan(money);
 	return false;
 }
 
@@ -217,7 +218,7 @@ bool Game::withdrawMoney()
 {
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getSaving(), 0, 100, "元");
-	currentPlayer->withdraw(money);
+	if (money != 沒有選擇) currentPlayer->withdraw(money);
 	return false;
 }
 
@@ -233,7 +234,7 @@ bool Game::doStock()
 		ss.clear();
 	}
 	int choose = showMenu("請選擇股票", ownStockes);
-
+	if (choose == 沒有選擇) return false;
 	ss << "請問要買還是要賣(價格:" << stock[choose].prize << ")";
 	bool result = Game::showDialog(ss.str(), pair<string, string>("買", "賣"), Draw::FIRST);
 	//買股票
@@ -241,8 +242,11 @@ bool Game::doStock()
 		int max = currentPlayer->getSaving() / stock[choose].prize;
 		if (max > 0) {
 			int number = showNumberDialog("請問要買多少張", 1, max, 0, 1, "張");
-			currentPlayer->tradeStock(&stock[choose], true, number);
-			showDialog("交易完成", "");
+			if (number != 沒有選擇) {
+				currentPlayer->tradeStock(&stock[choose], true, number);
+				showDialog("交易完成", "");
+			}
+			
 		}
 		else {
 			showDialog("您的存款金額不足喔");
@@ -253,8 +257,10 @@ bool Game::doStock()
 		int max = stock[choose].beOwned[currentPlayer];
 		if (max > 0) {
 			int number = showNumberDialog("請問要賣多少張", 1, max, 0, 1, "張");
-			currentPlayer->tradeStock(&stock[choose], false, number);
-			showDialog("交易完成", "");
+			if (number != 沒有選擇) {
+				currentPlayer->tradeStock(&stock[choose], false, number);
+				showDialog("交易完成", "");
+			}
 		}
 		else {
 			showDialog("您沒有此股票喔");
@@ -452,7 +458,8 @@ int Game::showChoosingMapMode(string content)
 	while (getKey != VK_RETURN) {
 		map[choose]->cleanSelected();
 		if (getKey == VK_ESCAPE) {
-			return -1;
+			choose = 沒有選擇;
+			break;
 		}
 		int tmpX = map[choose]->x, tmpY = map[choose] -> y;
 		if (getKey == VK_RIGHT) {
@@ -476,6 +483,7 @@ int Game::showChoosingMapMode(string content)
 	}
 	map[choose]->cleanSelected();
 	cleanCenter();
+	showMapContent();
 	return choose;
 }
 
@@ -497,6 +505,10 @@ bool Game::showPlayStatus()
 	int number = 0;
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
+		if (getKey == VK_ESCAPE) {
+			number = 沒有選擇;
+			break;
+		}
 		Draw::cleanPlayerInfoContent();
 		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
 			number += getKey == VK_RIGHT ? 1 : 4 ;
@@ -554,6 +566,10 @@ int Game::showNumberDialog(string title, int number, int max, int min, int right
 	Draw::drawDialogueBox(title, number, unit);
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
+		if (getKey == VK_ESCAPE) {
+			number = 沒有選擇;
+			break;
+		}
 		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
 			number += getKey == VK_RIGHT ? 1 * right : -1 * right;
 			number = number > max ? max : number;
@@ -613,6 +629,10 @@ int Game::showMenu(string name, vector<string> itemList, int choose)
 	Draw::drawMenu(itemList, name, choose);
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
+		if (getKey == VK_ESCAPE) {
+			choose = 沒有選擇;
+			break;
+		}
 		if (getKey == VK_UP || getKey == VK_DOWN) {
 			choose += getKey == VK_DOWN ? 1 : itemList.size()-1;
 			choose %= itemList.size();

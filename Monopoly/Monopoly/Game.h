@@ -32,6 +32,7 @@
 #define 富翁 true
 #define 所有動作 false
 #define 銀行 true
+#define 沒有選擇 -2147483647
 #pragma endregion
 class Game
 {
