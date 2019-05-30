@@ -47,6 +47,8 @@ public:
 		cout << outputString;
 		return *this;
 	}
+	int getCursorX();
+	int getCursorY();
 	~Cursor();
 };
 

@@ -118,6 +118,16 @@ Cursor& Cursor::operator<<(const Cursor&)
 	return *this;
 }
 
+int Cursor::getCursorX()
+{
+	return basicX + drawX * rightX;
+}
+
+int Cursor::getCursorY()
+{
+	return basicY + drawY * rightY;
+}
+
 Cursor::~Cursor()
 {
 	Color::setTextColor(Color::DEF_COLOR);

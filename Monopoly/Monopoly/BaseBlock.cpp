@@ -83,6 +83,27 @@ void BaseBlock::drawLocationName()
 	subCursor << pair<string, int>(name.substr(0,9), 9);
 }
 
+void BaseBlock::drawSelected()
+{
+	Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
+	subCursor.add(2, 1);
+	for (int i = 0; i < 3; i++) {
+		subCursor << Color::TAG_CHOOSE_COLOR << "¡@¡@¡@¡@";
+		subCursor.nextLine();
+	}
+}
+
+void BaseBlock::cleanSelected()
+{
+	Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
+	subCursor.add(2, 1);
+	for (int i = 0; i < 3; i++) {
+		subCursor << Color::DEF_COLOR << "¡@¡@¡@¡@";
+		subCursor.nextLine();
+	}
+	drawLocationName();
+}
+
 void BaseBlock::drawItem()
 {
 	if (hasRoadBlock)
