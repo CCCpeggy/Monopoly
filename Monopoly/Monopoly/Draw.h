@@ -25,6 +25,7 @@ public:
 	static const string number[10];
 	static const string playInfoTitle[5];
 	static const string gameStatusFrame[9];
+	static const string estateInfoTitle[3];
 	static const string diceone[5];
 	static const string dicetwo[5];
 	static const string dicethree[5];

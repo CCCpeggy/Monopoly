@@ -320,9 +320,9 @@ string Player::getName()
 
 void Player::drawPlayerInfo()
 {
-	Cursor cursor(19, 13, 12);
+	Cursor cursor(19, 12, 12);
 	cursor << "ＩＤ："<<playerID[index] ;
-	cursor.nextPos();
+	cursor.nextLine().nextLine();
 	cout << "總資金＄" << money + saving;
 	cursor.nextLine().nextLine();
 	cout << "現金＄" << money;
@@ -333,14 +333,9 @@ void Player::drawPlayerInfo()
 	cursor.nextLine().nextLine();
 	cout << "持有股票：" << "抬機店x5" << "　" << "紅海x10";
 	cursor.nextLine().nextLine().nextLine();
-	cout << "持有土地：";
-	vector<EstateBlock*>::iterator it;
-	for (it = ownedEstates.begin(); it != ownedEstates.end(); it++)
-	{
-		cout << (*it)->name<<"　";
-		cursor.nextPos();
-	}
-	cursor.nextLine().nextLine().nextLine();
+	cout << "持有地產總數：";
+	cout << ownedEstates.size();
+	cursor.nextLine().nextLine();
 	cout << "持有道具：" << "▲x5";
 }
 
@@ -359,22 +354,20 @@ void Player::drawPlayerAllMoney()
 void Player::drawPlayerAllEstate()
 {
 	vector<EstateBlock*>::iterator it;
-	Cursor cursor(19,11,2,2);
-	cursor << "所有地產：";
-	int c = 0;
+	Cursor cursor(18, 11, 15,2);
+	for (int i = 0; i < 5; i++) {
+		cursor << pair<string, int>(Draw::estateInfoTitle[i], 15);
+		cursor.nextPos();
+	}
+	cursor.nextLine();
 	for (it = ownedEstates.begin(); it != ownedEstates.end(); it++)
 	{    
-		if(c%2==0)
-		{
+			cursor << pair<string,int>((*it)->name,15);
 			cursor.nextPos();
-			cursor << (*it)->name << "　";
-		}
-		else
-		{
+			cursor << pair<string, int>(to_string((*it)->houseLevel),15);
+			cursor.nextPos();
+			cursor << pair<string, int>(to_string((*it)->currentTolls()), 15);
 			cursor.nextLine();
-			cursor << (*it)->name;
-		}
-		c++;
 	}
 }
 
@@ -402,4 +395,9 @@ void Player::drawStatusPlayerName()
 	Cursor cursor(10, 35, 18);
 	cursor.inputPos(index);
 	cursor << Color::B_PLAYER_COLOR[index] << left << setw(16) << name << Color::DEF_COLOR;
+}
+
+void Player::drawOwnedStock()
+{
+
 }
