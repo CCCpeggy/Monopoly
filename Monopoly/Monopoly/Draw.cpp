@@ -263,13 +263,28 @@ void Draw::drawMenu(vector<string> itemList, string name, int index)
 		cursor.nextLine();
 	}
 	cursor.add(2, 3);
+
+	int itemreminder = itemList.size() % 5;
+	int count = index / 5;
+	for (int i = 0; i < 5 - itemreminder; i++) {
+		itemList.push_back("　　　　　　　　　");
+	}
+
+	for (int i = 0; i < 5; i++) {
+		if (i == index % 5) cursor << Color::TAG_CHOOSE_COLOR;
+		else cursor << Color::DEF_COLOR;
+		cursor << pair<string, int>(itemList[i + (count * 5)], DIALOG_CONTENT_LEN);
+		cursor.nextLine();
+	}
+
+	/*
 	for (int i = 0; i < itemList.size(); i++)
 	{
 		if (i == index) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
 		cursor << pair<string, int>(itemList[i], DIALOG_CONTENT_LEN);
 		cursor.nextLine();
-	}
+	}*/
 }
 
 void Draw::drawPlayerInfoTitle(int index)
