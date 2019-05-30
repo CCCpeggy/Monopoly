@@ -291,7 +291,7 @@ void Draw::drawPlayerInfoTitle(int index)
 	for (int i = 0; i < 5; i++) {
 		if (i == index) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
-
+		cursor << pair<string, int>(playInfoTitle[i], 4);
 		cursor.nextPos();
 	}
 }
