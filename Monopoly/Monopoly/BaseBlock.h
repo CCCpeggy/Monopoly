@@ -29,6 +29,8 @@ public:
 	void setLocationXY(int blockNums);
 	void output();
 	virtual void drawLocationName();
+	virtual void drawSelected();
+	virtual void cleanSelected();
 	void drawItem();
 private:
 };

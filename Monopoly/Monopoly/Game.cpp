@@ -4,7 +4,7 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0),isOver(false)
 {
 	loadFile(fileName);
 	showMap();
-	
+
 	while (!isOver) {
 		for (; playerIndex < player.size(); playerIndex++) {
 			if (isOver = !checkGameStatus() && (!isOver)) break;
@@ -441,6 +441,42 @@ void Game::showGameStatus() {
 	cursor << left << setw(2) << playerIndex;
 	cursor.nextPos();
 	cursor << right << setw(2) << round;
+}
+
+int Game::showChoosingMapMode(string content)
+{
+	Draw::drawDialogueBox(content);
+	map[0]->drawSelected();
+	int choose = 0;
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN) {
+		map[choose]->cleanSelected();
+		if (getKey == VK_ESCAPE) {
+			return -1;
+		}
+		int tmpX = map[choose]->x, tmpY = map[choose] -> y;
+		if (getKey == VK_RIGHT) {
+			tmpX++;
+		}
+		else if (getKey == VK_LEFT) {
+			tmpX--;
+		}
+		else if (getKey == VK_DOWN) {
+			tmpY++;
+		}
+		else if (getKey == VK_UP) {
+			tmpY--;
+		}
+		int nextChoose = (choose + 1) % map.blockNums;
+		int lastChoose = (choose - 1 + map.blockNums) % map.blockNums;
+		if (map[nextChoose]->x == tmpX && map[nextChoose]->y == tmpY) choose = nextChoose;
+		else if (map[lastChoose]->x == tmpX && map[lastChoose]->y == tmpY) choose = lastChoose;
+		map[choose]->drawSelected();
+		getKey = keyBoard();
+	}
+	map[choose]->cleanSelected();
+	cleanCenter();
+	return choose;
 }
 
 void Game::showMapContent()
