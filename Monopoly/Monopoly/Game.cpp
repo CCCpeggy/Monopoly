@@ -232,7 +232,6 @@ bool Game::doStock()
 		ss.str("");
 		ss.clear();
 	}
-	
 	int choose = showMenu("請選擇股票", ownStockes);
 
 	ss << "請問要買還是要賣(價格:" << stock[choose].prize << ")";

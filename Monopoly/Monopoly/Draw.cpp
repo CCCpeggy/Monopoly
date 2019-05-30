@@ -253,7 +253,6 @@ void Draw::drawDice(int dice1, int dice2)
 
 void Draw::drawMenu(vector<string> itemList, string name, int index)
 {
-	//TODO:選單
 	Cursor cursor(15, 10);
 	cursor << pair<string, int>(name, DIALOG_TITLE_LEN);
 	cursor.nextLine();
@@ -277,14 +276,8 @@ void Draw::drawMenu(vector<string> itemList, string name, int index)
 		cursor.nextLine();
 	}
 
-	/*
-	for (int i = 0; i < itemList.size(); i++)
-	{
-		if (i == index) cursor << Color::TAG_CHOOSE_COLOR;
-		else cursor << Color::DEF_COLOR;
-		cursor << pair<string, int>(itemList[i], DIALOG_CONTENT_LEN);
-		cursor.nextLine();
-	}*/
+	
+
 }
 
 void Draw::drawPlayerInfoTitle(int index)
