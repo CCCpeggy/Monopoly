@@ -213,7 +213,7 @@ void Draw::drawDice(int dice1, int dice2)
 			cursor << pair<string, int>(dicefour[i], DIALOG_CONTENT_LEN / 2);
 			break;
 		case 5:
-			cursor << pair<string, int>(diceone[i], DIALOG_CONTENT_LEN / 2);
+			cursor << pair<string, int>(dicefive[i], DIALOG_CONTENT_LEN / 2);
 			break;
 		case 6:
 			cursor << pair<string, int>(dicesix[i], DIALOG_CONTENT_LEN / 2);
@@ -234,7 +234,7 @@ void Draw::drawDice(int dice1, int dice2)
 			cursor << pair<string, int>(dicefour[i], DIALOG_CONTENT_LEN / 2);
 			break;
 		case 5:
-			cursor << pair<string, int>(diceone[i], DIALOG_CONTENT_LEN / 2);
+			cursor << pair<string, int>(dicefive[i], DIALOG_CONTENT_LEN / 2);
 			break;
 		case 6:
 			cursor << pair<string, int>(dicesix[i], DIALOG_CONTENT_LEN / 2);
