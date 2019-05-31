@@ -4,6 +4,7 @@ Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(f
 {
 	loadFile(fileName); 
 	if (ableUse) {
+		saveFile("back.txt");
 		while (!isOver) {
 			for (; playerIndex < player.size(); playerIndex++) {
 				if ((isOver = !checkGameStatus()) && (isOver)) break;
@@ -97,6 +98,7 @@ void Game::loadFile(string fileName)
 	map.calcBlocksLocation();
 	vector<Player*> playerPtr;
 	//玩家
+	ss << line;
 	ss >> line >> playerIndex;
 	ss.str("");
 	ss.clear();
@@ -105,7 +107,7 @@ void Game::loadFile(string fileName)
 		ss << line;
 		int index, position = 0, money = 0, debit = 0, saving = 0;
 		if (ss >> index) if (ss >> position) if (ss >> money) if (ss >> debit) if (ss >> saving);
-		player.push_back(Player(index, money, debit, saving, map[position]));
+		player.push_back(Player(index, money, debit, saving, map[position], this));
 		playerPtr.push_back(&player[i]);
 		ss.str("");
 		ss.clear();
@@ -266,7 +268,8 @@ bool Game::putItem()
 	ss << "確定要使用" << ownItemsNames[choose];
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
 	if (result) {
-		//TODOL
+		//TODO
+		currentPlayer->useItem(choose);
 		//EstateBlock* block = currentPlayer->ownedEstates[choose];
 		//currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
 		//showAllPlayerStatus();
@@ -418,16 +421,21 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 		}
 
 	}
-
 	action.first.push_back("玩家資訊");
 	action.second[index++] = &Game::showPlayStatus;
+	
+	
+	if (status == 所有動作) {
+		action.first.push_back("存檔");
+		action.second[index++] = &Game::saveFile;
+	}
+	
+	if (status == 所有動作) {
+		action.first.push_back("回主畫面");
+		action.second[index++] = &Game::backHome;
 
-	action.first.push_back("存檔");
-	action.second[index++] = &Game::saveFile;
-
-	action.first.push_back("回主畫面");
-	action.second[index++] = &Game::backHome;
-
+	}
+	
 	return action;
 }
 
@@ -495,6 +503,7 @@ bool Game::backHome()
 bool Game::rollDice()
 {
 	Player* currentPlayer = getPlayer();
+
 	pair<int, int> dice = currentPlayer->rollDice();
 	showDice(dice);
 	currentPlayer->moveForwardByStep(dice.first + dice.second);
@@ -530,7 +539,7 @@ void Game::showGameStatus() {
 	cursor << right << setw(2) << round;
 }
 
-int Game::showChoosingMapMode(string content)
+BaseBlock* Game::showChoosingMapMode(string content)
 {
 	Draw::drawDialogueBox(content);
 	map[0]->drawSelected();
@@ -565,7 +574,7 @@ int Game::showChoosingMapMode(string content)
 	map[choose]->cleanSelected();
 	cleanCenter();
 	showMapContent();
-	return choose;
+	return map[choose];
 }
 
 void Game::showMapContent()
@@ -575,6 +584,7 @@ void Game::showMapContent()
 	}
 	for (int i = 0; i < map.blockNums; i++) {
 		map[i]->drawLocationName();
+		map[i]->drawItem();
 	}
 }
 

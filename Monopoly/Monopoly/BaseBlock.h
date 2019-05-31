@@ -14,7 +14,6 @@ public:
 	int x;
 	int y;
 	int index;
-	bool hasRoadBlock;
 	BaseBlock* nextBlock;
 	BaseBlock(string newName,int index);
 	BaseBlock();
@@ -33,7 +32,11 @@ public:
 	virtual void drawSelected();
 	virtual void cleanSelected();
 	void drawItem();
+	void setRoadBlock(bool);
+	bool getHasRoadBlock();
 private:
+
+	bool hasRoadBlock;
 };
 #endif // !_BaseBlock_
 

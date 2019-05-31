@@ -165,6 +165,7 @@
     <Text Include="init.txt" />
     <Text Include="init2.txt" />
     <Text Include="init3.txt" />
+    <Text Include="saveFile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -41,7 +41,7 @@ int main() {
 	
 	while(true) {
 		int fileNameIndex;
-		vector<string> fileNames = { "init.txt", "init2.txt", "init3.txt" };
+		vector<string> fileNames = { "init.txt", "init2.txt", "init3.txt", "saveFile.txt" };
 		int choose = Game::showMenu("¹CÀ¸¿ï³æ", chooseName);
 		switch (choose) {
 		case 0:

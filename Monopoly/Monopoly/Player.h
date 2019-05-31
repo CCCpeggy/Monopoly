@@ -4,6 +4,7 @@
 #include <map>
 #include <sstream>
 #include <windows.h>
+#include <string>
 #include "Draw.h"
 #include "Cursor.h"
 using namespace std;
@@ -83,7 +84,7 @@ public:
 	private:
 		void initStocks(vector<Stock>* stocks);
 	public:
-		Player(int newIndex = 0, int newMoney = 0, int newDebit = 0, int newSaving = 0, BaseBlock* newLocation = NULL, vector<Stock>* stocks=NULL);
+		Player(int newIndex = 0, int newMoney = 0, int newDebit = 0, int newSaving = 0, BaseBlock* newLocation = NULL, Game * game = nullptr);
 
 	//¸Ñºc
 	~Player();
@@ -95,6 +96,7 @@ private:
 	int money;
 	int debit;
 	int saving;
+	Game* game;
 	bool isBankrupt;
 };
 

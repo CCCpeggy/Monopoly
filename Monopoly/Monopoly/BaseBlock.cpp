@@ -112,10 +112,19 @@ void BaseBlock::cleanSelected()
 
 void BaseBlock::drawItem()
 {
-	if (hasRoadBlock)
-	{
-		Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
-		subCursor.add(2, 3);
-		subCursor << "¡¶";
-	}
+
+	Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
+	subCursor.add(2, 3);
+	subCursor << (hasRoadBlock ? "¡¶" : "¡@¡@¡@¡@");
+}
+
+void BaseBlock::setRoadBlock(bool has)
+{
+	hasRoadBlock = has;
+	drawItem();
+}
+
+bool BaseBlock::getHasRoadBlock()
+{
+	return hasRoadBlock;
 }

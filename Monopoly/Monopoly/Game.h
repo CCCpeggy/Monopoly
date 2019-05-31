@@ -65,7 +65,6 @@ private:
 	bool showPlayStatus();
 	void showActionMenu();
 	void showGameStatus();
-	int showChoosingMapMode(string);
 	bool playerBroken();
 	static int getDice(int);
 	void checkMoney();
@@ -81,6 +80,7 @@ public:
 	static void showDice(pair<int, int>);
 	static int showMenu(string, vector<string>, int = 0, void(*function)(string) = nullptr);
 	static int keyBoard();
+	BaseBlock* showChoosingMapMode(string);
 	Player* getPlayer();
 	void getMoneyFromEveryPlayer(int);
 	void giveMoneyToEveryPlayer(int);
