@@ -124,7 +124,7 @@ void EstateBlock::drawLocationName()
 	subCursor.add(2, 1);
 	if (owner != NULL)
 	{
-		subCursor << Color::B_PLAYER_COLOR[owner->index]<<pair<string, int>(name.substr(0, 9), 9);
+		subCursor << Color::B_PLAYER_COLOR[owner->index]<<pair<string, int>(name.substr(0, 8), 8);
 	}
 	else
 	{

@@ -99,7 +99,6 @@ void Game::loadFile(string fileName)
 		ss.clear();
 	}
 	map.calcBlocksLocation();
-	vector<Player*> playerPtr;
 	//玩家
 	ss << line;
 	ss >> line >> playerIndex;
@@ -114,11 +113,27 @@ void Game::loadFile(string fileName)
 			player.push_back(Player(index, money, debit, saving, map[0], true, this));
 		else
 			player.push_back(Player(index, money, debit, saving, map[position], false, this));
-		playerPtr.push_back(&player[i]);
 		ss.str("");
 		ss.clear();
 	}
 	getline(fin, line);
+	//擁有土地
+	while (getline(fin, line)) {
+		if (line[0] == 's') break;
+		ss << line;
+		int playerEstateIndex;
+		ss >> playerEstateIndex;
+		int blockIndex, level;
+		while (ss >> blockIndex >> level)
+		{
+			if (map[blockIndex]->getCategory() == 1) {
+				((EstateBlock*)map[blockIndex])->setEstateInfo(&player[playerEstateIndex], level);
+				player[playerEstateIndex].ownedEstates.push_back((EstateBlock*)map[blockIndex]);
+			}
+		}
+		ss.str("");
+		ss.clear();
+	}
 	//股票
 	while (getline(fin, line)) {
 		if (line[0] == 'i') break;
@@ -196,6 +211,18 @@ void Game::saveFile(string fileName)
 			fin << player[i].getMoney() << " ";
 			fin << player[i].getDebit() << " ";
 			fin << player[i].getSaving();
+		}
+		fin << endl;
+	}
+
+	fin << "ownEstate " << endl;
+	for (int i = 0; i < player.size(); i++) {
+		fin << player[i].index << " ";
+		if (!player[i].getIsBroken()) {
+			for (int j = 0; j < player[i].ownedEstates.size(); j++) {
+				fin << player[i].ownedEstates[j]->index << " ";
+				fin << player[i].ownedEstates[j]->houseLevel << " ";
+			}
 		}
 		fin << endl;
 	}
