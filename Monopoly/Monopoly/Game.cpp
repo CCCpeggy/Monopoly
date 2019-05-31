@@ -591,6 +591,7 @@ void Game::showMapContent()
 	for (int i = 0; i < map.blockNums; i++) {
 		map[i]->drawLocationName();
 		map[i]->drawItem();
+		
 	}
 }
 

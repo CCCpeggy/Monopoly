@@ -148,3 +148,12 @@ int EstateBlock::getCategory()
 	return 1;
 }
 
+void EstateBlock::drawEstateLevel()
+{
+	Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
+	subCursor.add(8, 3);
+	if (owner != NULL)
+	{
+		subCursor << Color::TAG_CHOOSE_COLOR<<Draw::houseLevelSymbol[houseLevel];
+	}
+}

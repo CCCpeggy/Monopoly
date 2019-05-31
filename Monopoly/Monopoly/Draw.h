@@ -35,6 +35,7 @@ public:
 	static const string dicefour[5];
 	static const string dicefive[5];
 	static const string dicesix[5];
+	static const string houseLevelSymbol[4];
 	static const int FIRST;
 	static const int SECOND;
 

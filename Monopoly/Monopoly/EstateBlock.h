@@ -19,6 +19,7 @@ public:
 	void arriveEvent(Player*);
 	void throughEvent(Player*);
 	void drawLocationName();
+	void drawEstateLevel();
 	int beSelled();
 	int currentTolls();
 	int getLevelTolls(int); 

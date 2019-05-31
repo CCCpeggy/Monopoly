@@ -56,6 +56,7 @@ const string Draw::gameStatusFrame[9] = {
 ,"．———————————————————————————————————————．" };
 const string Draw::number[10] = { "１", "２", "３", "４", "５", "６", "７", "８", "９", "０" };
 const string Draw::playInfoTitle[5] = { "　總覽　","　資金　", "　地產　", "　股票　", "　道具　" };
+const string Draw::houseLevelSymbol[4] = { "零","壹","貳","參" };
 const string Draw::diceone[5] = { "．———．",
 							"｜　　　｜",
 							"｜　●　｜",

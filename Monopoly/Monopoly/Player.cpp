@@ -338,9 +338,7 @@ void Player::drawPlayerInfo()
 	cursor.nextPos();
 	cout << "負債＄" << debit;
 	cursor.nextLine().nextLine();
-	cout << "持有股票：" << "抬機店x5" << "　" << "紅海x10";
-	cursor.nextLine().nextLine().nextLine();
-	cout << "持有地產總數：";
+	cout << "地產總數：";
 	cout << ownedEstates.size();
 	cursor.nextLine().nextLine();
 	cout << "持有道具：" << "▲x5";
@@ -417,11 +415,14 @@ void Player::drawPlayerStock()
 	cursor.nextLine();
 	for (it = ownedStocks.begin(); it != ownedStocks.end(); it++)
 	{
-		cursor << pair<string, int>((*it).first->getName(), 15);
-		cursor.nextPos();
-		cursor << pair<string, int>(to_string((*it).second), 15);
-		cursor.nextPos();
-		cursor << pair<string, int>(to_string((*it).first->prize), 15);
-		cursor.nextLine();
+		if ((*it).second != 0)
+		{
+			cursor << pair<string, int>((*it).first->getName(), 15);
+			cursor.nextPos();
+			cursor << pair<string, int>(to_string((*it).second), 15);
+			cursor.nextPos();
+			cursor << pair<string, int>(to_string((*it).first->prize), 15);
+			cursor.nextLine();
+		}
 	}
 }

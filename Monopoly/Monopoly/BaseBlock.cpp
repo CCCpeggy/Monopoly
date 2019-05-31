@@ -115,7 +115,7 @@ void BaseBlock::drawItem()
 
 	Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
 	subCursor.add(2, 3);
-	subCursor << (hasRoadBlock ? "¡¶" : "¡@¡@¡@¡@");
+	subCursor << (hasRoadBlock ? "¡¶" : "¡@");
 }
 
 void BaseBlock::setRoadBlock(bool has)
@@ -128,3 +128,4 @@ bool BaseBlock::getHasRoadBlock()
 {
 	return hasRoadBlock;
 }
+
