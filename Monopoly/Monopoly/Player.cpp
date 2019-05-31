@@ -331,7 +331,7 @@ void Player::drawPlayerInfo()
 	Cursor cursor(19, 12, 12);
 	cursor << "ＩＤ："<<playerID[index] ;
 	cursor.nextLine().nextLine();
-	cout << "總資金＄" << money + saving;
+	cout << "總資金＄" << getAsset();
 	cursor.nextLine().nextLine();
 	cout << "現金＄" << money;
 	cursor.nextPos();
