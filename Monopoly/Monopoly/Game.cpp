@@ -4,7 +4,6 @@ Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(f
 {
 	loadFile(fileName); 
 	if (ableUse) {
-		saveFile("back.txt");
 		while (!isOver) {
 			for (; playerIndex < player.size(); playerIndex++) {
 				if ((isOver = !checkGameStatus()) && (isOver)) break;
@@ -59,24 +58,24 @@ void Game::loadFile(string fileName)
 		string blockName;
 		ss << line;
 		ss >> index >> blockName >> blockCategory;
-
+		BaseBlock* block;
 		if (blockCategory == 0){
-			StartBlock * block = new StartBlock(blockName, index);
+			block = new StartBlock(blockName, index);
 			map.insertBlock(block);
 		}
 		else if (blockCategory == -1)
 		{
-			FateBlock *block = new FateBlock(index, blockName, this);
+			block = new FateBlock(index, blockName, this);
 			map.insertBlock(block);
 		}
 		else if (blockCategory == -2)
 		{
-			ChanceBlock *block = new ChanceBlock(index, blockName, this);
+			block = new ChanceBlock(index, blockName, this);
 			map.insertBlock(block);
 		}
 		else if (blockCategory == 2)
 		{
-			BankBlock* block = new BankBlock(blockName, index, this);
+			block = new BankBlock(blockName, index, this);
 			map.insertBlock(block);
 		}
 		else
@@ -89,8 +88,12 @@ void Game::loadFile(string fileName)
 				ss >> tmp;
 				toll[i] = tmp;
 			}
-			EstateBlock *block = new EstateBlock(index, blockName, price, toll);
+			block = new EstateBlock(index, blockName, price, toll);
 			map.insertBlock(block);
+		}
+		bool hasRoadBlock;
+		if (ss >> hasRoadBlock && hasRoadBlock) {
+			block->setRoadBlock(true);
 		}
 		ss.str("");
 		ss.clear();
@@ -107,7 +110,10 @@ void Game::loadFile(string fileName)
 		ss << line;
 		int index, position = 0, money = 0, debit = 0, saving = 0;
 		if (ss >> index) if (ss >> position) if (ss >> money) if (ss >> debit) if (ss >> saving);
-		player.push_back(Player(index, money, debit, saving, map[position], this));
+		if(position < 0 || position > map.blockNums)
+			player.push_back(Player(index, money, debit, saving, map[0], true, this));
+		else
+			player.push_back(Player(index, money, debit, saving, map[position], false, this));
 		playerPtr.push_back(&player[i]);
 		ss.str("");
 		ss.clear();
@@ -172,19 +178,25 @@ void Game::saveFile(string fileName)
 		fin << map[i]->getCategory() << " ";
 		if (map[i]->getCategory() == 1) {
 			EstateBlock* block = (EstateBlock*)map[i];
-			fin << block->initialPrice;
-			for (int j = 0; j <= 3; j++) fin << " " << block->getLevelTolls(j);
+			fin << block->initialPrice << " ";
+			for (int j = 0; j <= 3; j++) fin << block->getLevelTolls(j) << " ";
 		}
+		if (map[i]->getHasRoadBlock()) fin << "1 ";
 		fin << endl;
 	}
 
 	fin << "playerstate " << playerIndex << endl;
 	for (int i = 0; i < player.size(); i++) {
 		fin << player[i].index << " ";
-		fin << player[i].location->index << " ";
-		fin << player[i].getMoney() << " ";
-		fin << player[i].getDebit() << " ";
-		fin << player[i].getSaving();
+		if (player[i].getIsBroken()) {
+			fin << "-1";
+		}
+		else{
+			fin << player[i].location->index << " ";
+			fin << player[i].getMoney() << " ";
+			fin << player[i].getDebit() << " ";
+			fin << player[i].getSaving();
+		}
 		fin << endl;
 	}
 
@@ -255,7 +267,6 @@ bool Game::sellEstate()
 
 bool Game::putItem()
 {
-	//TODO:
 	Player* currentPlayer = getPlayer();
 	vector<string> ownItemsNames;
 	stringstream ss;
@@ -268,18 +279,13 @@ bool Game::putItem()
 	ss << "確定要使用" << ownItemsNames[choose];
 	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
 	if (result) {
-		//TODO
 		currentPlayer->useItem(choose);
-		//EstateBlock* block = currentPlayer->ownedEstates[choose];
-		//currentPlayer->sellEstate(currentPlayer->ownedEstates[choose]);
-		//showAllPlayerStatus();
 	}
 	return false;
 }
 
 bool Game::saveMoney()
 {
-	//TODO: 
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0 , currentPlayer->getMoney(), 0, 100, "元");
 	if (money != 沒有選擇) 	currentPlayer->loan(money);
@@ -289,7 +295,6 @@ bool Game::saveMoney()
 
 bool Game::borrowMoney()
 {
-	//TODO: 
 	Player* currentPlayer = getPlayer();
 	int max = currentPlayer->getAsset() - currentPlayer->getMoney();
 	int money = showNumberDialog("請輸入金額", 0, max, 0, 100, "元");
@@ -299,7 +304,6 @@ bool Game::borrowMoney()
 
 bool Game::returnMoney()
 {
-	//TODO: 
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0, currentPlayer->getDebit(), 0, 100, "元");
 	if (money != 沒有選擇) currentPlayer->returnLoan(money);
@@ -547,9 +551,11 @@ BaseBlock* Game::showChoosingMapMode(string content)
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
 		map[choose]->cleanSelected();
+		showBlockContent(choose);
 		if (getKey == VK_ESCAPE) {
 			choose = 沒有選擇;
-			break;
+			cleanCenter();
+			return nullptr;
 		}
 		int tmpX = map[choose]->x, tmpY = map[choose] -> y;
 		if (getKey == VK_RIGHT) {
@@ -573,18 +579,28 @@ BaseBlock* Game::showChoosingMapMode(string content)
 	}
 	map[choose]->cleanSelected();
 	cleanCenter();
-	showMapContent();
 	return map[choose];
 }
 
 void Game::showMapContent()
 {
 	for (int i = 0; i < player.size(); i++) {
-		player[i].drawPlayerLocation();
+		if (!player[i].getIsBroken())
+			player[i].drawPlayerLocation();
 	}
 	for (int i = 0; i < map.blockNums; i++) {
 		map[i]->drawLocationName();
 		map[i]->drawItem();
+	}
+}
+
+void Game::showBlockContent(int index)
+{
+	map[index]->drawLocationName();
+	map[index]->drawItem();
+	for (int i = 0; i < player.size(); i++) {
+		if(!player[i].getIsBroken()&& player[i].location->index==index)
+			player[i].drawPlayerLocation();
 	}
 }
 

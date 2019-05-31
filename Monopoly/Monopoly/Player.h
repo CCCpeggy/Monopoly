@@ -84,7 +84,7 @@ public:
 	private:
 		void initStocks(vector<Stock>* stocks);
 	public:
-		Player(int newIndex = 0, int newMoney = 0, int newDebit = 0, int newSaving = 0, BaseBlock* newLocation = NULL, Game * game = nullptr);
+		Player(int newIndex = 0, int newMoney = 0, int newDebit = 0, int newSaving = 0, BaseBlock* newLocation = NULL, bool = false, Game * game = nullptr);
 
 	//¸Ñºc
 	~Player();

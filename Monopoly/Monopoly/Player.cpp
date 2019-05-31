@@ -128,7 +128,8 @@ void Player::initStocks(vector<Stock>* stocks)
 	}
 }
 
-Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation, Game* game) :index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(false), game(game)
+Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation, bool isBankrupt, Game* game)
+	:index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(isBankrupt), game(game)
 {
 	controlDiceNum =  0;
 	stringstream ss;
@@ -194,14 +195,11 @@ void Player::useItem(int itemIndex)
 {
 	if (ownedItems[itemIndex]==&Item::itemList[0])
 	{
-		//路障 選擇格子
 		BaseBlock* b = game->showChoosingMapMode("請選擇格子");
-		b->setRoadBlock(true);
-		b->drawItem();
+		if(b != nullptr) b->setRoadBlock(true);
 	}
 	else if (ownedItems[itemIndex] == &Item::itemList[1])
 	{
-		//遙控骰子  選擇格數
 		controlDiceNum = Game::showNumberDialog("請選擇要前進的格數", 2, 12, 2, 1, "步");
 		moveForwardByStep(controlDiceNum);
 	}

@@ -62,6 +62,7 @@ private:
 	void showMap();
 	void showAllPlayerStatus(); //ª±®aª¬ºA
 	void showMapContent();
+	void showBlockContent(int);
 	bool showPlayStatus();
 	void showActionMenu();
 	void showGameStatus();
