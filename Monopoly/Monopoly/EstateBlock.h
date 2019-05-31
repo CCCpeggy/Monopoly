@@ -18,7 +18,9 @@ public:
 	void startEvent(Player*);
 	void arriveEvent(Player*);
 	void throughEvent(Player*);
+	void setEstateInfo(Player*, int);
 	void drawLocationName();
+	void drawBlockInfo();
 	void drawEstateLevel();
 	int beSelled();
 	int currentTolls();

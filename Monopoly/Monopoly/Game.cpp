@@ -589,15 +589,14 @@ void Game::showMapContent()
 	}
 	for (int i = 0; i < map.blockNums; i++) {
 		map[i]->drawLocationName();
-		map[i]->drawItem();
-		
+		map[i]->drawBlockInfo();
 	}
 }
 
 void Game::showBlockContent(int index)
 {
 	map[index]->drawLocationName();
-	map[index]->drawItem();
+	map[index]->drawBlockInfo();
 	for (int i = 0; i < player.size(); i++) {
 		if(!player[i].getIsBroken()&& player[i].location->index==index)
 			player[i].drawPlayerLocation();

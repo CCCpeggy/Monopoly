@@ -81,6 +81,11 @@ void BaseBlock::output()
 	//cout << "name=" << name << ",index =" << index << ",x=" << x << ",y=" << y << endl;
 }
 
+void BaseBlock::drawBlockInfo()
+{
+	drawItem();
+}
+
 
 void BaseBlock::drawLocationName()
 {

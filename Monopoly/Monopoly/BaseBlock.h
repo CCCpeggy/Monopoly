@@ -28,6 +28,7 @@ public:
 	virtual void  throughEvent(Player*) {};
 	void setLocationXY(int blockNums);
 	void output();
+	virtual void drawBlockInfo();
 	virtual void drawLocationName();
 	virtual void drawSelected();
 	virtual void cleanSelected();

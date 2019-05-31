@@ -58,6 +58,7 @@ void EstateBlock::arriveEvent(Player* player)
 					//cout << "»\©Ð¦¨¥\" << endl;
 					player->buyHouse(this);
 					this->owner = player;
+					drawEstateLevel();
 				}
 				else
 				{
@@ -83,6 +84,12 @@ void EstateBlock::throughEvent(Player* player)
 		//dosomething
 	}
 	return;
+}
+
+void EstateBlock::setEstateInfo(Player* player, int level)
+{
+	houseLevel = level;
+	owner = player;
 }
 
 EstateBlock& EstateBlock::operator=( EstateBlock& estate)
@@ -125,11 +132,18 @@ void EstateBlock::drawLocationName()
 	}
 }
 
+void EstateBlock::drawBlockInfo()
+{
+	BaseBlock::drawBlockInfo();
+	drawEstateLevel();
+}
+
 int EstateBlock::beSelled()
 {
 	houseLevel = -1;
 	owner = NULL;
 	drawLocationName();
+	drawEstateLevel();
 	return initialPrice*0.5;
 }
 
