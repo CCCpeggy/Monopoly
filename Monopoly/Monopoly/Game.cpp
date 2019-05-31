@@ -1,41 +1,41 @@
 #include "Game.h"
 
-Game::Game(string fileName) :map(),round(0),playerIndex(0),isOver(false)
+Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(false)
 {
 	loadFile(fileName); 
-	saveFile("back.txt");
-	showMap();
-	while (!isOver) {
-		for (; playerIndex < player.size(); playerIndex++) {
-			if (isOver = !checkGameStatus() && (!isOver)) break;
-			Player* currentPlayer = getPlayer();
-			if (currentPlayer->getIsBroken()) continue;
-			
-			showGameStatus();
-			stringstream ss;
-			ss << "第 " << round << " 回合, 輪到 " << currentPlayer->getName();
-			showDialog(ss.str());
-			ss.str("");
-			ss.clear();
+	if (ableUse) {
+		while (!isOver) {
+			for (; playerIndex < player.size(); playerIndex++) {
+				if ((isOver = !checkGameStatus()) && (isOver)) break;
+				Player * currentPlayer = getPlayer();
+				if (currentPlayer->getIsBroken()) continue;
 
-			int choose;
-			//做動作直到選擇骰骰子
-			pair<vector<string>, std::map<int, bool(Game::*)(void)> > action;
-			bool doNext = false;
-			do {
-				action = getAction();
-				choose = showMenu("請選擇動作", action.first);
-				if(choose != 沒有選擇) doNext = (this->*action.second[choose])();
-			} while (!doNext);
+				showGameStatus();
+				stringstream ss;
+				ss << "第 " << round << " 回合, 輪到 " << currentPlayer->getName();
+				showDialog(ss.str());
+				ss.str("");
+				ss.clear();
 
-			checkMoney();
-			
+				int choose;
+				//做動作直到選擇骰骰子
+				pair<vector<string>, std::map<int, bool(Game::*)(void)> > action;
+				bool doNext = false;
+				do {
+					action = getAction();
+					choose = showMenu("請選擇動作", action.first);
+					if (choose != 沒有選擇) doNext = (this->*action.second[choose])();
+				} while (!doNext);
+
+				checkMoney();
+
+			}
+			stockFluctuate();
+			playerIndex = 0;
+			round++;
 		}
-		stockFluctuate();
-		playerIndex = 0;
-		round++;
+		showWinner();
 	}
-	overGame();
 }
 
 void Game::loadFile(string fileName)
@@ -148,6 +148,13 @@ void Game::loadFile(string fileName)
 		ss.clear();
 	}
 	fin.close();
+	showMap();
+}
+
+bool Game::saveFile()
+{
+	saveFile("saveFile.txt");
+	return false;
 }
 
 void Game::saveFile(string fileName)
@@ -406,7 +413,7 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 		}
 
 		if (status == 銀行) {
-			action.first.push_back("結束");
+			action.first.push_back("離開銀行");
 			action.second[index++] = &Game::endMenu;
 		}
 
@@ -414,6 +421,12 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 
 	action.first.push_back("玩家資訊");
 	action.second[index++] = &Game::showPlayStatus;
+
+	action.first.push_back("存檔");
+	action.second[index++] = &Game::saveFile;
+
+	action.first.push_back("回主畫面");
+	action.second[index++] = &Game::backHome;
 
 	return action;
 }
@@ -436,6 +449,7 @@ void Game::checkMoney()
 
 bool Game::checkGameStatus()
 {
+	if (isOver) return false;
 	if (round >= 20) {
 		return false;
 	}
@@ -472,6 +486,12 @@ void Game::showWinner()
 	showDialog(ss.str());
 }
 
+bool Game::backHome()
+{
+	isOver = true;
+	return true;
+}
+
 bool Game::rollDice()
 {
 	Player* currentPlayer = getPlayer();
@@ -479,16 +499,6 @@ bool Game::rollDice()
 	showDice(dice);
 	currentPlayer->moveForwardByStep(dice.first + dice.second);
 	return true;
-}
-
-void Game::overGame()
-{
-	showWinner();
-	int isRestart = showDialog("是否重新開始",pair<string, string>("是", "否"));
-	if (!isRestart) {
-		Cursor cursor(0, 50);
-		ExitProcess(0);
-	}
 }
 
 bool Game::endMenu()
@@ -694,9 +704,9 @@ void Game::showDice(pair<int, int> dice)
 	while (keyBoard() != VK_RETURN) {}
 	cleanCenter();
 }
-
-int Game::showMenu(string name, vector<string> itemList, int choose)
+int Game::showMenu(string name, vector<string> itemList, int choose, void(*function)(string))
 {
+	if (function != nullptr) function(itemList[choose]);
 	Draw::drawMenu(itemList, name, choose);
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
@@ -707,6 +717,7 @@ int Game::showMenu(string name, vector<string> itemList, int choose)
 		if (getKey == VK_UP || getKey == VK_DOWN) {
 			choose += getKey == VK_DOWN ? 1 : itemList.size()-1;
 			choose %= itemList.size();
+			if (function != nullptr) function(itemList[choose]);
 			Draw::drawMenu(itemList, name, choose);
 		}
 		getKey = keyBoard();

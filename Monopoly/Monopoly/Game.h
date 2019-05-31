@@ -21,6 +21,7 @@
 #include <fstream>
 #include <sstream>
 #include <map>
+using namespace std;
 #pragma endregion
 #pragma region define
 #define LAND 0
@@ -45,6 +46,7 @@ private:
 	int round;
 	bool isOver;
 	void loadFile(string);
+	bool saveFile();
 	void saveFile(string);
 	void stockFluctuate();
 	bool noMoney();
@@ -56,7 +58,6 @@ private:
 	bool withdrawMoney();
 	bool doStock();
 	bool rollDice();
-	void overGame();
 	bool endMenu();
 	void showMap();
 	void showAllPlayerStatus(); //ª±®aª¬ºA
@@ -70,14 +71,15 @@ private:
 	void checkMoney();
 	bool checkGameStatus();
 	void showWinner();
+	bool backHome();
 public:
-	Game(string = LOADFILE);
+	Game(string = LOADFILE, bool = true);
 	static int showNumberDialog(string, int = 0, int = 10000, int = -10000, int = 1, string unit = "");
 	static void cleanCenter();
 	static bool showDialog(string, pair<string, string>, bool = Draw::FIRST);
 	static void showDialog(string = "", string = "");
 	static void showDice(pair<int, int>);
-	static int showMenu(string, vector<string>, int = 0);
+	static int showMenu(string, vector<string>, int = 0, void(*function)(string) = nullptr);
 	static int keyBoard();
 	Player* getPlayer();
 	void getMoneyFromEveryPlayer(int);

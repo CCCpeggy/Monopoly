@@ -18,7 +18,7 @@ void(*dialogFunc)() = nullptr; //對話框所要做的動作
 string dialogContent = ""; //對話框顯示的文字
 
 //遊戲的function
-void initGame(); //初始化遊戲
+void showGame(string);
 #pragma endregion
 
 int main() {
@@ -47,13 +47,15 @@ int main() {
 		case 0:
 			game = new Game;
 			delete game;
+			system("cls");
 			break;
 		case 1:
-			fileNameIndex = Game::showMenu("選擇檔名", fileNames);
+			fileNameIndex = Game::showMenu("選擇檔名", fileNames, 0, &showGame);
 			if (fileNameIndex >= 0) {
 				game = new Game(fileNames[fileNameIndex]);
 				delete game;
 			}
+			system("cls");
 			break;
 		case 2:
 			ExitProcess(0);
@@ -62,4 +64,8 @@ int main() {
 		
 	}
 	
+}
+
+void showGame(string fileName) {
+	game = new Game(fileName,false);
 }
