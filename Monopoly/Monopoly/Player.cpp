@@ -381,7 +381,7 @@ void Player::drawPlayerAllEstate()
 
 void Player::drawPlayerMoneyStatus()
 {
-	Cursor cursor = Cursor(10, 36, 18).getSubCursor(index, 0, 1, 1 );
+	Cursor cursor = Draw::playerStatusCursor.getSubCursor(10, 2, 18).getSubCursor(index, 0, 1, 1 );
 	for (int i = 0; i < 3; i++) {
 		cursor << "           ";
 		cursor.nextLine();
@@ -400,7 +400,7 @@ void Player::drawPlayerMoneyStatus()
 
 void Player::drawStatusPlayerName()
 {
-	Cursor cursor(10, 35, 18);
+	Cursor cursor = Draw::playerStatusCursor.getSubCursor(10, 1, 18);
 	cursor.inputPos(index);
 	cursor << Color::B_PLAYER_COLOR[index] << left << setw(16) << name << Color::DEF_COLOR;
 }

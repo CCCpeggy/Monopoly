@@ -4,6 +4,7 @@ extern HANDLE handleOutput;
 const string Draw::playerEstateInfoTitle[3] = { "名稱","等級","過路費" };
 const string Draw::playerStockInfoTitle[3] = { "名稱","張數","股價" };
 const Cursor Draw::cursor(0, 0, 10, 4);
+Cursor Draw::playerStatusCursor(0, 34);
 const string Draw::rowLine = "．———————————————————————————————————————．";
 const string Draw::verticalBar = "｜";
 const string Draw::dialogueBox[10] = { "■———————————————————————■" ,
@@ -164,6 +165,7 @@ void Draw::drawDialogueBox(string title, int num, string unit)
 
 void Draw::drawMap(int count)
 {
+	playerStatusCursor = cursor.getSubCursor(0, count + 1).add(0, 2);
 	for (int i = 0; i <= count; i++)
 	{
 		for (int j = 0; j <= count; j++)
@@ -289,7 +291,7 @@ void Draw::drawPlayerInfoFrame()
 
 void Draw::drawGameStatusFrame()
 {
-	Cursor cursor(0, 34);
+	Cursor cursor = playerStatusCursor.getSubCursor(0, 0);
 	for (int i = 0; i < 9; i++) {
 		cursor << gameStatusFrame[i];
 		cursor.nextLine();

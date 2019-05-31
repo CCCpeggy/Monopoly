@@ -525,7 +525,7 @@ void Game::showAllPlayerStatus()
 }
 
 void Game::showGameStatus() {
-	Cursor cursor(2, 41, 76);
+	Cursor cursor = Draw::playerStatusCursor.getSubCursor(2, 7, 76);
 	cursor << left << setw(2) << playerIndex;
 	cursor.nextPos();
 	cursor << right << setw(2) << round;
