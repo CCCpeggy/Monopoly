@@ -23,6 +23,7 @@ void initGame(); //初始化遊戲
 
 int main() {
 	//全螢幕
+	Sleep(1000);
 	system("mode con cols=120 lines=50");
 	keybd_event(VK_MENU, 0x38, 0, 0);
 	keybd_event(VK_RETURN, 0x1c, 0, 0);
@@ -30,7 +31,7 @@ int main() {
 	keybd_event(VK_RETURN, 0x9c, KEYEVENTF_KEYUP, 0);
 
 	SetConsoleTitle("Monopoly");
-
+	Sleep(1000);
 	//全螢幕
 	HWND console = GetConsoleWindow();
 	RECT ConsoleRect;

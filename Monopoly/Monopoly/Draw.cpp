@@ -3,9 +3,9 @@
 extern HANDLE handleOutput;
 const string Draw::playerEstateInfoTitle[3] = { "名稱","等級","過路費" };
 const string Draw::playerStockInfoTitle[3] = { "名稱","張數","股價" };
-const Cursor Draw::cursor(0, 0, 10, 4);
+const Cursor Draw::cursor(50, 0, 10, 4);
 Cursor Draw::playerStatusCursor(0, 34);
-Cursor Draw::dialogCursor(14, 5);
+Cursor Draw::dialogCursor(65, 5);
 const string Draw::rowLine = "．———————————————————————————————————————．";
 const string Draw::verticalBar = "｜";
 const string Draw::dialogueBox[10] = { "■———————————————————————■" ,
@@ -274,7 +274,7 @@ void Draw::drawMenu(vector<string> itemList, string name, int index)
 
 void Draw::drawPlayerInfoTitle(int index)
 {
-	Cursor cursor = dialogCursor.getSubCursor(4, 4, 10);
+	Cursor cursor = dialogCursor.getSubCursor(2, 4, 10);
 	for (int i = 0; i < 5; i++) {
 		if (i == index) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
@@ -285,7 +285,7 @@ void Draw::drawPlayerInfoTitle(int index)
 
 void Draw::drawPlayerInfoFrame()
 {
-	Cursor cursor = dialogCursor.getSubCursor(2, 2);
+	Cursor cursor = dialogCursor.getSubCursor(0, 2);
 	cursor << pair<string, int>(" 玩　家　資　訊 ", 49);
 	for (int i = 0; i <= 17; i++)
 	{
@@ -305,7 +305,6 @@ void Draw::drawGameStatusFrame()
 
 void Draw::cleanCenter()
 {
-
 	Cursor cursor = dialogCursor.getSubCursor(0, 0);
 	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　　　　　";
 	for (int i = 0; i <= 22; i++)
@@ -317,8 +316,8 @@ void Draw::cleanCenter()
 
 void Draw::cleanPlayerInfoContent()
 {
-	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　　";
-	Cursor cursor(18, 11);
+	Cursor cursor = dialogCursor.getSubCursor(4, 6);
+	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　";
 	for (int i = 0; i <= 13; i++)
 	{
 		cursor << nothing;

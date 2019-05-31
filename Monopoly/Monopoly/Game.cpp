@@ -118,12 +118,13 @@ void Game::loadFile(string fileName)
 		double prize = 100;
 		
 		ss << line;
-		if (ss >> prize >> name) if (ss >> prize) {
-			stock.push_back(Stock(name, prize, playerPtr));
-			int stockPlayerIndex = 0, count = 0;
-			while (ss >> stockPlayerIndex >> count) {
-				player[stockPlayerIndex].initEachStock(&stock[stock.size() - 1], count);
-				stock[stock.size() - 1].beOwned[&(player[stockPlayerIndex])] = count;
+		if (ss >> prize >> name) {
+			if (ss >> prize) {
+				stock.push_back(new Stock(name, prize));
+				Stock *stockPtr = stock[stock.size() - 1];
+				for(int i = 0;i < player.size();i++) player[i].initEachStock(stockPtr, 0);
+				int stockPlayerIndex = 0, count = 0;
+				while (ss >> stockPlayerIndex >> count) player[stockPlayerIndex].initEachStock(stockPtr, count);
 			}
 		}
 		ss.str("");
@@ -181,12 +182,12 @@ void Game::saveFile(string fileName)
 	fin << "stock" << endl;
 	for (int i = 0; i < stock.size(); i++) {
 		fin << i << " ";
-		fin << stock[i].name << " ";
-		fin << stock[i].prize << " ";
+		fin << stock[i]->name << " ";
+		fin << stock[i]->prize << " ";
 		for (int j = 0; j < player.size(); j++) {
-			if (stock[i].beOwned[&(player[j])] > 0) {
+			if (player[j].ownedStocks[stock[i]] > 0) {
 				fin << j << " ";
-				fin << stock[i].beOwned[&(player[j])] << " ";
+				fin << player[j].ownedStocks[stock[i]] << " ";
 			}
 		}
 		fin << endl;
@@ -207,7 +208,7 @@ void Game::saveFile(string fileName)
 void Game::stockFluctuate()
 {
 	for (int i = 0; i < stock.size(); i++) {
-		stock[i].fluctuate();
+		stock[i]->fluctuate();
 	}
 }
 
@@ -309,22 +310,22 @@ bool Game::doStock()
 	vector<string> ownStockes;
 	stringstream ss;
 	for (int i = 0; i < stock.size(); i++) {
-		ss << stock[i].name << "...X" << stock[i].beOwned[currentPlayer];
+		ss << stock[i]->name << "...X" << currentPlayer->ownedStocks[stock[i]];
 		ownStockes.push_back(ss.str());
 		ss.str("");
 		ss.clear();
 	}
 	int choose = showMenu("請選擇股票", ownStockes);
 	if (choose == 沒有選擇) return false;
-	ss << "請問要買還是要賣(價格:" << stock[choose].prize << ")";
+	ss << "請問要買還是要賣(價格:" << stock[choose]->prize << ")";
 	bool result = Game::showDialog(ss.str(), pair<string, string>("買", "賣"), Draw::FIRST);
 	//買股票
 	if (result) {
-		int max = currentPlayer->getSaving() / stock[choose].prize;
+		int max = currentPlayer->getSaving() / stock[choose]->prize;
 		if (max > 0) {
 			int number = showNumberDialog("請問要買多少張", 1, max, 0, 1, "張");
 			if (number != 沒有選擇) {
-				currentPlayer->tradeStock(&stock[choose], true, number);
+				currentPlayer->tradeStock(stock[choose], true, number);
 				showDialog("交易完成", "");
 			}
 			
@@ -335,11 +336,11 @@ bool Game::doStock()
 	}
 	//賣股票
 	else {
-		int max = stock[choose].beOwned[currentPlayer];
+		int max = currentPlayer->ownedStocks[stock[choose]];
 		if (max > 0) {
 			int number = showNumberDialog("請問要賣多少張", 1, max, 0, 1, "張");
 			if (number != 沒有選擇) {
-				currentPlayer->tradeStock(&stock[choose], false, number);
+				currentPlayer->tradeStock(stock[choose], false, number);
 				showDialog("交易完成", "");
 			}
 		}
@@ -355,7 +356,7 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 	Player* currentPlayer = getPlayer();
 	pair<vector<string>, std::map<int, bool(Game::*)(void)>> action;
 	int index = 0;
-	int total = getPlayerAsset();
+	int total = currentPlayer->getAsset();
 
 
 	if (total < 0) {
@@ -417,29 +418,17 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 	return action;
 }
 
-double Game::getPlayerAsset()
+Game::~Game()
 {
-	return getPlayerAsset(getPlayer());
-}
-
-double Game::getPlayerAsset(Player* player)
-{
-	double asset = player->getMoney() + player->getSaving() - player->getDebit();
-	vector<EstateBlock*>::iterator iter = player->ownedEstates.begin();
-	for (; iter != player->ownedEstates.end(); iter++) {
-		asset += (*iter)->initialPrice / 2;
+	for (vector<Stock*>::iterator iter = stock.begin(); iter != stock.end(); ) {
+		iter = stock.erase(iter);
 	}
-	vector<Stock>::iterator iter2 = stock.begin();
-	for (; iter2 != stock.end(); iter2++) {
-		asset += iter2->prize * iter2->beOwned[player];
-	}
-	return asset;
 }
 
 void Game::checkMoney()
 {
 	for (int i = 0; i < player.size(); i++) {
-		if (getPlayerAsset(&player[i]) < 0 && !player[i].getIsBroken()) {
+		if (player[i].getAsset() < 0 && !player[i].getIsBroken()) {
 			player[i].setBankrupt();
 		}
 	}
@@ -473,7 +462,7 @@ void Game::showWinner()
 		}
 	}
 	for (; i < player.size(); i++) {
-		if (!player[i].getIsBroken() && getPlayerAsset(&player[i]) > getPlayerAsset(winner) ) {
+		if (!player[i].getIsBroken() && player[i].getAsset() > winner->getAsset() ) {
 			winner = &player[i];
 			break;
 		}

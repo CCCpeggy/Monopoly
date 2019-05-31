@@ -131,7 +131,7 @@ void Player::initStocks(vector<Stock>* stocks)
 Player::Player(int newIndex, int newMoney, int newDebit, int newSaving, BaseBlock* newLocation, vector<Stock>* stocks) :index(newIndex), money(newMoney), debit(newDebit), saving(newSaving), location(newLocation), isBankrupt(false)
 {
 	controlDiceNum =  0;
-	initStocks(stocks);
+	//initStocks(stocks);
 	stringstream ss;
 	ss << "player" << index + 1;
 	name = ss.str();
@@ -328,7 +328,7 @@ string Player::getName()
 
 void Player::drawPlayerInfo()
 {
-	Cursor cursor(19, 12, 12);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(5, 7, 12);
 	cursor << "ＩＤ："<<playerID[index] ;
 	cursor.nextLine().nextLine();
 	cout << "總資金＄" << getAsset();
@@ -349,7 +349,7 @@ void Player::drawPlayerInfo()
 
 void Player::drawPlayerAllMoney()
 {
-	Cursor cursor(19,11,1,2);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(5, 6, 15, 2);
 	cursor << "總資產＄"<<getAsset();
 	cursor.nextLine();
 	cursor << "存款＄"<<getSaving();
@@ -362,7 +362,7 @@ void Player::drawPlayerAllMoney()
 void Player::drawPlayerAllEstate()
 {
 	vector<EstateBlock*>::iterator it;
-	Cursor cursor(18, 11, 15,2);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
 	for (int i = 0; i < 3; i++) {
 		cursor << pair<string, int>(Draw::playerEstateInfoTitle[i], 15);
 		cursor.nextPos();
@@ -407,9 +407,9 @@ void Player::drawStatusPlayerName()
 
 void Player::drawPlayerStock()
 {
-	this;
+	
 	map<Stock*,int>::iterator it;
-	Cursor cursor(18, 11, 15, 2);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
 	for (int i = 0; i < 3; i++) 
 	{
 		cursor << pair<string, int>(Draw::playerStockInfoTitle[i], 15);

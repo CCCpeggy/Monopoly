@@ -39,7 +39,7 @@ class Game
 private:
 	//Cursor informCursor;
 	Map map;
-	vector<Stock> stock;
+	vector<Stock*> stock;
 	vector<Player> player;
 	int playerIndex;
 	int round;
@@ -67,8 +67,6 @@ private:
 	int showChoosingMapMode(string);
 	bool playerBroken();
 	static int getDice(int);
-	double getPlayerAsset();
-	double getPlayerAsset(Player*);
 	void checkMoney();
 	bool checkGameStatus();
 	void showWinner();
@@ -85,7 +83,7 @@ public:
 	void getMoneyFromEveryPlayer(int);
 	void giveMoneyToEveryPlayer(int);
 	pair<vector<string>, std::map<int, bool(Game::*)(void)> > getAction(int = 所有動作);
-
+	~Game();
 };
 
 #endif
