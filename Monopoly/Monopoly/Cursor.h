@@ -47,8 +47,10 @@ public:
 		cout << outputString;
 		return *this;
 	}
-	int getCursorX();
-	int getCursorY();
+	int getCursorX() const;
+	int getCursorY() const;
+	int getRightX() const;
+	int getRightY() const;
 	~Cursor();
 };
 

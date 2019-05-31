@@ -23,6 +23,7 @@ public:
 	static const string boundary[5];
 	static const Cursor cursor;
 	static Cursor playerStatusCursor;
+	static Cursor dialogCursor;
 	static const string number[10];
 	static const string playInfoTitle[5];
 	static const string gameStatusFrame[9];

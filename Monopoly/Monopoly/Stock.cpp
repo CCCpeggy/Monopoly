@@ -25,6 +25,10 @@ void Stock::fluctuate()
 	prize += fluctuateRate * prize;
 }
 
+string Stock::getName() 
+{
+	return name;
+}
 
 Stock::~Stock()
 {

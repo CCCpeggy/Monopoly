@@ -1,14 +1,8 @@
 #include "Game.h"
+#include <vector>
 #include <cmath>
+#include <string>
 using namespace std;
-
-#pragma region define
-#define 左 0
-#define 上 1
-#define 右 2
-#define 下 3
-
-#pragma endregion
 
 #pragma region  declare
 
@@ -42,10 +36,29 @@ int main() {
 	RECT ConsoleRect;
 	GetWindowRect(console, &ConsoleRect);
 	//控制數字部分以調整視窗尺寸
-
+	vector<string> chooseName = { "遊戲開始", "選擇讀檔", "結束遊戲" };
+	
 	while(true) {
-		game = new Game;
-		delete game;
+		int fileNameIndex;
+		vector<string> fileNames = { "init.txt", "init2.txt", "init3.txt" };
+		int choose = Game::showMenu("遊戲選單", chooseName);
+		switch (choose) {
+		case 0:
+			game = new Game;
+			delete game;
+			break;
+		case 1:
+			fileNameIndex = Game::showMenu("選擇檔名", fileNames);
+			if (fileNameIndex >= 0) {
+				game = new Game(fileNames[fileNameIndex]);
+				delete game;
+			}
+			break;
+		case 2:
+			ExitProcess(0);
+			break;
+		}
+		
 	}
 	
 }

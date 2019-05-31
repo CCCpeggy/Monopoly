@@ -52,26 +52,27 @@ void BaseBlock::setLocationXY(int blockNums)
 	//if (blockNums%4==0)
 	
 	int n = (blockNums+3) / 4;
-		if (index<n)
-		{
-			y = 0;
-			x = index;
-		}
-		else if(index<2*n)
-		{
-			y = index - (n );
-			x = n;
-		}
-		else if (index<3*n)
-		{
-			y = n;
-			x = 3 * n - index;
-		}
-		else if (index < 4* n)
-		{
-			y = 4 * n - index;
-			x = 0;
-		}
+	n = n < 7 ? 7 : n;
+	if (index<n)
+	{
+		y = 0;
+		x = index;
+	}
+	else if(index<2*n)
+	{
+		y = index - (n );
+		x = n;
+	}
+	else if (index<3*n)
+	{
+		y = n;
+		x = 3 * n - index;
+	}
+	else if (index < 4* n)
+	{
+		y = 4 * n - index;
+		x = 0;
+	}
 	
 }
 

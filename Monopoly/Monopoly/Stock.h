@@ -14,6 +14,7 @@ public:
 	Stock(string newName, double newPrize, vector<Player*> players);
 	Stock(vector<Player*> players);
 	void fluctuate(); 
+	string getName();
 	~Stock();
 };
 #endif // !_STOCK_

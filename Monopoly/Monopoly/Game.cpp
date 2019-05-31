@@ -280,7 +280,7 @@ bool Game::borrowMoney()
 {
 	//TODO: 
 	Player* currentPlayer = getPlayer();
-	int max = currentPlayer->getAsset();
+	int max = currentPlayer->getAsset() - currentPlayer->getMoney();
 	int money = showNumberDialog("請輸入金額", 0, max, 0, 100, "元");
 	if (money != 沒有選擇) 	currentPlayer->loan(money);
 	return false;

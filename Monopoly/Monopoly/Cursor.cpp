@@ -118,14 +118,24 @@ Cursor& Cursor::operator<<(const Cursor&)
 	return *this;
 }
 
-int Cursor::getCursorX()
+int Cursor::getCursorX() const
 {
 	return basicX + drawX * rightX;
 }
 
-int Cursor::getCursorY()
+int Cursor::getCursorY() const
 {
 	return basicY + drawY * rightY;
+}
+
+int Cursor::getRightX() const
+{
+	return rightX;
+}
+
+int Cursor::getRightY() const
+{
+	return rightY;
 }
 
 Cursor::~Cursor()

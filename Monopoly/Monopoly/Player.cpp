@@ -407,6 +407,7 @@ void Player::drawStatusPlayerName()
 
 void Player::drawPlayerStock()
 {
+	this;
 	map<Stock*,int>::iterator it;
 	Cursor cursor(18, 11, 15, 2);
 	for (int i = 0; i < 3; i++) 
@@ -417,7 +418,7 @@ void Player::drawPlayerStock()
 	cursor.nextLine();
 	for (it = ownedStocks.begin(); it != ownedStocks.end(); it++)
 	{
-		cursor << pair<string, int>((*it).first->name, 15);
+		cursor << pair<string, int>((*it).first->getName(), 15);
 		cursor.nextPos();
 		cursor << pair<string, int>(to_string((*it).second), 15);
 		cursor.nextPos();

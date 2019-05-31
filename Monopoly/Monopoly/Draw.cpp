@@ -5,6 +5,7 @@ const string Draw::playerEstateInfoTitle[3] = { "名稱","等級","過路費" };
 const string Draw::playerStockInfoTitle[3] = { "名稱","張數","股價" };
 const Cursor Draw::cursor(0, 0, 10, 4);
 Cursor Draw::playerStatusCursor(0, 34);
+Cursor Draw::dialogCursor(14, 5);
 const string Draw::rowLine = "．———————————————————————————————————————．";
 const string Draw::verticalBar = "｜";
 const string Draw::dialogueBox[10] = { "■———————————————————————■" ,
@@ -94,7 +95,7 @@ const int Draw::SECOND = false;
 #define DIALOG_TITLE_LEN 50
 void Draw::drawDialogueBox(string title, pair<string, string> chooseName, bool status)
 {
-	Cursor cursor(15, 10);
+	Cursor cursor = dialogCursor.getSubCursor(1, 5);
 	for (int i = 0; i <= 9; i++)
 	{
 		cursor << dialogueBox[i];
@@ -120,7 +121,7 @@ void Draw::drawDialogueBox(string title, pair<string, string> chooseName, bool s
 }
 
 void Draw::drawDialogueBox(string title, string content) {
-	Cursor cursor(15, 10);
+	Cursor cursor = dialogCursor.getSubCursor(1, 5);
 	for (int i = 0; i <= 9; i++)
 	{
 		cursor << dialogueBox[i];
@@ -144,7 +145,7 @@ void Draw::drawDialogueBox(string title, string content) {
 void Draw::drawDialogueBox(string title, int num, string unit)
 {
 	//TODO: 顯示數字對話框
-	Cursor cursor(15, 10);
+	Cursor cursor = dialogCursor.getSubCursor(1, 5);
 	
 	for (int i = 0; i <= 9; i++)
 	{
@@ -165,7 +166,11 @@ void Draw::drawDialogueBox(string title, int num, string unit)
 
 void Draw::drawMap(int count)
 {
+	count = count < 7 ? 7 : count;
 	playerStatusCursor = cursor.getSubCursor(0, count + 1).add(0, 2);
+	int dialogStartPosX = ((count - 1) * cursor.getRightX() - DIALOG_TITLE_LEN) / 2;
+	int dialogStartPosY = ((count - 1) * cursor.getRightY() - 22) / 2;
+	dialogCursor = cursor.getSubCursor(1, 1).add(dialogStartPosX, dialogStartPosY);
 	for (int i = 0; i <= count; i++)
 	{
 		for (int j = 0; j <= count; j++)
@@ -184,7 +189,7 @@ void Draw::drawMap(int count)
 
 void Draw::drawDice(int dice1, int dice2)
 {
-	Cursor cursor(15, 10);
+	Cursor cursor = dialogCursor.getSubCursor(1, 5);
 	for (int i = 0; i <= 9; i++)
 	{
 		cursor << dialogueBox[i];
@@ -240,7 +245,7 @@ void Draw::drawDice(int dice1, int dice2)
 
 void Draw::drawMenu(vector<string> itemList, string name, int index)
 {
-	Cursor cursor(15, 10);
+	Cursor cursor = dialogCursor.getSubCursor(1, 4);
 	cursor << pair<string, int>(name, DIALOG_TITLE_LEN);
 	cursor.nextLine();
 	for (int i = 0; i <= 9; i++)
@@ -269,7 +274,7 @@ void Draw::drawMenu(vector<string> itemList, string name, int index)
 
 void Draw::drawPlayerInfoTitle(int index)
 {
-	Cursor cursor(18, 9, 10);
+	Cursor cursor = dialogCursor.getSubCursor(4, 4, 10);
 	for (int i = 0; i < 5; i++) {
 		if (i == index) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
@@ -280,7 +285,7 @@ void Draw::drawPlayerInfoTitle(int index)
 
 void Draw::drawPlayerInfoFrame()
 {
-	Cursor cursor(16, 7);
+	Cursor cursor = dialogCursor.getSubCursor(2, 2);
 	cursor << pair<string, int>(" 玩　家　資　訊 ", 49);
 	for (int i = 0; i <= 17; i++)
 	{
@@ -300,8 +305,9 @@ void Draw::drawGameStatusFrame()
 
 void Draw::cleanCenter()
 {
-	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　　　　　　";
-	Cursor cursor(14, 5);
+
+	Cursor cursor = dialogCursor.getSubCursor(0, 0);
+	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　　　　　";
 	for (int i = 0; i <= 22; i++)
 	{
 		cursor << nothing;

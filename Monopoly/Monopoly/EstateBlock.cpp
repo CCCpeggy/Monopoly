@@ -41,7 +41,7 @@ void EstateBlock::arriveEvent(Player* player)
 	{
 		player->giveMoney(owner, currentTolls());
 		stringstream ss;
-		ss << "支付 玩家 "<< (owner->index+1)<<" " << currentTolls() << " 元";
+		ss << "支付 "<< (owner->getName())<<" " << currentTolls() << " 元";
 		Game::showDialog("喔不!", ss.str());
 	}
 	else
