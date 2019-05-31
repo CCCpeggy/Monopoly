@@ -5,7 +5,6 @@ Game::Game(string fileName) :map(),round(0),playerIndex(0),isOver(false)
 	loadFile(fileName); 
 	saveFile("back.txt");
 	showMap();
-
 	while (!isOver) {
 		for (; playerIndex < player.size(); playerIndex++) {
 			if (isOver = !checkGameStatus() && (!isOver)) break;
@@ -104,9 +103,9 @@ void Game::loadFile(string fileName)
 	for(int i = 0; i < playerCount; i++) {
 		getline(fin, line);
 		ss << line;
-		int index, position, money;
-		ss >> index >> position >> money;
-		player.push_back(Player(index, money, 0, 0, map[position]));
+		int index, position = 0, money = 0, debit = 0, saving = 0;
+		if (ss >> index) if (ss >> position) if (ss >> money) if (ss >> debit) if (ss >> saving);
+		player.push_back(Player(index, money, debit, saving, map[position]));
 		playerPtr.push_back(&player[i]);
 		ss.str("");
 		ss.clear();
@@ -116,11 +115,17 @@ void Game::loadFile(string fileName)
 	while (getline(fin, line)) {
 		if (line[0] == 'i') break;
 		string name;
-		double prize;
+		double prize = 100;
+		
 		ss << line;
-		ss >> prize >> name >> prize;
-
-		stock.push_back(Stock(name, prize, playerPtr));
+		if (ss >> prize >> name) if (ss >> prize) {
+			stock.push_back(Stock(name, prize, playerPtr));
+			int stockPlayerIndex = 0, count = 0;
+			while (ss >> stockPlayerIndex >> count) {
+				player[stockPlayerIndex].initEachStock(&stock[stock.size() - 1], count);
+				stock[stock.size() - 1].beOwned[&(player[stockPlayerIndex])] = count;
+			}
+		}
 		ss.str("");
 		ss.clear();
 	}
@@ -166,8 +171,10 @@ void Game::saveFile(string fileName)
 	fin << "playerstate " << playerIndex << endl;
 	for (int i = 0; i < player.size(); i++) {
 		fin << player[i].index << " ";
-		fin << player[i].location << " ";
+		fin << player[i].location->index << " ";
 		fin << player[i].getMoney() << " ";
+		fin << player[i].getDebit() << " ";
+		fin << player[i].getSaving();
 		fin << endl;
 	}
 
@@ -175,7 +182,14 @@ void Game::saveFile(string fileName)
 	for (int i = 0; i < stock.size(); i++) {
 		fin << i << " ";
 		fin << stock[i].name << " ";
-		fin << stock[i].prize << endl;
+		fin << stock[i].prize << " ";
+		for (int j = 0; j < player.size(); j++) {
+			if (stock[i].beOwned[&(player[j])] > 0) {
+				fin << j << " ";
+				fin << stock[i].beOwned[&(player[j])] << " ";
+			}
+		}
+		fin << endl;
 	}
 	/*
 	fin << "item" << endl;
@@ -495,7 +509,7 @@ bool Game::endMenu()
 
 void Game::showMap()
 {
-	Draw::drawMap();
+	Draw::drawMap((map.blockNums+3) / 4 );
 	showMapContent();
 	showAllPlayerStatus();
 }

@@ -51,7 +51,7 @@ void BaseBlock::setLocationXY(int blockNums)
 {
 	//if (blockNums%4==0)
 	
-		int n = blockNums / 4;
+	int n = (blockNums+3) / 4;
 		if (index<n)
 		{
 			y = 0;

@@ -56,6 +56,7 @@ public:
 		void withdraw(int);//提款 存款->現金
 		void loan(int);//貸款
 		void returnLoan(int);//還貸款
+		void initEachStock(Stock*, int);
 	private:
 		void changeSaving(int);//存款變動
 		void changeDebit(int);//負債值變動

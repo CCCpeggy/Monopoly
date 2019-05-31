@@ -20,8 +20,9 @@ public:
 	static const string verticalBar;
 	static const string infoBlock[18];
 	static const string dialogueBox[10];
-	static const string boundary[34];
+	static const string boundary[5];
 	static const Cursor cursor;
+	static const Cursor playerStatusCursor;
 	static const string number[10];
 	static const string playInfoTitle[5];
 	static const string gameStatusFrame[9];
@@ -39,7 +40,7 @@ public:
 	static void drawDialogueBox(string title, pair<string, string> chooseName, bool status);
 	static void drawDialogueBox(string title, string content = "");
 	static void drawDialogueBox(string title, int num, string unit = "");
-	static void drawMap();
+	static void drawMap(int = 7);
 	static void drawDice(int dice1, int dice2);
 	static void drawMenu(vector<string>, string, int);
 	static void drawPlayerInfoTitle(int);

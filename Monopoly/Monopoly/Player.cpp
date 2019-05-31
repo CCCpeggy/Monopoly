@@ -309,6 +309,11 @@ void Player::returnLoan(int n)
 	loseMoney(n);
 }
 
+void Player::initEachStock(Stock* stockIndex, int quantity)
+{
+	ownedStocks[stockIndex] = quantity;
+}
+
 void Player::changeDebit(int n)
 {
 	debit += n;
