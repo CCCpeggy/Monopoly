@@ -213,16 +213,16 @@ void Game::saveFile(string fileName)
 		}
 		fin << endl;
 	}
-	/*
+	
 	fin << "item" << endl;
 	for (int i = 0; i < player.size(); i++) {
 		fin << player[i].index << " ";
-		for (int j = 0; j < player[i].ownedItems.size; j++) {
-			fin << i << " ";
-			fin << player[i].ownedItems[i];
+		for (int j = 0; j < player[i].ownedItems.size(); j++) {
+			fin << player[i].ownedItems[j]->index << " ";
+			fin << "1 ";
 		}
 		fin << endl;
-	}*/
+	}
 	fin.close();
 }
 

@@ -6,10 +6,11 @@ class Player;
 class Item
 {
 public:
+	int index;
 	string name;
 	string content;
 	static vector<Item> itemList; 
-	Item(string name, string content);
+	Item(string name, string content,int index);
 	Item();
 	~Item();
 };
