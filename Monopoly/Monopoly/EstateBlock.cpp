@@ -121,7 +121,7 @@ void EstateBlock::drawLocationName()
 	}
 	else
 	{
-		subCursor << pair<string, int>(name.substr(0, 9), 9);
+		subCursor << pair<string, int>(name.substr(0, 8), 8);
 	}
 }
 

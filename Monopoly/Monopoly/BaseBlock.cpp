@@ -86,7 +86,7 @@ void BaseBlock::drawLocationName()
 {
 	Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
 	subCursor.add(2, 1);
-	subCursor << pair<string, int>(name.substr(0,9), 9);
+	subCursor << pair<string, int>(name.substr(0,8), 8);
 }
 
 void BaseBlock::drawSelected()

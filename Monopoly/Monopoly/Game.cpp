@@ -288,8 +288,7 @@ bool Game::saveMoney()
 {
 	Player* currentPlayer = getPlayer();
 	int money = showNumberDialog("請輸入金額", 0 , currentPlayer->getMoney(), 0, 100, "元");
-	if (money != 沒有選擇) 	currentPlayer->loan(money);
-	currentPlayer->deposit(money);
+	if (money != 沒有選擇) 	currentPlayer->deposit(money);
 	return false;
 }
 
