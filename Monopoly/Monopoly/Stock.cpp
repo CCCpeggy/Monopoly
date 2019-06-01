@@ -1,6 +1,6 @@
 #include "Stock.h"
 #include "Player.h"
-
+#include "Draw.h"
 
 Stock::Stock(string newName, double newPrize):name(newName),prize(newPrize)
 {
@@ -24,4 +24,9 @@ string Stock::getName()
 
 Stock::~Stock()
 {
+}
+
+void Stock::drawStockFluctuate(int index)
+{
+	
 }

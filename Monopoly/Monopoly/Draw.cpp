@@ -3,6 +3,7 @@
 extern HANDLE handleOutput;
 const string Draw::playerEstateInfoTitle[3] = { "名稱","等級","過路費" };
 const string Draw::playerStockInfoTitle[3] = { "名稱","張數","股價" };
+const string Draw::playerStockInfoTitle[3] = { "名稱","股價","漲跌" };
 const Cursor Draw::cursor(50, 0, 10, 4);
 Cursor Draw::playerStatusCursor(0, 34);
 Cursor Draw::dialogCursor(65, 5);
@@ -22,6 +23,26 @@ const string Draw::infoBlock[18] = {
 										   "■————————————————————————■",
 										   "∥　　　　｜　　　　｜　　　　｜　　　　｜　　　　∥",
 										   "∥————————————————————————∥" ,
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+											"■————————————————————————■"
+};
+const string Draw::stockInfoBlock[18] = {
+										   "■————————————————————————■",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
@@ -323,6 +344,17 @@ void Draw::cleanPlayerInfoContent()
 	{
 		cursor << nothing;
 		cursor.nextLine();
+	}
+}
+
+void Draw::drawStockInfoFrame()
+{
+	Cursor cursor = dialogCursor.getSubCursor(0, 2);
+	cursor << pair<string, int>(" 股　市　資　訊 ", 49);
+	for (int i = 0; i <= 17; i++)
+	{
+		cursor.nextLine();
+		cursor << Draw::stockInfoBlock[i];
 	}
 }
 

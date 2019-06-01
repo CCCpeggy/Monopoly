@@ -27,8 +27,10 @@ public:
 	static const string number[10];
 	static const string playInfoTitle[5];
 	static const string gameStatusFrame[9];
+	static const string stockInfoBlock[18];
 	static const string playerEstateInfoTitle[3];
 	static const string playerStockInfoTitle[3];
+	static const string stockInfoTitle[3];
 	static const string diceone[5];
 	static const string dicetwo[5];
 	static const string dicethree[5];
@@ -46,7 +48,9 @@ public:
 	static void drawDice(int dice1, int dice2);
 	static void drawMenu(vector<string>, string, int);
 	static void drawPlayerInfoTitle(int);
+	
 	static void drawPlayerInfoFrame();
+	static void drawStockInfoFrame();
 	static void drawGameStatusFrame();
 	static void cleanCenter();
 	static void cleanPlayerInfoContent();
