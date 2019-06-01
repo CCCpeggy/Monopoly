@@ -25,8 +25,3 @@ string Stock::getName()
 Stock::~Stock()
 {
 }
-
-void Stock::drawStockFluctuate(int index)
-{
-	
-}
