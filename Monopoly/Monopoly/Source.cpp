@@ -19,6 +19,49 @@ string dialogContent = ""; //對話框顯示的文字
 
 //遊戲的function
 void showGame(string);
+//判斷是否為txt
+bool isTxt(string fileName)
+{
+	int i = 0;
+	for (; i < fileName.length(); i++)
+	{
+		if (fileName[i] == '.')
+		{
+			break;
+		}
+	}
+	if (fileName.length() - i >= 3 && fileName[i + 1] == 't'&&fileName[i + 2] == 'x'&&fileName[i + 3] == 't')
+	{
+		return true;
+	}
+	else { return false; }
+}
+//列出檔案清單
+vector<string>listFile()
+{
+	vector<string>fileName;
+	string szDir = ".//\*";
+	string dir;
+	WIN32_FIND_DATA FileData;
+	HANDLE hList;
+	hList = FindFirstFile(szDir.c_str(), &FileData);
+	while (1)
+	{
+		if (!FindNextFile(hList, &FileData))
+		{
+			if (GetLastError() == ERROR_NO_MORE_FILES)
+				break;
+		}
+		string a(FileData.cFileName);
+		if (isTxt(a))
+		{
+			fileName.push_back(a);
+		}
+	}
+	FindClose(hList);
+	return fileName;
+}
+
 #pragma endregion
 
 int main() {
@@ -41,7 +84,7 @@ int main() {
 	
 	while(true) {
 		int fileNameIndex;
-		vector<string> fileNames = { "init.txt", "init2.txt", "init3.txt", "saveFile.txt" };
+		listFile();
 		int choose = Game::showMenu("遊戲選單", chooseName);
 		switch (choose) {
 		case 0:
@@ -50,9 +93,9 @@ int main() {
 			system("cls");
 			break;
 		case 1:
-			fileNameIndex = Game::showMenu("選擇檔名", fileNames, 0, &showGame);
+			fileNameIndex = Game::showMenu("選擇檔名", listFile(), 0, &showGame);
 			if (fileNameIndex >= 0) {
-				game = new Game(fileNames[fileNameIndex]);
+				game = new Game(listFile()[fileNameIndex]);
 				delete game;
 			}
 			system("cls");
@@ -69,3 +112,4 @@ int main() {
 void showGame(string fileName) {
 	game = new Game(fileName,false);
 }
+

@@ -14,7 +14,6 @@ public:
 	Stock();
 	void fluctuate(); 
 	string getName();
-	void drawStockFluctuate(int index);
 	~Stock();
 };
 #endif // !_STOCK_
