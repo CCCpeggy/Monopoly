@@ -793,6 +793,58 @@ void Game::showDice(pair<int, int> dice)
 	while (keyBoard() != VK_RETURN) {}
 	cleanCenter();
 }
+
+pair<int, int> Game::showInfo(string title, vector<string> colName, vector<string*> word, int n, int minIndex, int maxIndex)
+{
+	int chooseIndex = minIndex;;
+	int chooseLine = 0;
+	Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN) {
+		if (getKey == VK_ESCAPE) {
+			chooseIndex = 沒有選擇;
+			chooseLine = 沒有選擇;
+			break;
+		}
+		if (getKey == VK_UP || getKey == VK_DOWN) {
+			chooseLine += getKey == VK_DOWN ? 1 : word.size() - 1;
+			chooseLine %= word.size();
+			Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
+		}
+		else if (getKey == VK_LEFT || getKey == VK_RIGHT) {
+			chooseIndex -= minIndex;
+			chooseIndex += getKey == VK_RIGHT ? 1 : (maxIndex - minIndex);
+			chooseIndex %= (maxIndex - minIndex + 1);
+			chooseIndex += minIndex;
+			Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
+		}
+		getKey = keyBoard();
+	}
+	cleanCenter();
+	return pair<int, int>(chooseLine, chooseIndex);
+}
+
+int Game::showInfo(string title, vector<string> word)
+{
+	int choose = 0;
+	Draw::drawInfo(title, word, choose);
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN) {
+		if (getKey == VK_ESCAPE) {
+			choose = 沒有選擇;
+			break;
+		}
+		if (getKey == VK_UP || getKey == VK_DOWN) {
+			choose += getKey == VK_DOWN ? 1 : word.size() - 1;
+			choose %= word.size();
+			Draw::drawInfo(title, word, choose);
+		}
+		getKey = keyBoard();
+	}
+	cleanCenter();
+	return choose;
+}
+
 int Game::showMenu(string name, vector<string> itemList, int choose, void(*function)(string))
 {
 	if (function != nullptr) function(itemList[choose]);

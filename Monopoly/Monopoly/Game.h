@@ -82,6 +82,8 @@ public:
 	static bool showDialog(string, pair<string, string>, bool = Draw::FIRST);
 	static void showDialog(string = "", string = "");
 	static void showDice(pair<int, int>);
+	static pair<int, int> showInfo(string title, vector<string>, vector<string*> word, int n, int minIndex, int maxIndex);
+	static int showInfo(string title, vector<string> word);
 	static int showMenu(string, vector<string>, int = 0, void(*function)(string) = nullptr);
 	static int keyBoard();
 	BaseBlock* showChoosingMapMode(string);
