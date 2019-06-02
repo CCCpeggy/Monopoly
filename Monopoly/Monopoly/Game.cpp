@@ -657,7 +657,7 @@ bool Game::showPlayStatus()
 				player[playerIndex].drawPlayerAllEstate();
 				break;
 			case 3:
-				player[playerIndex].drawPlayerStock();
+				player[playerIndex].drawPlayerStock(0);
 				break;
 			case 4:
 				//TODO: πÔ¿≥≤[¶°

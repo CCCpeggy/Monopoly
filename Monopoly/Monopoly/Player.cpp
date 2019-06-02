@@ -402,10 +402,11 @@ void Player::drawStatusPlayerName()
 	cursor << Color::B_PLAYER_COLOR[index] << left << setw(16) << name << Color::DEF_COLOR;
 }
 
-void Player::drawPlayerStock()
+void Player::drawPlayerStock(int index)
 {
-	
 	map<Stock*,int>::iterator it;
+	vector<pair<Stock*, int>> temp;
+	vector<pair<Stock*, int>>::iterator itt;
 	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
 	for (int i = 0; i < 3; i++) 
 	{
@@ -413,16 +414,23 @@ void Player::drawPlayerStock()
 		cursor.nextPos();
 	}
 	cursor.nextLine();
+	
 	for (it = ownedStocks.begin(); it != ownedStocks.end(); it++)
 	{
-		if ((*it).second != 0)
+		temp.push_back(pair<Stock*, int>((*it).first, (*it).second));
+	}
+
+	for (itt = temp.begin() + index; itt != temp.begin() + 5; itt++)
+	{
+		if ((*itt).second != 0)
 		{
-			cursor << pair<string, int>((*it).first->getName(), 15);
+			cursor << pair<string, int>((*itt).first->getName(), 15);
 			cursor.nextPos();
-			cursor << pair<string, int>(to_string((*it).second), 15);
+			cursor << pair<string, int>(to_string((*itt).second), 15);
 			cursor.nextPos();
-			cursor << pair<string, int>(to_string((*it).first->prize), 15);
+			cursor << pair<string, int>(to_string((*itt).first->prize), 15);
 			cursor.nextLine();
 		}
 	}
+
 }
