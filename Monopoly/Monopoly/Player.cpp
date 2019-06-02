@@ -58,7 +58,6 @@ int Player::getAsset()
 
 pair<int, int> Player::rollDice()
 {
-	srand(time(NULL));
 	int dicePoint1 = rand() % 6 + 1;
 	int dicePoint2 = rand() % 6 + 1;
 	if (controlDiceNum > 0)//»»±±»ë¤l
