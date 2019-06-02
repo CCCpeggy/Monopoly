@@ -309,9 +309,55 @@ void Draw::drawMenu(vector<string> itemList, string name, int index)
 		cursor << pair<string, int>(itemList[i + (count * itemCount)], DIALOG_CONTENT_LEN);
 		cursor.nextLine();
 	}
+}
 
-	
+void Draw::drawInfo(string title, vector<string*> word, int chooseIndex, int n, int chooseLine)
+{
+	Cursor cursor = dialogCursor.getSubCursor(0, 2);
+	cursor << pair<string, int>(title, DIALOG_TITLE_LEN);
+	for (int i = 0; i <= 17; i++)
+	{
+		cursor.nextLine();
+		cursor << Draw::stockInfoBlock[i];
+	}
+	cursor.add(2, 3, DIALOG_CONTENT_LEN/n);
+	const int itemCount = 6;
+	int itemReminder = word.size() % itemCount;
+	int count = chooseLine / itemCount;
+	for (int i = 0, line = count * itemCount; i < itemCount ; i++, line++) {
+		for (int j = 0; j < n; j++) {
 
+			if (line == chooseLine && j == chooseIndex) cursor << Color::TAG_CHOOSE_COLOR;
+			else cursor << Color::DEF_COLOR;
+			cursor << pair<string, int>(word[i][j], DIALOG_CONTENT_LEN / n);
+			cursor.nextPos();
+		}
+		cursor.nextLine();
+		cursor.nextLine();
+	}
+}
+
+void Draw::drawInfo(string title, vector<string> word, int chooseLine)
+{
+	Cursor cursor = dialogCursor.getSubCursor(0, 2);
+	cursor << pair<string, int>(title, DIALOG_TITLE_LEN);
+	for (int i = 0; i <= 17; i++)
+	{
+		cursor.nextLine();
+		cursor << Draw::stockInfoBlock[i];
+	}
+	cursor.add(2, 3, DIALOG_CONTENT_LEN);
+	const int itemCount = 6;
+	int itemReminder = word.size() % itemCount;
+	int count = chooseLine / itemCount;
+	for (int i = 0, line = count * itemCount; i < itemCount; i++, line++) {
+		if (line == chooseLine) cursor << Color::TAG_CHOOSE_COLOR;
+		else cursor << Color::DEF_COLOR;
+		cursor << "　　　　　　　　　　　　　　　　　　　　　　　";
+		cursor << pair<string, int>(word[i], DIALOG_CONTENT_LEN );
+		cursor.nextLine();
+		cursor.nextLine();
+	}
 }
 
 void Draw::drawPlayerInfoTitle(int index)
