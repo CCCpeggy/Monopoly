@@ -48,7 +48,7 @@ public:
 	static void drawMap(int = 7);
 	static void drawDice(int dice1, int dice2);
 	static void drawMenu(vector<string>, string, int);
-	static void drawInfo(string, vector<string* >, int, int = 1, int = 0);
+	static void drawInfo(string, vector<string>, vector<string* >, int, int = 1, int = 0);
 	static void drawInfo(string, vector<string >, int = 0);
 	static void drawPlayerInfoTitle(int);
 	
