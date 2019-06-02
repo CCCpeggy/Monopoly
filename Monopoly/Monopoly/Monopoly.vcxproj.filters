@@ -130,9 +130,6 @@
     <Text Include="init3.txt">
       <Filter>資源檔</Filter>
     </Text>
-    <Text Include="saveFile.txt">
-      <Filter>資源檔</Filter>
-    </Text>
     <Text Include="basemap2.txt">
       <Filter>資源檔</Filter>
     </Text>

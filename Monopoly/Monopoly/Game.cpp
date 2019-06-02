@@ -875,29 +875,37 @@ void Game::drawStockInfo(int index)
 		cursor.nextPos();
 	}
 	cursor.nextLine();
-	for (it = stock.begin()+index; it != stock.begin()+5; it++)
+	int k = 0;
+	int page = index / 5;
+	if (stock.size() >= page * 5)
 	{
-		cursor << Color::DEF_COLOR<<pair<string, int>((*it)->name, 15);
+		it = stock.begin() + page * 5;
+	}
+	while (it != stock.end()&&k<5)
+	{
+		cursor << Color::DEF_COLOR << pair<string, int>((*it)->name, 15);
 		cursor.nextPos();
-		cursor << Color::DEF_COLOR<<pair<string, int>(to_string((*it)->prize), 15);
+		cursor << Color::DEF_COLOR << pair<string, int>(to_string((*it)->prize), 15);
 		cursor.nextPos();
 		stringstream ss;
 		string output;
 		ss << fixed << setprecision(2) << (*it)->fluctuate();
 		ss >> output;
-		if ((*it)->fluctuate() > 0)
-		{
-			cursor << Color::F_RED<<pair<string, int>(output, 15);
-		}
-		else if ((*it)->fluctuate() < 0)
-		{
-			cursor << Color::F_GREEN << pair<string, int>(output, 15);
-		}
-		else
-		{
-			cursor << pair<string, int>(output, 15);
-		}
-		cursor.nextLine();
+			if ((*it)->lastChanged > 0)
+			{
+				cursor << Color::F_RED << pair<string, int>(output, 15);
+			}
+			else if ((*it)->lastChanged < 0)
+			{
+				cursor << Color::F_GREEN << pair<string, int>(output, 15);
+			}
+			else
+			{
+				cursor << pair<string, int>(output, 15);
+			}
+			cursor.nextLine();
+			k++;
+			it++;
 	}
 }
 
