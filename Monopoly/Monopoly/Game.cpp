@@ -31,6 +31,7 @@ Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(f
 				checkMoney();
 
 			}
+			if (!isOver) break;
 			stockFluctuate();
 			playerIndex = 0;
 			round++;

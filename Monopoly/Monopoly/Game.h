@@ -66,6 +66,7 @@ private:
 	void showBlockContent(int);
 	bool showPlayStatus();
 	bool showStock();
+	bool showBlockInfo();
 	void showActionMenu();
 	void showGameStatus();
 	bool playerBroken();
