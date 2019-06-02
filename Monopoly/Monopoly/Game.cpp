@@ -198,7 +198,19 @@ void Game::loadFile(string fileName)
 
 bool Game::saveFile()
 {
-	saveFile("saveFile2.txt");
+	stringstream ss;
+	ss << "saveFile_";
+	SYSTEMTIME sys;
+	GetLocalTime(&sys);
+	ss << sys.wYear;
+	ss << sys.wMonth;
+	ss << sys.wDay;
+	ss << sys.wHour;
+	ss << sys.wMinute;
+	ss << sys.wSecond;
+	ss << sys.wMilliseconds;
+	ss << ".txt";
+	saveFile(ss.str());
 	return false;
 }
 
@@ -543,7 +555,7 @@ void Game::showWinner()
 
 bool Game::backHome()
 {
-	saveFile();
+	saveFile("saveFile2.txt");
 	isOver = true;
 	return true;
 }
