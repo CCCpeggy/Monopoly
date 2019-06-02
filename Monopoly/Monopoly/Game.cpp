@@ -317,7 +317,11 @@ bool Game::putItem()
 	int choose = showMenu("請選擇道具", ownItemsNames);
 	if (choose == 沒有選擇) return false;
 
-	currentPlayer->useItem(choose);
+	ss << "確定要使用" << ownItemsNames[choose];
+	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
+	if (result) {
+		currentPlayer->useItem(choose);
+	}
 	return false;
 }
 
@@ -614,7 +618,6 @@ BaseBlock* Game::showChoosingMapMode(string content)
 		getKey = keyBoard();
 	}
 	map[choose]->cleanSelected();
-	showBlockContent(choose);
 	cleanCenter();
 	return map[choose];
 }
@@ -873,4 +876,10 @@ void Game::drawStockInfo(int index)
 		}
 		cursor.nextLine();
 	}
+}
+
+void Game::drawEstateBlockInfo(int index)
+{
+	Draw::drawEstateBlockInfoFrame();
+	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
 }

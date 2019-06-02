@@ -174,3 +174,11 @@ void EstateBlock::drawEstateLevel()
 			subCursor << Color::DEF_COLOR << "　";
 	}
 }
+
+void EstateBlock::drawEstateBlockInfo()
+{
+	Cursor cursor = Draw::dialogCursor.getSubCursor(5, 7, 12);
+	cursor << "等級：" << houseLevel;
+	cursor.nextLine().nextLine();
+	cursor << "所有人：" << owner;
+}

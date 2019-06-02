@@ -28,6 +28,7 @@ public:
 	static const string playInfoTitle[5];
 	static const string gameStatusFrame[9];
 	static const string stockInfoBlock[18];
+	static const string EstateBlockInfoBlock[18];
 	static const string playerEstateInfoTitle[3];
 	static const string playerStockInfoTitle[3];
 	static const string stockInfoTitle[3];
@@ -51,6 +52,7 @@ public:
 	
 	static void drawPlayerInfoFrame();
 	static void drawStockInfoFrame();
+	static void drawEstateBlockInfoFrame();
 	static void drawGameStatusFrame();
 	static void cleanCenter();
 	static void cleanPlayerInfoContent();

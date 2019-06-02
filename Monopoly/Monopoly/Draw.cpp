@@ -59,6 +59,26 @@ const string Draw::stockInfoBlock[18] = {
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
 											"■————————————————————————■"
 };
+const string Draw::EstateBlockInfoBlock[18] = {
+										   "■————————————————————————■",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+											"∥————————————————————————∥"  ,
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
+											"■————————————————————————■"
+};
 const string Draw::boundary[5] = { "．－－－－．"
 									,"∣　　　　∣"
 									,"∣　　　　∣"
@@ -358,3 +378,13 @@ void Draw::drawStockInfoFrame()
 	}
 }
 
+void Draw::drawEstateBlockInfoFrame()
+{
+	Cursor cursor = dialogCursor.getSubCursor(0, 2);
+	cursor << pair<string, int>(" 土　地　資　訊 ", 49);
+	for (int i = 0; i <= 17; i++)
+	{
+		cursor.nextLine();
+		cursor << Draw::stockInfoBlock[i];
+	}
+}

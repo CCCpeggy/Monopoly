@@ -86,6 +86,7 @@ public:
 	void getMoneyFromEveryPlayer(int);
 	void giveMoneyToEveryPlayer(int);
 	void drawStockInfo(int);
+	void drawEstateBlockInfo(int);
 	pair<vector<string>, std::map<int, bool(Game::*)(void)> > getAction(int = 所有動作);
 	~Game();
 };
