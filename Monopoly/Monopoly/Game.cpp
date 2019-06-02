@@ -319,11 +319,7 @@ bool Game::putItem()
 	int choose = showMenu("請選擇道具", ownItemsNames);
 	if (choose == 沒有選擇) return false;
 
-	ss << "確定要使用" << ownItemsNames[choose];
-	bool result = Game::showDialog(ss.str(), pair<string, string>("是", "否"), Draw::FIRST);
-	if (result) {
-		currentPlayer->useItem(choose);
-	}
+	currentPlayer->useItem(choose);
 	return false;
 }
 
@@ -624,6 +620,7 @@ BaseBlock* Game::showChoosingMapMode(string content)
 		getKey = keyBoard();
 	}
 	map[choose]->cleanSelected();
+	showBlockContent(choose);
 	cleanCenter();
 	return map[choose];
 }
