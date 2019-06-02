@@ -328,7 +328,7 @@ void Draw::drawPlayerInfoTitle(int index)
 void Draw::drawPlayerInfoFrame()
 {
 	Cursor cursor = dialogCursor.getSubCursor(0, 2);
-	cursor << pair<string, int>(" 玩　家　資　訊 ", 49);
+	cursor << pair<string, int>(" 玩　家　資　訊 ", DIALOG_TITLE_LEN);
 	for (int i = 0; i <= 17; i++)
 	{
 		cursor.nextLine();
@@ -370,7 +370,7 @@ void Draw::cleanPlayerInfoContent()
 void Draw::drawStockInfoFrame()
 {
 	Cursor cursor = dialogCursor.getSubCursor(0, 2);
-	cursor << pair<string, int>(" 股　市　資　訊 ", 49);
+	cursor << pair<string, int>(" 股　市　資　訊 ", DIALOG_TITLE_LEN);
 	for (int i = 0; i <= 17; i++)
 	{
 		cursor.nextLine();
@@ -381,7 +381,7 @@ void Draw::drawStockInfoFrame()
 void Draw::drawEstateBlockInfoFrame()
 {
 	Cursor cursor = dialogCursor.getSubCursor(0, 2);
-	cursor << pair<string, int>(" 土　地　資　訊 ", 49);
+	cursor << pair<string, int>(" 土　地　資　訊 ", DIALOG_TITLE_LEN);
 	for (int i = 0; i <= 17; i++)
 	{
 		cursor.nextLine();

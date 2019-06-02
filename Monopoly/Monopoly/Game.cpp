@@ -272,6 +272,7 @@ void Game::stockFluctuate()
 	for (int i = 0; i < stock.size(); i++) {
 		stock[i]->fluctuate();
 	}
+	showStock();
 }
 
 bool Game::noMoney()
@@ -467,7 +468,11 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 	}
 	action.first.push_back("玩家資訊");
 	action.second[index++] = &Game::showPlayStatus;
-	
+
+	if (status == 所有動作) {
+		action.first.push_back("股票資訊");
+		action.second[index++] = &Game::showStock;
+	}
 	
 	if (status == 所有動作) {
 		action.first.push_back("存檔");
@@ -678,6 +683,23 @@ bool Game::showPlayStatus()
 				break;
 			}
 			Draw::drawPlayerInfoTitle(number);
+		}
+		getKey = keyBoard();
+	}
+	cleanCenter();
+	return false;
+}
+
+bool Game::showStock()
+{
+	int choose = 0;
+	drawStockInfo(choose);
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN && getKey != VK_ESCAPE) {
+		if (getKey == VK_UP || getKey == VK_DOWN) {
+			choose += getKey == VK_DOWN ? 1 : stock.size() - 1;
+			choose %= stock.size();
+			drawStockInfo(choose);
 		}
 		getKey = keyBoard();
 	}

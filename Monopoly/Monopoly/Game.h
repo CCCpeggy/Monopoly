@@ -65,6 +65,7 @@ private:
 	void showMapContent();
 	void showBlockContent(int);
 	bool showPlayStatus();
+	bool showStock();
 	void showActionMenu();
 	void showGameStatus();
 	bool playerBroken();
