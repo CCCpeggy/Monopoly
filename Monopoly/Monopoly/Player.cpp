@@ -196,14 +196,19 @@ void Player::useItem(int itemIndex)
 	if (ownedItems[itemIndex]==&Item::itemList[0])
 	{
 		BaseBlock* b = game->showChoosingMapMode("請選擇格子");
-		if(b != nullptr) b->setRoadBlock(true);
+		if (b != nullptr) {
+			b->setRoadBlock(true);
+			ownedItems.erase(ownedItems.begin() + itemIndex);
+		}
 	}
 	else if (ownedItems[itemIndex] == &Item::itemList[1])
 	{
 		controlDiceNum = Game::showNumberDialog("請選擇要前進的格數", 2, 12, 2, 1, "步");
-		moveForwardByStep(controlDiceNum);
+		if (controlDiceNum != 沒有選擇) {
+			moveForwardByStep(controlDiceNum);
+			ownedItems.erase(ownedItems.begin() + itemIndex);
+		}
 	}
-	ownedItems.erase(ownedItems.begin() + itemIndex);
 }
 
 void Player::addItem(int itemIndex)
