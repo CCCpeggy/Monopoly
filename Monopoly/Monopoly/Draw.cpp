@@ -324,7 +324,7 @@ void Draw::drawInfo(string title, vector<string*> word, int chooseIndex, int n, 
 	const int itemCount = 6;
 	int itemReminder = word.size() % itemCount;
 	int count = chooseLine / itemCount;
-	for (int i = 0, line = count * itemCount; i < itemCount ; i++, line++) {
+	for (int i = 0, line = count * itemCount; line < word.size() && i < itemCount ; i++, line++) {
 		for (int j = 0; j < n; j++) {
 
 			if (line == chooseLine && j == chooseIndex) cursor << Color::TAG_CHOOSE_COLOR;
@@ -350,7 +350,7 @@ void Draw::drawInfo(string title, vector<string> word, int chooseLine)
 	const int itemCount = 6;
 	int itemReminder = word.size() % itemCount;
 	int count = chooseLine / itemCount;
-	for (int i = 0, line = count * itemCount; i < itemCount; i++, line++) {
+	for (int i = 0, line = count * itemCount; line < word.size() && i < itemCount; i++, line++) {
 		if (line == chooseLine) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
 		cursor << "　　　　　　　　　　　　　　　　　　　　　　　";
