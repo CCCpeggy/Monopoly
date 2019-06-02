@@ -5,11 +5,11 @@ extern HANDLE handleOutput;
 
 class Color {
 public:
-	static const unsigned int B_BLUE;
+	static const unsigned int B_PURPLE;
 	static const unsigned int B_GREEN;
 	static const unsigned int B_CYAN;
 	static const unsigned int B_RED;
-	static const unsigned int F_BLUE;
+	static const unsigned int F_PURPLE;
 	static const unsigned int F_GREEN;
 	static const unsigned int F_CYAN;
 	static const unsigned int F_RED;

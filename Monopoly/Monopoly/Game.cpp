@@ -933,14 +933,37 @@ void Game::drawStockInfo(int index)
 	{
 		it = stock.begin() + page * 5;
 	}
-	while (it != stock.end()&&k<5)
+	while (it != stock.end() && k < 5)
 	{
 		if (index % 5 == k)
 		{
-		    cursor << Color::TAG_CHOOSE_COLOR << "¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@";
+			cursor << Color::TAG_CHOOSE_COLOR << "¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@";
 			cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>((*it)->name, 15);
 			cursor.nextPos();
 			cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>(to_string((*it)->prize), 15);
+			cursor.nextPos();
+			stringstream ss;
+			string output;
+			ss << fixed << setprecision(2) << (*it)->lastChanged;
+			ss >> output;
+			if ((*it)->lastChanged > 0)
+			{
+				cursor << Color::B_WHITE_F_RED << pair<string, int>(output, 15);
+			}
+			else if ((*it)->lastChanged < 0)
+			{
+				cursor << Color::B_WHITE_F_GREEN << pair<string, int>(output, 15);
+			}
+			else
+			{
+				cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>(output, 15);
+			}
+		}
+		else
+		{
+			cursor << Color::DEF_COLOR << pair<string, int>((*it)->name, 15);
+			cursor.nextPos();
+			cursor << Color::DEF_COLOR << pair<string, int>(to_string((*it)->prize), 15);
 			cursor.nextPos();
 			stringstream ss;
 			string output;
@@ -959,33 +982,10 @@ void Game::drawStockInfo(int index)
 				cursor << Color::DEF_COLOR << pair<string, int>(output, 15);
 			}
 		}
-		else
-		{
-			cursor << Color::DEF_COLOR << pair<string, int>((*it)->name, 15);
-			cursor.nextPos();
-			cursor << Color::DEF_COLOR << pair<string, int>(to_string((*it)->prize), 15);
-			cursor.nextPos();
-			stringstream ss;
-			string output;
-			ss << fixed << setprecision(2) << (*it)->lastChanged;
-			ss >> output;
-			if ((*it)->lastChanged > 0)
-			{
-				cursor << Color::B_WHITE_F_RED << pair<string, int>(output, 15);
-			}
-			else if ((*it)->lastChanged < 0)
-			{
-				cursor << Color::B_WHITE_F_GREEN << pair<string, int>(output, 15);
-			}
-			else
-			{
-				cursor << Color::TAG_CHOOSE_COLOR<< pair<string, int>(output, 15);
-			}
-		}
-			cursor.nextLine();
-			k++;
-			it++;
-		}
+		cursor.nextLine();
+		k++;
+		it++;
+	}
 }
 
 void Game::drawEstateBlockInfo(int index)

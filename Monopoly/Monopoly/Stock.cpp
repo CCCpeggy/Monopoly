@@ -14,7 +14,7 @@ double Stock::fluctuate()
 {
 
 	double fluctuateRate = (rand() % 21-10)*0.01;
-	lastChanged = ((fluctuateRate - 1) * prize);
+	lastChanged = ((fluctuateRate ) * prize);
 	prize += lastChanged;
 	return lastChanged;
 }
