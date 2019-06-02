@@ -51,7 +51,6 @@ int main() {
 	vector<string> chooseName;
 	map<int, void (*)()> functions;
 	srand(time(NULL));
-	vector<string> fileNames;
 	while(true) {
 		chooseName.clear();
 		int fileNameIndex;
