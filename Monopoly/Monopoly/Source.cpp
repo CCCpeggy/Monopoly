@@ -39,6 +39,7 @@ bool isTxt(string fileName)
 //列出檔案清單
 vector<string>listFile()
 {
+	srand(time(NULL));
 	vector<string>fileName;
 	string szDir = ".//\*";
 	string dir;
