@@ -168,6 +168,9 @@ void EstateBlock::drawEstateLevel()
 	subCursor.add(8, 3);
 	if (owner != NULL)
 	{
-		subCursor << Color::TAG_CHOOSE_COLOR<<Draw::houseLevelSymbol[houseLevel];
+		if(houseLevel > 0)
+			subCursor << Color::TAG_CHOOSE_COLOR<<Draw::houseLevelSymbol[houseLevel];
+		else
+			subCursor << Color::DEF_COLOR << "¡@";
 	}
 }

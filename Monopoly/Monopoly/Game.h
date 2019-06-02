@@ -28,7 +28,7 @@ using namespace std;
 #define CHANCE 1
 #define FATE 2
 #define ALL -1
-#define LOADFILE "init.txt"
+#define LOADFILE "basemap2.txt"
 #define 破產 false
 #define 富翁 true
 #define 所有動作 false

@@ -2,6 +2,7 @@
 
 Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(false)
 {
+	system("cls");
 	loadFile(fileName); 
 	if (ableUse) {
 		while (!isOver) {
@@ -50,7 +51,7 @@ void Game::loadFile(string fileName)
 	ss >> map.mapName >> round >> playerCount;
 	ss.str("");
 	ss.clear();
-
+	std::map<int, BaseBlock*> blockMap;
 	//地圖
 	while (getline(fin, line)) {
 		if (line[0] == 'p')break;
@@ -61,22 +62,18 @@ void Game::loadFile(string fileName)
 		BaseBlock* block;
 		if (blockCategory == 0){
 			block = new StartBlock(blockName, index);
-			map.insertBlock(block);
 		}
 		else if (blockCategory == -1)
 		{
 			block = new FateBlock(index, blockName, this);
-			map.insertBlock(block);
 		}
 		else if (blockCategory == -2)
 		{
 			block = new ChanceBlock(index, blockName, this);
-			map.insertBlock(block);
 		}
 		else if (blockCategory == 2)
 		{
 			block = new BankBlock(blockName, index, this);
-			map.insertBlock(block);
 		}
 		else
 		{
@@ -89,86 +86,111 @@ void Game::loadFile(string fileName)
 				toll[i] = tmp;
 			}
 			block = new EstateBlock(index, blockName, price, toll);
-			map.insertBlock(block);
 		}
 		bool hasRoadBlock;
 		if (ss >> hasRoadBlock && hasRoadBlock) {
 			block->setRoadBlock(true);
 		}
+		blockMap[index] = block;
 		ss.str("");
 		ss.clear();
 	}
+	for (auto block : blockMap) {
+		map.insertBlock(block.second);
+	}
+
 	map.calcBlocksLocation();
 	//玩家
 	ss << line;
 	ss >> line >> playerIndex;
 	ss.str("");
 	ss.clear();
-	for(int i = 0; i < playerCount; i++) {
-		getline(fin, line);
+	std::map<int, Player> playerMap;
+	std::map<int, vector<pair<int, int> > > ownedEstates;
+	for(int i = 0; getline(fin, line) && i < playerCount; i++) {
+		if (line[0] > '9') break;
 		ss << line;
-		int index, position = 0, money = 0, debit = 0, saving = 0;
-		if (ss >> index) if (ss >> position) if (ss >> money) if (ss >> debit) if (ss >> saving);
+		int index, position = 0, money = 0, debit = 0, saving = 0, inputNum = 0;;
+		string tmp;
+		if (ss >> index >> position >> money) {
+			while (ss >> tmp >> inputNum) {
+				if (tmp == "d") {
+					debit = inputNum;
+				}
+				else if (tmp == "s") {
+					saving = inputNum;
+				}
+				else {
+					int blockIndex = (tmp[0] - '0') ;
+					if(tmp.size() > 1) blockIndex = (tmp[1] - '0') + blockIndex * 10;
+					if (map[blockIndex]->getCategory() == 1) {
+						ownedEstates[index].push_back(pair<int, int>(blockIndex, inputNum));
+					}
+				}
+			}
+		}
 		if(position < 0 || position > map.blockNums)
-			player.push_back(Player(index, money, debit, saving, map[0], true, this));
+			playerMap.insert(std::pair<int, Player>(index, Player(index, money, debit, saving, map[0], true, this)));
 		else
-			player.push_back(Player(index, money, debit, saving, map[position], false, this));
+			playerMap.insert(std::pair<int, Player>(index, Player(index, money, debit, saving, map[position], false, this)));
 		ss.str("");
 		ss.clear();
 	}
-	getline(fin, line);
+	for (auto tmpPlayer : playerMap) {
+		player.push_back(tmpPlayer.second);
+	}
+	playerCount = player.size();
+
 	//擁有土地
-	while (getline(fin, line)) {
-		if (line[0] == 's') break;
-		ss << line;
-		int playerEstateIndex;
-		ss >> playerEstateIndex;
-		int blockIndex, level;
-		while (ss >> blockIndex >> level)
-		{
-			if (map[blockIndex]->getCategory() == 1) {
-				((EstateBlock*)map[blockIndex])->setEstateInfo(&player[playerEstateIndex], level);
-				player[playerEstateIndex].ownedEstates.push_back((EstateBlock*)map[blockIndex]);
+	for (auto node : ownedEstates) {
+		int thisPlayerIndex = node.first;
+		for (auto subNode : node.second) {
+			int estate = subNode.first, houseLevel = subNode.second;
+			if (map[estate]->getCategory() == 1) {
+				((EstateBlock*)map[estate])->setEstateInfo(&player[thisPlayerIndex], houseLevel);
+				player[thisPlayerIndex].ownedEstates.push_back((EstateBlock*)map[estate]);
 			}
 		}
-		ss.str("");
-		ss.clear();
 	}
 	//股票
-	while (getline(fin, line)) {
-		if (line[0] == 'i') break;
-		string name;
-		double prize = 100;
-		
-		ss << line;
-		if (ss >> prize >> name) {
-			if (ss >> prize) {
-				stock.push_back(new Stock(name, prize));
-				Stock *stockPtr = stock[stock.size() - 1];
-				for(int i = 0;i < player.size();i++) player[i].initEachStock(stockPtr, 0);
-				int stockPlayerIndex = 0, count = 0;
-				while (ss >> stockPlayerIndex >> count) player[stockPlayerIndex].initEachStock(stockPtr, count);
+	if (line[0] == 's') {
+		while (getline(fin, line)) {
+			if (line[0] > '9') break;
+			string name;
+			double prize = 100;
+
+			ss << line;
+			if (ss >> prize >> name) {
+				if (ss >> prize) {
+					stock.push_back(new Stock(name, prize));
+					Stock* stockPtr = stock[stock.size() - 1];
+					for (int i = 0; i < player.size(); i++) player[i].initEachStock(stockPtr, 0);
+					int stockPlayerIndex = 0, count = 0;
+					while (ss >> stockPlayerIndex >> count) player[stockPlayerIndex].initEachStock(stockPtr, count);
+				}
 			}
+			ss.str("");
+			ss.clear();
 		}
-		ss.str("");
-		ss.clear();
 	}
 	//道具
-	while (getline(fin, line)) {
-		ss << line;
-		int inputPlayerIndex;
-		ss >> inputPlayerIndex;
-		int inputItemIndex, count;
-		while (ss >> inputItemIndex >> count)
-		{
-			if (inputPlayerIndex < player.size() && inputItemIndex < Item::itemList.size()) {
-				while(count--)
-					player[inputPlayerIndex].addItem(inputItemIndex);
+	if (line[0] == 'i') {
+		while (getline(fin, line)) {
+			ss << line;
+			int inputPlayerIndex;
+			ss >> inputPlayerIndex;
+			int inputItemIndex, count;
+			while (ss >> inputItemIndex >> count)
+			{
+				if (inputPlayerIndex < player.size() && inputItemIndex < Item::itemList.size()) {
+					while (count--)
+						player[inputPlayerIndex].addItem(inputItemIndex);
+				}
 			}
-		}
 
-		ss.str("");
-		ss.clear();
+			ss.str("");
+			ss.clear();
+		}
 	}
 	fin.close();
 	showMap();
@@ -209,19 +231,11 @@ void Game::saveFile(string fileName)
 		else{
 			fin << player[i].location->index << " ";
 			fin << player[i].getMoney() << " ";
-			fin << player[i].getDebit() << " ";
-			fin << player[i].getSaving();
-		}
-		fin << endl;
-	}
-
-	fin << "ownEstate " << endl;
-	for (int i = 0; i < player.size(); i++) {
-		fin << player[i].index << " ";
-		if (!player[i].getIsBroken()) {
-			for (int j = 0; j < player[i].ownedEstates.size(); j++) {
-				fin << player[i].ownedEstates[j]->index << " ";
-				fin << player[i].ownedEstates[j]->houseLevel << " ";
+			fin << "d " << player[i].getDebit() << " ";
+			fin << "s " << player[i].getSaving() << " ";
+			for (auto block : player[i].ownedEstates) {
+				fin << block->index << " ";
+				fin << block->houseLevel << " ";
 			}
 		}
 		fin << endl;
