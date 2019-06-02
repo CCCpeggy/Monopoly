@@ -13,7 +13,7 @@ Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(f
 
 				showGameStatus();
 				stringstream ss;
-				ss << "第 " << round << " 回合, 輪到 " << currentPlayer->getName();
+				ss << "第 " << round + 1 << " 回合, 輪到 " << currentPlayer->getName();
 				showDialog(ss.str());
 				ss.str("");
 				ss.clear();
@@ -36,7 +36,6 @@ Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(f
 			if ((isOver = !checkGameStatus()) && (isOver)) break;
 			stockFluctuate();
 		}
-		showWinner();
 	}
 }
 
@@ -505,6 +504,7 @@ bool Game::checkGameStatus()
 {
 	if (isOver) return false;
 	if (round >= totalRound) {
+		showWinner();
 		return false;
 	}
 		
@@ -513,6 +513,7 @@ bool Game::checkGameStatus()
 		if (!player[i].getIsBroken()) livingPlayer++;
 	}
 	if (livingPlayer <= 1) {
+		showWinner();
 		return false;
 	}
 	return true;
@@ -542,6 +543,7 @@ void Game::showWinner()
 
 bool Game::backHome()
 {
+	saveFile();
 	isOver = true;
 	return true;
 }
@@ -580,9 +582,9 @@ void Game::showAllPlayerStatus()
 
 void Game::showGameStatus() {
 	Cursor cursor = Draw::playerStatusCursor.getSubCursor(2, 7, 76);
-	cursor << left << setw(2) << playerIndex;
+	cursor << left << setw(6) << player[playerIndex].getName();
 	cursor.nextPos();
-	cursor << right << setw(2) << round;
+	cursor << right << setw(2) << round + 1;
 }
 
 BaseBlock* Game::showChoosingMapMode(string content)

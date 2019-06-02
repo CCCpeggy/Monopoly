@@ -71,8 +71,19 @@ int main() {
 		functions[index++] = &finishGame;
 
 		int choose = Game::showMenu("¹CÀ¸¿ï³æ", chooseName);
-		
 		functions[choose]();
+
+
+		if (findFile("saveFile.txt")) {
+			remove("saveFile.txt");
+		}
+		
+		if (findFile("saveFile2.txt")) {
+			rename("saveFile2.txt", "saveFile.txt");
+		}
+		system("cls");
+
+		
 	}
 	
 }
@@ -130,10 +141,6 @@ void newGame()
 {
 	game = new Game;
 	delete game;
-	if (findFile("saveFile2.txt")) {
-		rename("saveFile2.txt", "saveFile.txt");
-	}
-	system("cls");
 }
 
 void loadGame()
@@ -143,21 +150,12 @@ void loadGame()
 		game = new Game(fileNames[fileNameIndex]);
 		delete game;
 	}
-	if (findFile("saveFile2.txt")) {
-		rename("saveFile2.txt", "saveFile.txt");
-	}
-	system("cls");
 }
 
 void resumeGame()
 {
 	game = new Game("saveFile.txt");
 	delete game;
-	remove("saveFile.txt");
-	if (findFile("saveFile2.txt")) {
-		rename("saveFile2.txt", "saveFile.txt");
-	}
-	system("cls");
 }
 
 void finishGame()
