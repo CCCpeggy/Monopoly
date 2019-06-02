@@ -30,6 +30,7 @@ void newGame();
 void loadGame();
 void resumeGame();
 void finishGame();
+bool findFile(string);
 #pragma endregion
 
 int main() {
@@ -56,12 +57,9 @@ int main() {
 		int fileNameIndex;
 		fileNames = listFile();
 		int index = 0;
-		for (auto name : fileNames) {
-			if (name == "saveFile.txt") {
-				chooseName.push_back("繼續遊戲");
-				functions[index++] = &resumeGame;
-				break;
-			}
+		if (findFile("saveFile.txt")) {
+			chooseName.push_back("繼續遊戲");
+			functions[index++] = &resumeGame;
 		}
 		chooseName.push_back("遊戲開始");
 		functions[index++] = &newGame;
@@ -132,6 +130,9 @@ void newGame()
 {
 	game = new Game;
 	delete game;
+	if (findFile("saveFile2.txt")) {
+		rename("saveFile2.txt", "saveFile.txt");
+	}
 	system("cls");
 }
 
@@ -142,6 +143,9 @@ void loadGame()
 		game = new Game(fileNames[fileNameIndex]);
 		delete game;
 	}
+	if (findFile("saveFile2.txt")) {
+		rename("saveFile2.txt", "saveFile.txt");
+	}
 	system("cls");
 }
 
@@ -150,11 +154,24 @@ void resumeGame()
 	game = new Game("saveFile.txt");
 	delete game;
 	remove("saveFile.txt");
+	if (findFile("saveFile2.txt")) {
+		rename("saveFile2.txt", "saveFile.txt");
+	}
 	system("cls");
 }
 
 void finishGame()
 {
 	ExitProcess(0);
+}
+
+bool findFile(string findName)
+{
+	vector<string> fileNames = listFile();
+	for (auto name : fileNames) {
+		if (name == findName) 
+			return true;
+	}
+	return false;
 }
 

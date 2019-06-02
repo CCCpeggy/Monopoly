@@ -45,6 +45,7 @@ private:
 	vector<EstateBlock> estateblock;
 	int playerIndex;
 	int round;
+	int totalRound;
 	bool isOver;
 	void loadFile(string);
 	bool saveFile();

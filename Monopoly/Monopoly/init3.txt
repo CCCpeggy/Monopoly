@@ -1,4 +1,4 @@
-base 0 4     
+base 20 4     
 00 start 0     
 01 A_position 1 2000 500 1000 3000 5000
 02 B_position 1 700 200 500 1000 3000

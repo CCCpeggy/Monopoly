@@ -31,10 +31,10 @@ Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(f
 				checkMoney();
 
 			}
-			playerIndex = 0;
-			if (isOver) break;
-			stockFluctuate();
 			round++;
+			playerIndex = 0;
+			if ((isOver = !checkGameStatus()) && (isOver)) break;
+			stockFluctuate();
 		}
 		showWinner();
 	}
@@ -49,7 +49,7 @@ void Game::loadFile(string fileName)
 	//第一行 地圖名稱 回合 玩家數量 
 	getline(fin, line);
 	ss << line;
-	ss >> map.mapName >> round >> playerCount;
+	ss >> map.mapName >> totalRound >> playerCount;
 	ss.str("");
 	ss.clear();
 	std::map<int, BaseBlock*> blockMap;
@@ -199,7 +199,7 @@ void Game::loadFile(string fileName)
 
 bool Game::saveFile()
 {
-	saveFile("saveFile.txt");
+	saveFile("saveFile2.txt");
 	return false;
 }
 
@@ -208,7 +208,7 @@ void Game::saveFile(string fileName)
 	fstream fin(fileName, ios::out);
 	//基本資料
 	fin << map.mapName << " ";
-	fin << round << " ";
+	fin << totalRound - round << " ";
 	fin << player.size() << endl;
 	for (int i = 0; i < map.blockNums; i++) {
 		fin << setfill('0') << setprecision(2) << map[i]->index << " ";
@@ -504,7 +504,7 @@ void Game::checkMoney()
 bool Game::checkGameStatus()
 {
 	if (isOver) return false;
-	if (round >= 20) {
+	if (round >= totalRound) {
 		return false;
 	}
 		
