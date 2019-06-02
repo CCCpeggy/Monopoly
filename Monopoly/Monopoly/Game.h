@@ -42,6 +42,7 @@ private:
 	Map map;
 	vector<Stock*> stock;
 	vector<Player> player;
+	vector<EstateBlock> estateblock;
 	int playerIndex;
 	int round;
 	bool isOver;

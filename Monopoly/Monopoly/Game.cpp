@@ -882,4 +882,8 @@ void Game::drawEstateBlockInfo(int index)
 {
 	Draw::drawEstateBlockInfoFrame();
 	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
+	estateblock[index].drawLocationName();
+	estateblock[index].drawBlockInfo();
+	estateblock[index].drawEstateLevel();
+
 }

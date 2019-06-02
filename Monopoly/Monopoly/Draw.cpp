@@ -385,6 +385,6 @@ void Draw::drawEstateBlockInfoFrame()
 	for (int i = 0; i <= 17; i++)
 	{
 		cursor.nextLine();
-		cursor << Draw::stockInfoBlock[i];
+		cursor << Draw::EstateBlockInfoBlock[i];
 	}
 }

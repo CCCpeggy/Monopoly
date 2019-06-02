@@ -26,7 +26,6 @@ public:
 	int currentTolls();
 	int getLevelTolls(int); 
 	virtual int getCategory();
-	virtual void drawEstateBlockInfo();
 	EstateBlock& operator=( EstateBlock&);
 	EstateBlock(int newIndex,string newName, int newInitialPrice, int* newTolls , Player* owner = NULL, int houseLevel = -1);
 	EstateBlock();
