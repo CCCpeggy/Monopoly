@@ -12,7 +12,7 @@ public:
 	int prize;
 	Stock(string newName, double newPrize);
 	Stock();
-	void fluctuate(); 
+	double fluctuate(); 
 	string getName();
 	~Stock();
 };

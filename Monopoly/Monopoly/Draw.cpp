@@ -42,7 +42,7 @@ const string Draw::infoBlock[18] = {
 const string Draw::stockInfoBlock[18] = {
 										   "■————————————————————————■",
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
-										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
+											"∥————————————————————————∥"  ,
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,

@@ -10,11 +10,12 @@ Stock::Stock() : name("stock"), prize(20)
 {
 }
 
-void Stock::fluctuate()
+double Stock::fluctuate()
 {
 	srand(time(NULL));
 	double fluctuateRate = (rand() % 21-10)*0.01;
 	prize += fluctuateRate * prize;
+	return fluctuateRate;
 }
 
 string Stock::getName() 

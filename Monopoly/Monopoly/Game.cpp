@@ -828,3 +828,38 @@ void Game::giveMoneyToEveryPlayer(int money)
 	showAllPlayerStatus();
 }
 
+void Game::drawStockInfo(int index)
+{
+	Draw::drawStockInfoFrame();
+	vector<Stock*>::iterator it;
+	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
+	for (int i = 0; i < 3; i++) {
+		cursor << pair<string, int>(Draw::stockInfoTitle[i], 15);
+		cursor.nextPos();
+	}
+	cursor.nextLine();
+	for (it = stock.begin()+index; it != stock.begin()+5; it++)
+	{
+		cursor << Color::DEF_COLOR<<pair<string, int>((*it)->name, 15);
+		cursor.nextPos();
+		cursor << Color::DEF_COLOR<<pair<string, int>(to_string((*it)->prize), 15);
+		cursor.nextPos();
+		stringstream ss;
+		string output;
+		ss << fixed << setprecision(2) << (*it)->fluctuate();
+		ss >> output;
+		if ((*it)->fluctuate() > 0)
+		{
+			cursor << Color::F_RED<<pair<string, int>(output, 15);
+		}
+		else if ((*it)->fluctuate() < 0)
+		{
+			cursor << Color::F_GREEN << pair<string, int>(output, 15);
+		}
+		else
+		{
+			cursor << pair<string, int>(output, 15);
+		}
+		cursor.nextLine();
+	}
+}
