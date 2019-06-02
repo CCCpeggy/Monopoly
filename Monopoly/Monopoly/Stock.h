@@ -8,6 +8,7 @@ class Player;
 class Stock
 {
 public:
+	double lastChanged;
 	string name;
 	int prize;
 	Stock(string newName, double newPrize);
