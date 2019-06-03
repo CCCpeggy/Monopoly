@@ -492,6 +492,11 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 		action.second[index++] = &Game::backHome;
 
 	}
+
+	if (status == 所有動作) {
+		action.first.push_back("土地資訊");
+		action.second[index++] = &Game::showBlock;
+	}
 	
 	return action;
 }
@@ -712,6 +717,23 @@ bool Game::showStock()
 			choose += getKey == VK_DOWN ? 1 : stock.size() - 1;
 			choose %= stock.size();
 			drawStockInfo(choose);
+		}
+		getKey = keyBoard();
+	}
+	cleanCenter();
+	return false;
+}
+
+bool Game::showBlock()
+{
+	int choose = 0;
+	drawEstateBlockInfo(choose);
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN && getKey != VK_ESCAPE) {
+		if (getKey == VK_UP || getKey == VK_DOWN) {
+			choose += getKey == VK_DOWN ? 1 : stock.size() - 1;
+			choose %= stock.size();
+			drawEstateBlockInfo(choose);
 		}
 		getKey = keyBoard();
 	}
@@ -1002,9 +1024,6 @@ void Game::drawStockInfo(int index)
 void Game::drawEstateBlockInfo(int index)
 {
 	Draw::drawEstateBlockInfoFrame();
-	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
-	estateblock[index].drawLocationName();
-	estateblock[index].drawBlockInfo();
-	estateblock[index].drawEstateLevel();
+	
 
 }
