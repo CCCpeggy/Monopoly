@@ -331,19 +331,19 @@ string Player::getName()
 
 void Player::drawPlayerInfo()
 {
-	Cursor cursor = Draw::dialogCursor.getSubCursor(5, 7, 12);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(20, 7, 12);
 	cursor << "ＩＤ："<<index+1 ;
 	cursor.nextLine().nextLine();
-	cout << "總資金＄" << getAsset();
+	cursor<< "總資金＄" << getAsset();
 	cursor.nextLine().nextLine();
-	cout << "現金＄" << money;
-	cursor.nextPos();
-	cout << "存款＄" << saving;
-	cursor.nextPos();
-	cout << "負債＄" << debit;
+	cursor << "現金＄" << money;
 	cursor.nextLine().nextLine();
-	cout << "地產總數：";
-	cout << ownedEstates.size();
+	cursor<< "存款＄" << saving;
+	cursor.nextLine().nextLine();
+	cursor << "負債＄" << debit;
+	cursor.nextLine().nextLine();
+	cursor << "地產總數：";
+	cursor << ownedEstates.size();
 	cursor.nextLine().nextLine();
 }
 
@@ -364,13 +364,9 @@ void Player::drawPlayerAllEstate()
 {
 	vector<EstateBlock*>::iterator it;
 	vector<string>titleName;
-	//Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
 	for (int i = 0; i < 3; i++) {
-		/*cursor << pair<string, int>(Draw::playerEstateInfoTitle[i], 15);
-		cursor.nextPos();*/
 		titleName.push_back(Draw::playerEstateInfoTitle[i]);
 	}
-	//cursor.nextLine();
 	vector<string* >output;
 	string *a=NULL;
 	for (it = ownedEstates.begin(); it != ownedEstates.end(); it++)
@@ -416,51 +412,26 @@ void Player::drawPlayerStock(int stockIndex)
 	map<Stock*,int>::iterator it;
 	vector<pair<Stock*, int>> temp;
 	vector<pair<Stock*, int>>::iterator itt;
-	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
+	vector<string>title;
+	vector<string*>content;
 	for (int i = 0; i < 3; i++) 
 	{
-		cursor << pair<string, int>(Draw::playerStockInfoTitle[i], 15);
-		cursor.nextPos();
+		title.push_back(Draw::playerStockInfoTitle[i]);
 	}
-	cursor.nextLine();
+	string *a = NULL;
 	for (it = ownedStocks.begin(); it != ownedStocks.end(); it++)
 	{
-		temp.push_back(pair<Stock*, int>((*it).first, (*it).second));
-	}
-	int k = 0;
-	int page = stockIndex / 5;
-	if (temp.size() >= page * 5)
-	{
-		itt = temp.begin() + page * 5;
-	}
-	while(itt != temp.end()&&k<5)
-	{
-		if ((*itt).second != 0)
+		if ((*it).second != 0)
 		{
-			if (stockIndex % 5 == k)
-			{
-				cursor << Color::TAG_CHOOSE_COLOR << "　　　　　　　　　　　　　　　　　　　　　　";
-				cursor << pair<string, int>((*itt).first->getName(), 15);
-				cursor.nextPos();
-				cursor <<  pair<string, int>(to_string((*itt).second), 15);
-				cursor.nextPos();
-				cursor << pair<string, int>(to_string((*itt).first->prize), 15);
-				cursor.nextLine();
-			}
-			else
-			{
-				cursor << Color::DEF_COLOR<<pair<string, int>((*itt).first->getName(), 15);
-				cursor.nextPos();
-				cursor << Color::DEF_COLOR<<pair<string, int>(to_string((*itt).second), 15);
-				cursor.nextPos();
-				cursor << Color::DEF_COLOR<<pair<string, int>(to_string((*itt).first->prize), 15);
-				cursor.nextLine();
-			}
+			a = new string[3];
+			a[0] = (*it).first->getName();
+			a[1] = to_string((*it).second);
+			a[2] = to_string((*it).first->prize);
+			content.push_back(a);
 		}
-		k++;
-		itt++;
 	}
-
+	Game::showInfo("", title,content, 3,0, 5);
+	delete[]a;
 }
 
 void Player::drawPlayerItem()
