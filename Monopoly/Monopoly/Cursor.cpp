@@ -66,6 +66,15 @@ Cursor& Cursor::nextPos()
 	return *this;
 }
 
+Cursor& Cursor::backPos()
+{
+	COORD pos;
+	pos.X = basicX + drawX * rightX;
+	pos.Y = basicY + drawY * rightY;
+	SetConsoleCursorPosition(handleOutput, pos);
+	return *this;
+}
+
 void Cursor::inputPos(int drawX, int drawY, int basicX, int basicY, int rightX, int rightY)
 {
 	COORD pos;

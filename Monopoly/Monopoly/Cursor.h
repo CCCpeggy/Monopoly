@@ -33,6 +33,7 @@ public:
 	Cursor& nextLine();
 	//將輸入點移到同一行的下一個輸入點（類似ｔａｂ，只是是以加權值作為移動標準）
 	Cursor& nextPos();
+	Cursor& backPos();
 	static void inputPos(int drawX, int drawY, int basicX, int basicY, int rightX = 1, int rightY = 1);
 	static void setCursorHide();
 	//取得子Cursor
