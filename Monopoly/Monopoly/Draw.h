@@ -31,6 +31,8 @@ public:
 	static const string EstateBlockInfoBlock[18];
 	static const string playerEstateInfoTitle[3];
 	static const string playerStockInfoTitle[3];
+	static const string playerItemTitle[2];
+	static const string itemName[2];
 	static const string stockInfoTitle[3];
 	static const string diceone[5];
 	static const string dicetwo[5];

@@ -24,7 +24,6 @@ public:
 	vector<Item*> ownedItems;//remember to pop after use
 	map<Stock*, int> ownedStocks;
 	BaseBlock* location;
-	static const string playerID[];
 
 	//獲取資料
 	int getMoney();//return money
@@ -80,6 +79,7 @@ public:
 	void drawPlayerMoneyStatus();
 	void drawStatusPlayerName();
 	void drawPlayerStock(int);
+	void drawPlayerItem();
 	//建構
 	private:
 		void initStocks(vector<Stock>* stocks);

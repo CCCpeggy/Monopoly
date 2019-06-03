@@ -7,7 +7,6 @@
 #include <time.h>
 #include<iostream>
 using namespace std;
-const string Player::playerID[] = { "１","２","３","４" };
 void Player::gotoNextBlock()
 {
 	cleanPlayerLocation();
@@ -332,7 +331,7 @@ string Player::getName()
 void Player::drawPlayerInfo()
 {
 	Cursor cursor = Draw::dialogCursor.getSubCursor(5, 7, 12);
-	cursor << "ＩＤ："<<playerID[index] ;
+	cursor << "ＩＤ："<<index+1 ;
 	cursor.nextLine().nextLine();
 	cout << "總資金＄" << getAsset();
 	cursor.nextLine().nextLine();
@@ -345,13 +344,13 @@ void Player::drawPlayerInfo()
 	cout << "地產總數：";
 	cout << ownedEstates.size();
 	cursor.nextLine().nextLine();
-	cout << "持有道具：" << "▲x5";
 }
 
 void Player::drawPlayerAllMoney()
 {
-	Cursor cursor = Draw::dialogCursor.getSubCursor(5, 6, 15, 2);
-	cursor << "總資產＄"<<getAsset();
+	Cursor cursor = Draw::dialogCursor.getSubCursor(20, 6, 4, 2);
+	cursor.nextLine();
+	cursor <<"總資產＄"<<getAsset();
 	cursor.nextLine();
 	cursor << "存款＄"<<getSaving();
 	cursor.nextLine();
@@ -424,7 +423,7 @@ void Player::drawPlayerStock(int index)
 		temp.push_back(pair<Stock*, int>((*it).first, (*it).second));
 	}
 
-	for (itt = temp.begin() + index; itt != temp.begin() + 5; itt++)
+	for (itt = temp.begin(); itt != temp.end() ; itt++)
 	{
 		if ((*itt).second != 0)
 		{
@@ -435,6 +434,20 @@ void Player::drawPlayerStock(int index)
 			cursor << pair<string, int>(to_string((*itt).first->prize), 15);
 			cursor.nextLine();
 		}
+	}
+
+}
+
+void Player::drawPlayerItem()
+{
+	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 45, 2);
+	vector<Item*>::iterator it;
+	int itemCount[] = { 0 };
+	cursor.nextLine();
+	for (it = ownedItems.begin(); it != ownedItems.end(); it++)
+	{
+		cursor << pair<string,int>((*it)->name,45);
+		cursor.nextLine();
 	}
 
 }

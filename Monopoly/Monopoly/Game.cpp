@@ -691,7 +691,7 @@ bool Game::showPlayStatus()
 				player[playerIndex].drawPlayerStock(0);
 				break;
 			case 4:
-				//TODO: πÔ¿≥≤[¶°
+				player[playerIndex].drawPlayerItem();
 				break;
 			}
 			Draw::drawPlayerInfoTitle(number);
