@@ -10,12 +10,13 @@ Stock::Stock() : name("stock"), prize(20)
 {
 }
 
-double Stock::fluctuate()
+int Stock::fluctuate()
 {
-
-	double fluctuateRate = (rand() % 21-10)*0.01;
-	lastChanged = ((fluctuateRate ) * prize);
+	int r = (rand() % 21 - 10);
+	double fluctuateRate = r*0.01;//-10%~10%
+	lastChanged = (int)((fluctuateRate ) * prize+0.5);
 	prize += lastChanged;
+	//return pair<int, bool>(lastChanged, r == -10 || r == 10 ? true : false);
 	return lastChanged;
 }
 

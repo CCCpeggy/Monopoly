@@ -8,12 +8,12 @@ class Player;
 class Stock
 {
 public:
-	double lastChanged;
+	int lastChanged;
 	string name;
 	int prize;
 	Stock(string newName, double newPrize);
 	Stock();
-	double fluctuate(); 
+	int fluctuate(); 
 	string getName();
 	~Stock();
 };
