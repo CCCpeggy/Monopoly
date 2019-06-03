@@ -682,6 +682,7 @@ bool Game::showPlayStatus()
 		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
 			number += getKey == VK_RIGHT ? 1 : 4 ;
 			number %= 5;
+			Draw::drawPlayerInfoTitle(number);
 			switch(number){
 			case 0:
 				player[playerIndex].drawPlayerInfo();
@@ -699,7 +700,6 @@ bool Game::showPlayStatus()
 				player[playerIndex].drawPlayerItem();
 				break;
 			}
-			Draw::drawPlayerInfoTitle(number);
 		}
 		getKey = keyBoard();
 	}
@@ -827,19 +827,24 @@ void Game::showDice(pair<int, int> dice)
 	cleanCenter();
 }
 
-pair<int, int> Game::showInfo(string title, vector<string> colName, vector<string*> word, int n, int minIndex, int maxIndex)
+pair<int, int> Game::showPlayerInfo(string title, vector<string> colName, vector<string*> word, int n, int minIndex, int maxIndex)
 {
 	int chooseIndex = minIndex;;
 	int chooseLine = 0;
 	Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
 	int getKey = keyBoard();
-	while (getKey != VK_RETURN) {
+	while (word.size() > 0 && getKey != VK_RETURN) {
 		if (getKey == VK_ESCAPE) {
 			chooseIndex = 沒有選擇;
 			chooseLine = 沒有選擇;
 			break;
 		}
 		if (getKey == VK_UP || getKey == VK_DOWN) {
+			if (chooseLine == 0 && getKey == VK_UP) {
+				chooseIndex = 沒有選擇;
+				chooseLine = 沒有選擇;
+				break;
+			}
 			chooseLine += getKey == VK_DOWN ? 1 : word.size() - 1;
 			chooseLine %= word.size();
 			Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
@@ -853,7 +858,8 @@ pair<int, int> Game::showInfo(string title, vector<string> colName, vector<strin
 		}
 		getKey = keyBoard();
 	}
-	cleanCenter();
+	Draw::drawInfo(title, colName, word, -1, n, -1);
+	//cleanCenter();
 	return pair<int, int>(chooseLine, chooseIndex);
 }
 

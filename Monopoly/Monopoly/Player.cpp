@@ -377,7 +377,7 @@ void Player::drawPlayerAllEstate()
 		a[2] = to_string((*it)->currentTolls());
 		output.push_back(a);
 	}
-	Game::showInfo("", titleName, output, 3, 0, 5);
+	Game::showPlayerInfo("", titleName, output, 3, 0, 2);
 	delete[]a;
 }
 
@@ -430,7 +430,7 @@ void Player::drawPlayerStock(int stockIndex)
 			content.push_back(a);
 		}
 	}
-	Game::showInfo("", title,content, 3,0, 5);
+	Game::showPlayerInfo("", title,content, 3,0, 2);
 	delete[]a;
 }
 
