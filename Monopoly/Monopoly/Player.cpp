@@ -405,7 +405,7 @@ void Player::drawStatusPlayerName()
 	cursor << Color::B_PLAYER_COLOR[index] << left << setw(16) << name << Color::DEF_COLOR;
 }
 
-void Player::drawPlayerStock(int index)
+void Player::drawPlayerStock(int stockIndex)
 {
 	map<Stock*,int>::iterator it;
 	vector<pair<Stock*, int>> temp;
@@ -417,23 +417,42 @@ void Player::drawPlayerStock(int index)
 		cursor.nextPos();
 	}
 	cursor.nextLine();
-	
 	for (it = ownedStocks.begin(); it != ownedStocks.end(); it++)
 	{
 		temp.push_back(pair<Stock*, int>((*it).first, (*it).second));
 	}
-
-	for (itt = temp.begin(); itt != temp.end() ; itt++)
+	int k = 0;
+	int page = stockIndex / 5;
+	if (temp.size() >= page * 5)
+	{
+		itt = temp.begin() + page * 5;
+	}
+	while(itt != temp.end()&&k<5)
 	{
 		if ((*itt).second != 0)
 		{
-			cursor << pair<string, int>((*itt).first->getName(), 15);
-			cursor.nextPos();
-			cursor << pair<string, int>(to_string((*itt).second), 15);
-			cursor.nextPos();
-			cursor << pair<string, int>(to_string((*itt).first->prize), 15);
-			cursor.nextLine();
+			if (stockIndex % 5 == k)
+			{
+				cursor << Color::TAG_CHOOSE_COLOR << "¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@";
+				cursor << pair<string, int>((*itt).first->getName(), 15);
+				cursor.nextPos();
+				cursor <<  pair<string, int>(to_string((*itt).second), 15);
+				cursor.nextPos();
+				cursor << pair<string, int>(to_string((*itt).first->prize), 15);
+				cursor.nextLine();
+			}
+			else
+			{
+				cursor << Color::DEF_COLOR<<pair<string, int>((*itt).first->getName(), 15);
+				cursor.nextPos();
+				cursor << Color::DEF_COLOR<<pair<string, int>(to_string((*itt).second), 15);
+				cursor.nextPos();
+				cursor << Color::DEF_COLOR<<pair<string, int>(to_string((*itt).first->prize), 15);
+				cursor.nextLine();
+			}
 		}
+		k++;
+		itt++;
 	}
 
 }
