@@ -230,9 +230,10 @@ void Player::sellEstate(EstateBlock* estate)
 
 void Player::buyHouse(EstateBlock * estate)
 {
-	ownedEstates.push_back(estate);
+	
 	if (estate->houseLevel==-1)
 	{
+		ownedEstates.push_back(estate);
 		money -= estate->initialPrice;
 	}
 	else
@@ -362,21 +363,26 @@ void Player::drawPlayerAllMoney()
 void Player::drawPlayerAllEstate()
 {
 	vector<EstateBlock*>::iterator it;
-	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
+	vector<string>titleName;
+	//Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
 	for (int i = 0; i < 3; i++) {
-		cursor << pair<string, int>(Draw::playerEstateInfoTitle[i], 15);
-		cursor.nextPos();
+		/*cursor << pair<string, int>(Draw::playerEstateInfoTitle[i], 15);
+		cursor.nextPos();*/
+		titleName.push_back(Draw::playerEstateInfoTitle[i]);
 	}
-	cursor.nextLine();
+	//cursor.nextLine();
+	vector<string* >output;
+	string *a=NULL;
 	for (it = ownedEstates.begin(); it != ownedEstates.end(); it++)
-	{    
-			cursor << pair<string,int>((*it)->name,15);
-			cursor.nextPos();
-			cursor << pair<string, int>(to_string((*it)->houseLevel),15);
-			cursor.nextPos();
-			cursor << pair<string, int>(to_string((*it)->currentTolls()), 15);
-			cursor.nextLine();
+	{   
+		 a = new string[3];
+		a[0] = (*it)->name;
+		a[1] = to_string((*it)->houseLevel);
+		a[2] = to_string((*it)->currentTolls());
+		output.push_back(a);
 	}
+	Game::showInfo("", titleName, output, 3, 0, 5);
+	delete[]a;
 }
 
 void Player::drawPlayerMoneyStatus()
