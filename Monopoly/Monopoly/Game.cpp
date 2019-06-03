@@ -1024,6 +1024,6 @@ void Game::drawStockInfo(int index)
 void Game::drawEstateBlockInfo(int index)
 {
 	Draw::drawEstateBlockInfoFrame();
-	
-
+	BaseBlock* b = map[6];
+	b->OutputBlockInfo();
 }
