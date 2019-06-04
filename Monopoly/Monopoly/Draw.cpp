@@ -315,7 +315,7 @@ void Draw::drawMenu(vector<string> itemList, string name, int index)
 
 void Draw::drawInfo(string title, vector<string> colTitle, vector<vector<string> > word, int chooseIndex, int n, int chooseLine, bool hasFrame)
 {
-	Cursor cursor = dialogCursor.getSubCursor(0, hasFrame ? 2 : 4);
+	Cursor cursor = dialogCursor.getSubCursor(0, hasFrame ? 2 : 5);
 	cursor << pair<string, int>(title, DIALOG_TITLE_LEN);
 	for (int i = 0; hasFrame && i <= 17; i++)
 	{
@@ -335,8 +335,10 @@ void Draw::drawInfo(string title, vector<string> colTitle, vector<vector<string>
 	for (i = 0, line = count * itemCount; line < word.size() && i < itemCount; i++, line++) {
 		cursor.nextLine();
 		cursor.nextLine();
+		if (line == chooseLine && chooseIndex == -1)
+			cursor << Color::TAG_CHOOSE_COLOR << "　　　　　　　　　　　　　　　　　　　　　　";
 		for (int j = 0; j < n; j++) {
-			if (line == chooseLine && j == chooseIndex) cursor << Color::TAG_CHOOSE_COLOR;
+			if (line == chooseLine && (j == chooseIndex || chooseIndex == -1)) cursor << Color::TAG_CHOOSE_COLOR;
 			else cursor << Color::DEF_COLOR;
 			cursor << pair<string, int>(word[line][j], DIALOG_CONTENT_LEN / n);
 			cursor.nextPos();
@@ -346,7 +348,7 @@ void Draw::drawInfo(string title, vector<string> colTitle, vector<vector<string>
 
 void Draw::drawInfo(string title, vector<string> word, int chooseLine, bool hasFrame)
 {
-	Cursor cursor = dialogCursor.getSubCursor(0, hasFrame ? 2 : 4);
+	Cursor cursor = dialogCursor.getSubCursor(0, hasFrame ? 2 : 5);
 	for (int i = 0; hasFrame && i <= 17; i++)
 	{
 		cursor.nextLine();

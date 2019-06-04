@@ -846,14 +846,15 @@ void Game::showPlayerInfo(vector<string> word, bool choosed)
 			getKey = keyBoard();
 		}
 	}
+	Draw::cleanPlayerInfoContent();
 	Draw::drawInfo("", word, -1, false);
 	return;
 }
 
-void Game::showPlayerInfo(string title, vector<string> colName, vector<vector<string> > word, int n, int minIndex, int maxIndex, bool choosed)
+void Game::showPlayerInfo(string title, vector<string> colName, vector<vector<string> > word, int n, bool choosed)
 {
 	if (choosed) {
-		int chooseIndex = minIndex;;
+		int chooseIndex = -1;
 		int chooseLine = 0;
 		Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine, false);
 		int getKey = keyBoard();
@@ -863,19 +864,44 @@ void Game::showPlayerInfo(string title, vector<string> colName, vector<vector<st
 				chooseLine += getKey == VK_DOWN ? 1 : word.size() - 1;
 				chooseLine %= word.size();
 			}
-			else if (getKey == VK_LEFT || getKey == VK_RIGHT) {
-				chooseIndex -= minIndex;
-				chooseIndex += getKey == VK_RIGHT ? 1 : (maxIndex - minIndex);
-				chooseIndex %= (maxIndex - minIndex + 1);
-				chooseIndex += minIndex;
-			}
 			Draw::cleanPlayerInfoContent();
 			Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine, false);
 			getKey = keyBoard();
 		}
 	}
+	Draw::cleanPlayerInfoContent();
 	Draw::drawInfo(title, colName, word, -1, n, -1, false);
 	return;
+}
+
+pair<int, int> Game::showInfo(string title, vector<string> colName, vector<vector<string> > word, int n, int minIndex, int maxIndex)
+{
+	int chooseIndex = minIndex;;
+	int chooseLine = 0;
+	Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN) {
+		if (getKey == VK_ESCAPE) {
+			chooseIndex = 沒有選擇;
+			chooseLine = 沒有選擇;
+			break;
+		}
+		if (getKey == VK_UP || getKey == VK_DOWN) {
+			chooseLine += getKey == VK_DOWN ? 1 : word.size() - 1;
+			chooseLine %= word.size();
+			Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
+		}
+		else if (getKey == VK_LEFT || getKey == VK_RIGHT) {
+			chooseIndex -= minIndex;
+			chooseIndex += getKey == VK_RIGHT ? 1 : (maxIndex - minIndex);
+			chooseIndex %= (maxIndex - minIndex + 1);
+			chooseIndex += minIndex;
+			Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
+		}
+		getKey = keyBoard();
+	}
+	cleanCenter();
+	return pair<int, int>(chooseLine, chooseIndex);
 }
 
 int Game::showInfo(string title, vector<string> word)

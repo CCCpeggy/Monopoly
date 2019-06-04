@@ -369,7 +369,7 @@ void Player::drawPlayerAllEstate(bool choosed)
 		a[2] = to_string((*it)->currentTolls());
 		output.push_back(a);
 	}
-	Game::showPlayerInfo("", titleName, output, 3, 0, 2, choosed);
+	Game::showPlayerInfo("", titleName, output, 3, choosed);
 }
 
 void Player::drawPlayerMoneyStatus()
@@ -420,7 +420,7 @@ void Player::drawPlayerStock(bool choosed)
 			content.push_back(a);
 		}
 	}
-	Game::showPlayerInfo("", title, content, 3, 0, 2);
+	Game::showPlayerInfo("", title, content, 3, choosed);
 }
 
 void Player::drawPlayerItem(bool choosed)
@@ -457,5 +457,5 @@ void Player::drawPlayerItem(bool choosed)
 		}
 	}
 	
-	Game::showPlayerInfo("", colName, words, 2, 0, 1, choosed);
+	Game::showPlayerInfo("", colName, words, 2, choosed);
 }
