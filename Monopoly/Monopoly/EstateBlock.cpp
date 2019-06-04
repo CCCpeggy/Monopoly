@@ -178,20 +178,26 @@ void EstateBlock::drawEstateLevel()
 
 void EstateBlock::drawBlockInfoCenter()
 {
-	Cursor cursor = Draw::dialogCursor.getSubCursor(18, 8, 12);
+	Cursor cursor = Draw::dialogCursor.getSubCursor((40-name.length())/2, 6, 12);
 	cursor << "土地名稱：" << name;
+	cursor.nextLine().nextLine();
+	cursor << "是否有路障：";
+	getHasRoadBlock() ? cursor << "是" : cursor << "否";
 	cursor.nextLine().nextLine();
 	if (owner != NULL) {
 		cursor << "所有權人：player" << owner->index + 1;
 		cursor.nextLine().nextLine();
-		cursor << "等級：" << houseLevel + 1;
-		cursor.nextLine().nextLine();
-		cursor << "過路費用：" << tolls[houseLevel] << "元";
+		cursor << "現在等級：" << houseLevel + 1 << "　　過路費用：" << tolls[houseLevel] << "元";
 	}
 	else {
 		cursor << "尚無所有權人";
 		cursor.nextLine().nextLine();
 		cursor << "過路費用：" << "0 元";
 	}
-
+	cursor.nextLine().nextLine();
+	cursor << "蓋房費用：" << initialPrice / 2;
+	cursor.nextLine().nextLine();
+	cursor << "過路費一覽：" << "等級1" << tolls[0] << "　　　" << "等級2" << tolls[1];
+	cursor.nextLine().nextLine();
+	cursor << "等級3" << tolls[2] << "　　　" << "等級4" << tolls[3];
 }

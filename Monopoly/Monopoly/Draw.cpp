@@ -65,7 +65,7 @@ const string Draw::stockInfoBlock[18] = {
 const string Draw::EstateBlockInfoBlock[18] = {
 										   "■————————————————————————■",
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥",
-											"∥————————————————————————∥"  ,
+											"∥　　　　　　　　　　　　　　　　　　　　　　　　∥"  ,
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
 										   "∥　　　　　　　　　　　　　　　　　　　　　　　　∥" ,
