@@ -6,6 +6,7 @@ const string Draw::playerStockInfoTitle[3] = { "名稱","張數","股價" };
 const string Draw::stockInfoTitle[3] = { "名稱","股價","漲跌" };
 const string Draw::playerItemTitle[2] = { "項目","數量" };
 const string Draw::itemName[2] = { "遙控骰子","路障" };
+const string Draw::stockTradeInfo[5] = { "名稱","股價","漲跌","　","　" };
 const Cursor Draw::cursor(50, 0, 10, 4);
 Cursor Draw::playerStatusCursor(0, 34);
 Cursor Draw::dialogCursor(65, 5);

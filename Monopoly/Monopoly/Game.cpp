@@ -1119,3 +1119,35 @@ void Game::drawEstateBlockInfo(int index)
 	Draw::cleanPlayerInfoContent();
 	map[index]->drawBlockInfoCenter();
 }
+
+void Game::drawStockTradeInfo()
+{
+	vector<string>colName;
+	vector<vector<string>> word;
+	vector<Stock*>::iterator it;
+	for (int i = 0; i < 5; i++)
+	{
+		colName.push_back(Draw::stockTradeInfo[i]);
+	}
+
+	for (it = stock.begin(); it != stock.end(); it++)
+	{
+		vector<string>temp(5);
+		temp[0] = (*it)->name;
+		temp[1] = to_string((*it)->prize);
+		if ((*it)->lastChanged >= 0)
+		{
+			temp[2] = "+";
+			temp[2] += to_string((*it)->lastChanged);
+		}
+		else
+		{
+			temp[2] = "-";
+			temp[2] += to_string((*it)->lastChanged);
+		}
+		temp[3] = "買";
+		temp[4] = "賣";
+		word.push_back(temp);
+	}
+	showInfo("股票交易", colName, word, 5, 3, 4);
+}

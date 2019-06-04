@@ -34,6 +34,7 @@ public:
 	static const string playerItemTitle[2];
 	static const string itemName[2];
 	static const string stockInfoTitle[3];
+	static const string stockTradeInfo[5];
 	static const string diceone[5];
 	static const string dicetwo[5];
 	static const string dicethree[5];

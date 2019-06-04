@@ -6,7 +6,7 @@
 #include "Game.h"
 #include "EstateBlock.h"
 using namespace std;
-const string ChanceBlock::card[] = {"銀行付你利息，500元","經營小本生意，獲利1000元","整修自己所有房屋，每棟250元","這是你的生日，向每人收取禮金1000元"};
+const string ChanceBlock::card[] = {"銀行付你利息，500元","經營小本生意，獲利1000元","整修自己所有房屋，每棟250元","這是你的生日，向每人收取禮金1000元","繳稅，付出總資產10%的稅金"};
 int ChanceBlock::getCategory()
 {
 	return -2;
@@ -23,7 +23,7 @@ void ChanceBlock::startEvent(Player*)
 
 void ChanceBlock::arriveEvent(Player* player)
 {
-	int index = rand() % 4;
+	int index = rand() % 5;
 	Game::showDialog("機會", card[index]);
 	vector<EstateBlock*>::iterator it = player->ownedEstates.begin();
 	int total = 0;
@@ -45,6 +45,8 @@ void ChanceBlock::arriveEvent(Player* player)
 	case 3://這是你的生日，向每人收取禮金1000元
 		game->getMoneyFromEveryPlayer(1000);
 		break;
+	case 4://繳稅，付出總資產10%的稅金
+		game->getPlayer()->loseMoney(game->getPlayer()->getAsset()*0.1);
 	}
 }
 
