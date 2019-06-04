@@ -436,14 +436,38 @@ void Player::drawPlayerStock(int stockIndex)
 
 void Player::drawPlayerItem()
 {
-	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 45, 2);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 22, 2);
 	vector<Item*>::iterator it;
-	int itemCount[] = { 0 };
+	int itemCount[] = {0,0};
+	vector<string>colName;
+	for (int i = 0; i < 2; i++)
+	{
+		colName.push_back(Draw::playerItemTitle[i]);
+	}
 	cursor.nextLine();
 	for (it = ownedItems.begin(); it != ownedItems.end(); it++)
 	{
-		cursor << pair<string,int>((*it)->name,45);
-		cursor.nextLine();
+		if (strcmp(Draw::itemName[0].c_str(), (*it)->name.c_str()) == 0)
+		{
+			itemCount[0]++;
+		}
+		else if (strcmp(Draw::itemName[1].c_str(), (*it)->name.c_str()) == 0)
+		{
+			itemCount[1]++;
+		}
 	}
-
+	vector<string*>words;
+	string *a=NULL;
+	for (int i = 0; i < 2; i++)
+	{
+		if (itemCount[i] != 0)
+		{
+			a=new string[2];
+			a[0] = Draw::itemName[i];
+			a[1] = to_string(itemCount[i]);
+			words.push_back(a);
+		}
+	}
+	Game::showPlayerInfo("", colName, words, 2, 0, 1);
+	delete[]a;
 }

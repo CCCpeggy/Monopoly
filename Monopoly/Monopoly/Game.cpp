@@ -960,21 +960,21 @@ void Game::drawStockInfo(int index)
 {
 	Draw::drawStockInfoFrame();
 	vector<Stock*>::iterator it;
-	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 15, 2);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 4, 15, 2);
 	for (int i = 0; i < 3; i++) {
 		cursor << pair<string, int>(Draw::stockInfoTitle[i], 15);
 		cursor.nextPos();
 	}
 	cursor.nextLine();
 	int k = 0;
-	int page = index / 5;
-	if (stock.size() >= page * 5)
+	int page = index / 6;
+	if (stock.size() >= page * 6)
 	{
-		it = stock.begin() + page * 5;
+		it = stock.begin() + page * 6;
 	}
-	while (it != stock.end() && k < 5)
+	while (it != stock.end() && k < 6)
 	{
-		if (index % 5 == k)
+		if (index %6 == k)
 		{
 			cursor << Color::TAG_CHOOSE_COLOR << "¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@";
 			cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>((*it)->name, 15);
