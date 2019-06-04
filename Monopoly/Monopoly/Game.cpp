@@ -728,15 +728,28 @@ bool Game::showBlock()
 	int choose = 0;
 	drawEstateBlockInfo(choose);
 	int getKey = keyBoard();
-	while (getKey != VK_RETURN && getKey != VK_ESCAPE) {
-		if (getKey == VK_UP || getKey == VK_DOWN) {
-			choose += getKey == VK_DOWN ? 1 : stock.size() - 1;
-			choose %= stock.size();
-			drawEstateBlockInfo(choose);
+	while (getKey != VK_RETURN) {
+		map[choose]->cleanSelected();
+		drawEstateBlockInfo(choose);
+		if (getKey == VK_ESCAPE) {
+			choose = ¨S¦³¿ï¾Ü;
+			cleanCenter();
+			return false;
 		}
-		getKey = keyBoard();
+		int tmpX = map[choose]->x, tmpY = map[choose]->y;
+		if (getKey == VK_RIGHT) {
+			tmpX++;
+		}
+		else if (getKey == VK_LEFT) {
+			tmpX--;
+		}
+		else if (getKey == VK_DOWN) {
+			tmpY++;
+		}
+		else if (getKey == VK_UP) {
+			tmpY--;
+		}
 	}
-	cleanCenter();
 	return false;
 }
 
@@ -1028,6 +1041,6 @@ void Game::drawStockInfo(int index)
 void Game::drawEstateBlockInfo(int index)
 {
 	Draw::drawEstateBlockInfoFrame();
-	BaseBlock* b = map[2];
+	BaseBlock* b = map[index];
 	b->OutputBlockInfo();
 }
