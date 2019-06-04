@@ -73,13 +73,13 @@ public:
 	//Ã¸»s
 	void cleanPlayerLocation();
 	void drawPlayerLocation();
-	void drawPlayerInfo();
-	void drawPlayerAllMoney();
-	void drawPlayerAllEstate();
+	void drawPlayerInfo(bool = false);
+	void drawPlayerAllMoney(bool = false);
+	void drawPlayerAllEstate(bool = false);
 	void drawPlayerMoneyStatus();
 	void drawStatusPlayerName();
-	void drawPlayerStock(int);
-	void drawPlayerItem();
+	void drawPlayerStock(bool = false);
+	void drawPlayerItem(bool = false);
 	//«Øºc
 	private:
 		void initStocks(vector<Stock>* stocks);

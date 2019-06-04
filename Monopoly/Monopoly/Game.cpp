@@ -481,7 +481,12 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 		action.first.push_back("股票資訊");
 		action.second[index++] = &Game::showStock;
 	}
-	
+
+	if (status == 所有動作) {
+		action.first.push_back("土地資訊");
+		action.second[index++] = &Game::showBlock;
+	}
+
 	if (status == 所有動作) {
 		action.first.push_back("存檔");
 		action.second[index++] = &Game::saveFile;
@@ -492,12 +497,6 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 		action.second[index++] = &Game::backHome;
 
 	}
-
-	if (status == 所有動作) {
-		action.first.push_back("土地資訊");
-		action.second[index++] = &Game::showBlock;
-	}
-	
 	return action;
 }
 
@@ -598,7 +597,7 @@ void Game::showAllPlayerStatus()
 }
 
 void Game::showGameStatus() {
-	Cursor cursor = Draw::playerStatusCursor.getSubCursor(2, 7, 76);
+	Cursor cursor = Draw::playerStatusCursor.getSubCursor(2, 8, 76);
 	cursor << left << setw(6) << player[playerIndex].getName();
 	cursor.nextPos();
 	cursor << right << setw(2) << round + 1;
@@ -644,6 +643,45 @@ BaseBlock* Game::showChoosingMapMode(string content)
 	return map[choose];
 }
 
+void Game::showChoosingMapMode(void(Game::*function)(void))
+{
+	this->function();
+	map[0]->drawSelected();
+	int choose = 0;
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN) {
+		map[choose]->cleanSelected();
+		showBlockContent(choose);
+		if (getKey == VK_ESCAPE) {
+			choose = 沒有選擇;
+			cleanCenter();
+			return nullptr;
+		}
+		int tmpX = map[choose]->x, tmpY = map[choose]->y;
+		if (getKey == VK_RIGHT) {
+			tmpX++;
+		}
+		else if (getKey == VK_LEFT) {
+			tmpX--;
+		}
+		else if (getKey == VK_DOWN) {
+			tmpY++;
+		}
+		else if (getKey == VK_UP) {
+			tmpY--;
+		}
+		int nextChoose = (choose + 1) % map.blockNums;
+		int lastChoose = (choose - 1 + map.blockNums) % map.blockNums;
+		if (map[nextChoose]->x == tmpX && map[nextChoose]->y == tmpY) choose = nextChoose;
+		else if (map[lastChoose]->x == tmpX && map[lastChoose]->y == tmpY) choose = lastChoose;
+		map[choose]->drawSelected();
+		getKey = keyBoard();
+	}
+	map[choose]->cleanSelected();
+	showBlockContent(choose);
+	cleanCenter();
+}
+
 void Game::showMapContent()
 {
 	for (int i = 0; i < player.size(); i++) {
@@ -673,31 +711,34 @@ bool Game::showPlayStatus()
 	Draw::drawPlayerInfoTitle(0);
 	int number = 0;
 	int getKey = keyBoard();
-	while (getKey != VK_RETURN) {
-		if (getKey == VK_ESCAPE) {
-			number = 沒有選擇;
-			break;
-		}
-		Draw::cleanPlayerInfoContent();
+	while (getKey != VK_ESCAPE) {
+		bool choosed = false;
 		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
+			Draw::cleanPlayerInfoContent();
 			number += getKey == VK_RIGHT ? 1 : 4 ;
 			number %= 5;
 			Draw::drawPlayerInfoTitle(number);
-			switch(number){
+		}
+		else if (getKey == VK_RETURN || getKey == VK_DOWN) {
+			Draw::cleanPlayerInfoContent();
+			choosed = true;
+		}
+		if (getKey == VK_RIGHT || getKey == VK_LEFT ||getKey == VK_RETURN || getKey == VK_DOWN) {
+			switch (number) {
 			case 0:
-				player[playerIndex].drawPlayerInfo();
+				player[playerIndex].drawPlayerInfo(choosed);
 				break;
 			case 1:
-				player[playerIndex].drawPlayerAllMoney();
+				player[playerIndex].drawPlayerAllMoney(choosed);
 				break;
 			case 2:
-				player[playerIndex].drawPlayerAllEstate();
+				player[playerIndex].drawPlayerAllEstate(choosed);
 				break;
 			case 3:
-				player[playerIndex].drawPlayerStock(0);
+				player[playerIndex].drawPlayerStock(choosed);
 				break;
 			case 4:
-				player[playerIndex].drawPlayerItem();
+				player[playerIndex].drawPlayerItem(choosed);
 				break;
 			}
 		}
@@ -827,24 +868,64 @@ void Game::showDice(pair<int, int> dice)
 	cleanCenter();
 }
 
-pair<int, int> Game::showPlayerInfo(string title, vector<string> colName, vector<string*> word, int n, int minIndex, int maxIndex)
+void Game::showPlayerInfo(vector<string> word, bool choosed)
+{
+	if (choosed) {
+		int chooseLine = 0;
+		Draw::drawInfo("", word, chooseLine, false);
+		int getKey = keyBoard();
+		if (word.size() <= 0) return;
+		while (getKey != VK_ESCAPE && !(chooseLine == 0 && getKey == VK_UP)) {
+			if (getKey == VK_UP || getKey == VK_DOWN) {
+				chooseLine += getKey == VK_DOWN ? 1 : word.size() - 1;
+				chooseLine %= word.size();
+			}
+			Draw::cleanPlayerInfoContent();
+			Draw::drawInfo("", word, chooseLine, false);
+			getKey = keyBoard();
+		}
+	}
+	Draw::cleanPlayerInfoContent();
+	Draw::drawInfo("", word, -1, false);
+	return;
+}
+
+void Game::showPlayerInfo(string title, vector<string> colName, vector<vector<string> > word, int n, bool choosed)
+{
+	if (choosed) {
+		int chooseIndex = -1;
+		int chooseLine = 0;
+		Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine, false);
+		int getKey = keyBoard();
+		if (word.size() <= 0) return;
+		while (getKey != VK_ESCAPE && !(chooseLine == 0 && getKey == VK_UP)) {
+			if (getKey == VK_UP || getKey == VK_DOWN) {
+				chooseLine += getKey == VK_DOWN ? 1 : word.size() - 1;
+				chooseLine %= word.size();
+			}
+			Draw::cleanPlayerInfoContent();
+			Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine, false);
+			getKey = keyBoard();
+		}
+	}
+	Draw::cleanPlayerInfoContent();
+	Draw::drawInfo(title, colName, word, -1, n, -1, false);
+	return;
+}
+
+pair<int, int> Game::showInfo(string title, vector<string> colName, vector<vector<string> > word, int n, int minIndex, int maxIndex)
 {
 	int chooseIndex = minIndex;;
 	int chooseLine = 0;
 	Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
 	int getKey = keyBoard();
-	while (word.size() > 0 && getKey != VK_RETURN) {
+	while (getKey != VK_RETURN) {
 		if (getKey == VK_ESCAPE) {
 			chooseIndex = 沒有選擇;
 			chooseLine = 沒有選擇;
 			break;
 		}
 		if (getKey == VK_UP || getKey == VK_DOWN) {
-			if (chooseLine == 0 && getKey == VK_UP) {
-				chooseIndex = 沒有選擇;
-				chooseLine = 沒有選擇;
-				break;
-			}
 			chooseLine += getKey == VK_DOWN ? 1 : word.size() - 1;
 			chooseLine %= word.size();
 			Draw::drawInfo(title, colName, word, chooseIndex, n, chooseLine);
@@ -858,8 +939,7 @@ pair<int, int> Game::showPlayerInfo(string title, vector<string> colName, vector
 		}
 		getKey = keyBoard();
 	}
-	Draw::drawInfo(title, colName, word, -1, n, -1);
-	//cleanCenter();
+	cleanCenter();
 	return pair<int, int>(chooseLine, chooseIndex);
 }
 

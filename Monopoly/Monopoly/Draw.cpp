@@ -87,12 +87,13 @@ const string Draw::boundary[5] = { "．－－－－．"
 									,"∣　　　　∣"
 									,"．－－－－．"
 };
-const string Draw::gameStatusFrame[9] = {
+const string Draw::gameStatusFrame[10] = {
 "．———————————————————————————————————————．"
 ,"｜　玩家　                ｜                ｜                ｜                ｜"
 ,"｜　現金　                ｜                ｜                ｜                ｜"
 ,"｜　借款　                ｜                ｜                ｜                ｜"
 ,"｜　存款　                ｜                ｜                ｜                ｜"
+,"｜總資產　                ｜                ｜                ｜                ｜"
 ,"．———————————————————————————————————————．"
 ,"｜目前遊戲者                                                          當前回合數｜"
 ,"｜                                                                              ｜"
@@ -313,17 +314,17 @@ void Draw::drawMenu(vector<string> itemList, string name, int index)
 	}
 }
 
-void Draw::drawInfo(string title, vector<string> colTitle, vector<string*> word, int chooseIndex, int n, int chooseLine)
+void Draw::drawInfo(string title, vector<string> colTitle, vector<vector<string> > word, int chooseIndex, int n, int chooseLine, bool hasFrame)
 {
-	Cursor cursor = dialogCursor.getSubCursor(0, 4);
+	Cursor cursor = dialogCursor.getSubCursor(0, hasFrame ? 2 : 5);
 	cursor << pair<string, int>(title, DIALOG_TITLE_LEN);
-	for (int i = 0; i <= 17; i++)
+	for (int i = 0; hasFrame && i <= 17; i++)
 	{
 		cursor.nextLine();
-		//cursor << Draw::stockInfoBlock[i];
+		cursor << Draw::stockInfoBlock[i];
 	}
 	cursor.add(4, 2, DIALOG_CONTENT_LEN / n);
-	const int itemCount = 5;
+	const int itemCount = 7;
 	int itemReminder = word.size() % itemCount;
 	int count = chooseLine / itemCount;
 	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　";
@@ -335,43 +336,37 @@ void Draw::drawInfo(string title, vector<string> colTitle, vector<string*> word,
 	for (i = 0, line = count * itemCount; line < word.size() && i < itemCount; i++, line++) {
 		cursor.nextLine();
 		cursor.nextLine();
+		if (line == chooseLine && chooseIndex == -1)
+			cursor << Color::TAG_CHOOSE_COLOR << "　　　　　　　　　　　　　　　　　　　　　　";
 		for (int j = 0; j < n; j++) {
-			cursor << Color::DEF_COLOR << nothing.substr(0, DIALOG_CONTENT_LEN / n);
-			cursor.backPos();
-			if (line == chooseLine && j == chooseIndex) cursor << Color::TAG_CHOOSE_COLOR;
+			if (line == chooseLine && (j == chooseIndex || chooseIndex == -1)) cursor << Color::TAG_CHOOSE_COLOR;
 			else cursor << Color::DEF_COLOR;
-			cursor << pair<string, int>(word[i][j], DIALOG_CONTENT_LEN / n);
+			cursor << pair<string, int>(word[line][j], DIALOG_CONTENT_LEN / n);
 			cursor.nextPos();
 		}
 	}
-	for (; i < itemCount; i++) {
-		cursor.nextLine();
-		cursor.nextLine();
-		cursor << Color::DEF_COLOR << nothing;
-	}
 }
 
-void Draw::drawInfo(string title, vector<string> word, int chooseLine)
+void Draw::drawInfo(string title, vector<string> word, int chooseLine, bool hasFrame)
 {
-	Cursor cursor = dialogCursor.getSubCursor(0, 2);
-	
-	for (int i = 0; i <= 17; i++)
+	Cursor cursor = dialogCursor.getSubCursor(0, hasFrame ? 2 : 5);
+	for (int i = 0; hasFrame && i <= 17; i++)
 	{
 		cursor.nextLine();
 		cursor << Draw::stockInfoBlock[i];
 	}
 	cursor.add(2, 2, DIALOG_CONTENT_LEN);
-	cursor << pair<string, int>(title, DIALOG_TITLE_LEN);
-	const int itemCount = 6;
+	if(hasFrame) cursor << pair<string, int>(title, DIALOG_TITLE_LEN) << cursor.nextLine() << cursor.nextLine();
+	const int itemCount = 7;
 	int itemReminder = word.size() % itemCount;
 	int count = chooseLine / itemCount;
 	for (int i = 0, line = count * itemCount; line < word.size() && i < itemCount; i++, line++) {
-		cursor.nextLine();
-		cursor.nextLine();
 		if (line == chooseLine) cursor << Color::TAG_CHOOSE_COLOR;
 		else cursor << Color::DEF_COLOR;
 		cursor << "　　　　　　　　　　　　　　　　　　　　　　　　";
-		cursor << pair<string, int>(word[i], DIALOG_CONTENT_LEN );
+		cursor << pair<string, int>(word[line], DIALOG_CONTENT_LEN );
+		cursor.nextLine();
+		cursor.nextLine();
 	}
 }
 
@@ -400,7 +395,7 @@ void Draw::drawPlayerInfoFrame()
 void Draw::drawGameStatusFrame()
 {
 	Cursor cursor = playerStatusCursor.getSubCursor(0, 0);
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < 10; i++) {
 		cursor << gameStatusFrame[i];
 		cursor.nextLine();
 	}
@@ -419,8 +414,8 @@ void Draw::cleanCenter()
 
 void Draw::cleanPlayerInfoContent()
 {
-	Cursor cursor = dialogCursor.getSubCursor(4, 6);
-	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　";
+	Cursor cursor = dialogCursor.getSubCursor(2, 6);
+	string nothing = "　　　　　　　　　　　　　　　　　　　　　　　　";
 	for (int i = 0; i <= 13; i++)
 	{
 		cursor << nothing;
