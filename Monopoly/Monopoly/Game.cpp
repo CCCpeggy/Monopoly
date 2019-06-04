@@ -420,14 +420,18 @@ bool Game::doStock()
 		{
 			temp[2] = to_string((*it)->lastChanged);
 		}
-		std::map<Stock*, int>::iterator iter;
-		iter=currentPlayer->ownedStocks.find(*it);
-		temp[3] = to_string((*iter).second);
 		temp[4] = "買";
 		temp[5] = "賣";
 		word.push_back(temp);
 	}
 	do{
+		int index = 0;
+		for (vector<Stock*>::iterator it = stock.begin(); it != stock.end(); it++)
+		{
+			std::map<Stock*, int>::iterator iter;
+			iter = currentPlayer->ownedStocks.find(*it);
+			word[index++][3] = to_string((*iter).second);
+		}
 		pair<int, int> choose = showInfo("股票交易", colName, word, 6, 4, 5);
 		if (choose.first == 沒有選擇 || choose.second == 沒有選擇) break;
 
