@@ -138,7 +138,7 @@ void EstateBlock::drawLocationName()
 
 void EstateBlock::drawBlockInfo()
 {
-	BaseBlock::drawBlockInfo();
+	BaseBlock::drawBlockInfoCenter();
 	drawEstateLevel();
 }
 
@@ -176,7 +176,7 @@ void EstateBlock::drawEstateLevel()
 		subCursor << Color::DEF_COLOR << "¡@";
 }
 
-void EstateBlock::OutputBlockInfo()
+void EstateBlock::drawBlockInfoCenter()
 {
 	Cursor cursor = Draw::dialogCursor.getSubCursor(18, 8, 12);
 	cursor << "¤g¦a¦WºÙ¡G" << name;

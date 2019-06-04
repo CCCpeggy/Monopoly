@@ -643,20 +643,15 @@ BaseBlock* Game::showChoosingMapMode(string content)
 	return map[choose];
 }
 
-void Game::showChoosingMapMode(void(Game::*function)(void))
+void Game::showChoosingMapMode(void(Game::*function)(int))
 {
-//	this->function();
-	map[0]->drawSelected();
 	int choose = 0;
+	(this->*function)(choose);
+	map[0]->drawSelected();
 	int getKey = keyBoard();
-	while (getKey != VK_RETURN) {
+	while (getKey != VK_ESCAPE) {
 		map[choose]->cleanSelected();
 		showBlockContent(choose);
-		if (getKey == VK_ESCAPE) {
-			choose = 沒有選擇;
-			cleanCenter();
-			//return nullptr;
-		}
 		int tmpX = map[choose]->x, tmpY = map[choose]->y;
 		if (getKey == VK_RIGHT) {
 			tmpX++;
@@ -675,6 +670,7 @@ void Game::showChoosingMapMode(void(Game::*function)(void))
 		if (map[nextChoose]->x == tmpX && map[nextChoose]->y == tmpY) choose = nextChoose;
 		else if (map[lastChoose]->x == tmpX && map[lastChoose]->y == tmpY) choose = lastChoose;
 		map[choose]->drawSelected();
+		(this->*function)(choose);
 		getKey = keyBoard();
 	}
 	map[choose]->cleanSelected();
@@ -767,12 +763,15 @@ bool Game::showStock()
 
 bool Game::showBlock()
 {
+	Draw::drawEstateBlockInfoFrame();
+	showChoosingMapMode(&Game::drawEstateBlockInfo);
+	/*
 	int choose = 0;
-	drawEstateBlockInfo(choose);
+	(choose);
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
 		//移動
-	}
+	}*/
 	return false;
 }
 
@@ -1034,12 +1033,12 @@ void Game::drawStockInfo(int index)
 {
 	Draw::drawStockInfoFrame();
 	vector<Stock*>::iterator it;
-	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 4, 15, 2);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 4, 15, 1);
 	for (int i = 0; i < 3; i++) {
 		cursor << pair<string, int>(Draw::stockInfoTitle[i], 15);
 		cursor.nextPos();
 	}
-	cursor.nextLine();
+	cursor.add(0, 3, 15, 2);
 	int k = 0;
 	int page = index / 6;
 	if (stock.size() >= page * 6)
@@ -1103,7 +1102,6 @@ void Game::drawStockInfo(int index)
 
 void Game::drawEstateBlockInfo(int index)
 {
-	Draw::drawEstateBlockInfoFrame();
-	BaseBlock* b = map[2];
-	b->OutputBlockInfo();
+	Draw::cleanPlayerInfoContent();
+	map[index]->drawBlockInfoCenter();
 }

@@ -23,7 +23,7 @@ public:
 	ChanceBlock(Game *game);
 	static const string card[];
 	~ChanceBlock();
-	virtual void OutputBlockInfo();
+	virtual void drawBlockInfoCenter();
 };
 
 #endif // !_CHANCEBLOCK_

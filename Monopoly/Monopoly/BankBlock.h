@@ -18,6 +18,6 @@ public:
 	BankBlock(string newName = "»È¦æ", int newIndex = 14, Game* game = nullptr);
 	BankBlock();
 	~BankBlock();
-	virtual void OutputBlockInfo();
+	virtual void drawBlockInfoCenter();
 };
 

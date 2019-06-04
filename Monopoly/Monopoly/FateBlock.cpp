@@ -61,7 +61,7 @@ FateBlock::~FateBlock()
 }
 
 
-void FateBlock::OutputBlockInfo()
+void FateBlock::drawBlockInfoCenter()
 {
 	Cursor cursor = Draw::dialogCursor.getSubCursor(18, 8, 12);
 	cursor << "¤g¦a¦WºÙ¡G" << name;

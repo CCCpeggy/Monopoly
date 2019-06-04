@@ -23,6 +23,6 @@ public:
 	FateBlock(Game* game);
 	static const string card[];
 	~FateBlock();
-	virtual void OutputBlockInfo();
+	virtual void drawBlockInfoCenter();
 };
 #endif // !_FATEBLOCK_

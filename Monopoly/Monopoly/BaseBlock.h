@@ -35,7 +35,7 @@ public:
 	void drawItem();
 	void setRoadBlock(bool);
 	bool getHasRoadBlock();
-	virtual void OutputBlockInfo() {};
+	virtual void drawBlockInfoCenter() {};
 private:
 
 	bool hasRoadBlock;

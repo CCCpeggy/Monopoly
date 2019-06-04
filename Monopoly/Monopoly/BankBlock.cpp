@@ -50,7 +50,7 @@ BankBlock::~BankBlock()
 {
 }
 
-void BankBlock::OutputBlockInfo()
+void BankBlock::drawBlockInfoCenter()
 {
 	Cursor cursor = Draw::dialogCursor.getSubCursor(18, 8, 12);
 	cursor << "¤g¦a¦WºÙ¡G" << name;

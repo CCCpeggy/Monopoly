@@ -13,7 +13,7 @@ public:
 	StartBlock& operator = (const StartBlock&);
 	StartBlock(string newName = "°_ÂI",int newIndex=0);
 	//void drawLocationName();
-	virtual void OutputBlockInfo();
+	virtual void drawBlockInfoCenter();
 	~StartBlock();
 };
 #endif // !_BASEBLOCK_
