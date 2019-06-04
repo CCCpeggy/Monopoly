@@ -83,11 +83,14 @@ public:
 	static bool showDialog(string, pair<string, string>, bool = Draw::FIRST);
 	static void showDialog(string = "", string = "");
 	static void showDice(pair<int, int>);
-	static pair<int, int> showPlayerInfo(string title, vector<string>, vector<string*> word, int n, int minIndex, int maxIndex); 
+	static void showPlayerInfo(vector<string> word, bool choosed = true);
+	static void showPlayerInfo(string title, vector<string>, vector<vector<string> > word, int n, bool choosed = true);
+	pair<int, int> showInfo(string title, vector<string> colName, vector<vector<string> > word, int n, int minIndex, int maxIndex);
 	static int showInfo(string title, vector<string> word);
 	static int showMenu(string, vector<string>, int = 0, void(*function)(string) = nullptr);
 	static int keyBoard();
 	BaseBlock* showChoosingMapMode(string);
+	void showChoosingMapMode(void(Game::*)(void));
 	Player* getPlayer();
 	void getMoneyFromEveryPlayer(int);
 	void giveMoneyToEveryPlayer(int);
