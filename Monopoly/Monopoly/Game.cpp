@@ -420,18 +420,9 @@ bool Game::doStock()
 		{
 			temp[2] = to_string((*it)->lastChanged);
 		}
-		vector<Stock*>::iterator itt;
 		std::map<Stock*, int>::iterator iter;
-		for (iter = currentPlayer->ownedStocks.begin(); iter != currentPlayer->ownedStocks.end(); iter++)
-		{
-			for (itt = stock.begin(); itt != stock.end(); itt++)
-			{
-				if ((*itt)->name==(*iter).first->name) 
-				{
-					temp[3] = to_string((*iter).second);
-				}
-			}
-		}
+		iter=currentPlayer->ownedStocks.find(*it);
+		temp[3] = to_string((*iter).second);
 		temp[4] = "¶R";
 		temp[5] = "½æ";
 		word.push_back(temp);
