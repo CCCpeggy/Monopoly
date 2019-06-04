@@ -26,7 +26,7 @@ public:
 	static Cursor dialogCursor;
 	static const string number[10];
 	static const string playInfoTitle[5];
-	static const string gameStatusFrame[9];
+	static const string gameStatusFrame[10];
 	static const string stockInfoBlock[18];
 	static const string EstateBlockInfoBlock[18];
 	static const string playerEstateInfoTitle[3];

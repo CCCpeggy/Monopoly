@@ -87,12 +87,13 @@ const string Draw::boundary[5] = { "．－－－－．"
 									,"∣　　　　∣"
 									,"．－－－－．"
 };
-const string Draw::gameStatusFrame[9] = {
+const string Draw::gameStatusFrame[10] = {
 "．———————————————————————————————————————．"
 ,"｜　玩家　                ｜                ｜                ｜                ｜"
 ,"｜　現金　                ｜                ｜                ｜                ｜"
 ,"｜　借款　                ｜                ｜                ｜                ｜"
 ,"｜　存款　                ｜                ｜                ｜                ｜"
+,"｜總資產　                ｜                ｜                ｜                ｜"
 ,"．———————————————————————————————————————．"
 ,"｜目前遊戲者                                                          當前回合數｜"
 ,"｜                                                                              ｜"
@@ -394,7 +395,7 @@ void Draw::drawPlayerInfoFrame()
 void Draw::drawGameStatusFrame()
 {
 	Cursor cursor = playerStatusCursor.getSubCursor(0, 0);
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < 10; i++) {
 		cursor << gameStatusFrame[i];
 		cursor.nextLine();
 	}

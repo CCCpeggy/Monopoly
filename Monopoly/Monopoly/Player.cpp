@@ -388,6 +388,8 @@ void Player::drawPlayerMoneyStatus()
 		cursor << debit;
 		cursor.nextLine();
 		cursor << saving;
+		cursor.nextLine();
+		cursor << getAsset();
 	}
 }
 
