@@ -643,6 +643,45 @@ BaseBlock* Game::showChoosingMapMode(string content)
 	return map[choose];
 }
 
+void Game::showChoosingMapMode(void(Game::*function)(void))
+{
+	this->function();
+	map[0]->drawSelected();
+	int choose = 0;
+	int getKey = keyBoard();
+	while (getKey != VK_RETURN) {
+		map[choose]->cleanSelected();
+		showBlockContent(choose);
+		if (getKey == VK_ESCAPE) {
+			choose = ¨S¦³¿ï¾Ü;
+			cleanCenter();
+			return nullptr;
+		}
+		int tmpX = map[choose]->x, tmpY = map[choose]->y;
+		if (getKey == VK_RIGHT) {
+			tmpX++;
+		}
+		else if (getKey == VK_LEFT) {
+			tmpX--;
+		}
+		else if (getKey == VK_DOWN) {
+			tmpY++;
+		}
+		else if (getKey == VK_UP) {
+			tmpY--;
+		}
+		int nextChoose = (choose + 1) % map.blockNums;
+		int lastChoose = (choose - 1 + map.blockNums) % map.blockNums;
+		if (map[nextChoose]->x == tmpX && map[nextChoose]->y == tmpY) choose = nextChoose;
+		else if (map[lastChoose]->x == tmpX && map[lastChoose]->y == tmpY) choose = lastChoose;
+		map[choose]->drawSelected();
+		getKey = keyBoard();
+	}
+	map[choose]->cleanSelected();
+	showBlockContent(choose);
+	cleanCenter();
+}
+
 void Game::showMapContent()
 {
 	for (int i = 0; i < player.size(); i++) {

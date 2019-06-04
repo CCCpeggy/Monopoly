@@ -90,6 +90,7 @@ public:
 	static int showMenu(string, vector<string>, int = 0, void(*function)(string) = nullptr);
 	static int keyBoard();
 	BaseBlock* showChoosingMapMode(string);
+	void showChoosingMapMode(void(Game::*)(void));
 	Player* getPlayer();
 	void getMoneyFromEveryPlayer(int);
 	void giveMoneyToEveryPlayer(int);
