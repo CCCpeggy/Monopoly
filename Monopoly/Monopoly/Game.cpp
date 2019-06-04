@@ -729,7 +729,26 @@ bool Game::showBlock()
 	drawEstateBlockInfo(choose);
 	int getKey = keyBoard();
 	while (getKey != VK_RETURN) {
-		//移動
+		map[choose]->cleanSelected();
+		drawEstateBlockInfo(choose);
+		if (getKey == VK_ESCAPE) {
+			choose = 沒有選擇;
+			cleanCenter();
+			return false;
+		}
+		int tmpX = map[choose]->x, tmpY = map[choose]->y;
+		if (getKey == VK_RIGHT) {
+			tmpX++;
+		}
+		else if (getKey == VK_LEFT) {
+			tmpX--;
+		}
+		else if (getKey == VK_DOWN) {
+			tmpY++;
+		}
+		else if (getKey == VK_UP) {
+			tmpY--;
+		}
 	}
 	return false;
 }
