@@ -158,7 +158,7 @@ void Game::loadFile(string fileName, int inputPlayerCount)
 		int thisPlayerIndex = node.first;
 		for (auto subNode : node.second) {
 			int estate = subNode.first, houseLevel = subNode.second;
-			if (map[estate]->getCategory() == 1 && thisPlayerIndex) {
+			if (map[estate]->getCategory() == 1) {
 				((EstateBlock*)map[estate])->setEstateInfo(&player[thisPlayerIndex], houseLevel);
 				player[thisPlayerIndex].ownedEstates.push_back((EstateBlock*)map[estate]);
 			}
