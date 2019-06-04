@@ -8,6 +8,7 @@ using namespace std;
 
 #pragma region  declare
 
+#define LOADFILE "basemap2.txt"
 //關於畫面
 HANDLE handleInput = GetStdHandle(STD_INPUT_HANDLE);
 HANDLE handleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -139,7 +140,8 @@ vector<string> listFile()
 
 void newGame()
 {
-	game = new Game;
+	int playerCount = Game::showNumberDialog("請選擇玩家人數", 2, 4, 2, 1, "人");
+	game = new Game(LOADFILE, true, playerCount);
 	delete game;
 }
 

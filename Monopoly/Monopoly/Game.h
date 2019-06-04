@@ -28,7 +28,6 @@ using namespace std;
 #define CHANCE 1
 #define FATE 2
 #define ALL -1
-#define LOADFILE "basemap2.txt"
 #define 破產 false
 #define 富翁 true
 #define 所有動作 false
@@ -47,7 +46,7 @@ private:
 	int round;
 	int totalRound;
 	bool isOver;
-	void loadFile(string);
+	void loadFile(string, int = 沒有選擇);
 	bool saveFile();
 	void saveFile(string);
 	void stockFluctuate();
@@ -77,7 +76,7 @@ private:
 	void showWinner();
 	bool backHome();
 public:
-	Game(string = LOADFILE, bool = true);
+	Game(string, bool = true, int = 沒有選擇);
 	static int showNumberDialog(string, int = 0, int = 10000, int = -10000, int = 1, string unit = "");
 	static void cleanCenter();
 	static bool showDialog(string, pair<string, string>, bool = Draw::FIRST);

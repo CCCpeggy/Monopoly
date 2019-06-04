@@ -1,9 +1,9 @@
 #include "Game.h"
 
-Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(false)
+Game::Game(string fileName,bool ableUse, int playerCount) :map(),round(0),playerIndex(0),isOver(false)
 {
 	system("cls");
-	loadFile(fileName); 
+	loadFile(fileName, playerCount);
 	if (ableUse) {
 		while (!isOver) {
 			for (; playerIndex < player.size(); playerIndex++) {
@@ -39,7 +39,7 @@ Game::Game(string fileName,bool ableUse) :map(),round(0),playerIndex(0),isOver(f
 	}
 }
 
-void Game::loadFile(string fileName)
+void Game::loadFile(string fileName, int inputPlayerCount)
 {
 	fstream fin(fileName, ios::in);
 	string line, mapName;
@@ -51,6 +51,7 @@ void Game::loadFile(string fileName)
 	getline(fin, line);
 	ss << line;
 	ss >> map.mapName >> totalRound >> playerCount >> round;
+	if (inputPlayerCount != ¨S¦³¿ï¾Ü) playerCount = inputPlayerCount;
 	ss.str("");
 	ss.clear();
 	std::map<int, BaseBlock*> blockMap;
@@ -115,10 +116,9 @@ void Game::loadFile(string fileName)
 	ss.clear();
 	std::map<int, Player> playerMap;
 	std::map<int, vector<pair<int, int> > > ownedEstates;
-	for (int i = 0; getline(fin, line) && i < playerCount; i++) {
-		if (line[0] > '9') break;
+	for (int i = 0; getline(fin, line) && line[0] <= '9'; i++) {
 		ss << line;
-		int index, position = 0, money = 0, debit = 0, saving = 0, inputNum = 0;;
+		int index, position = 0, money = 30000, debit = 0, saving = 0, inputNum = 0;;
 		string tmp;
 		if (ss >> index >> position >> money) {
 			while (ss >> tmp >> inputNum) {
@@ -138,22 +138,26 @@ void Game::loadFile(string fileName)
 			}
 		}
 		if (position < 0 || position > map.blockNums)
-			playerMap.insert(std::pair<int, Player>(index, Player(index, money, debit, saving, map[0], true, this)));
+			playerMap.insert(std::pair<int, Player>(index, Player(index, money, debit, saving, map[0], false, this)));
 		else
 			playerMap.insert(std::pair<int, Player>(index, Player(index, money, debit, saving, map[position], false, this)));
 		ss.str("");
 		ss.clear();
 	}
-	for (auto tmpPlayer : playerMap) {
-		player.push_back(tmpPlayer.second);
+	int playerTmpIndex;
+	for (playerTmpIndex = 0; playerTmpIndex < playerMap.size() && playerTmpIndex < playerCount; playerTmpIndex++) {
+		player.push_back(playerMap[playerTmpIndex]);
+		playerMap[playerTmpIndex].index = playerTmpIndex;
 	}
-	playerCount = player.size();
+	for (; playerTmpIndex < playerCount; playerTmpIndex++) {
+		player.push_back(Player(playerTmpIndex, 30000, 0, 0, map[0], false, this));
+	}
 
 	for (auto node : ownedEstates) {
 		int thisPlayerIndex = node.first;
 		for (auto subNode : node.second) {
 			int estate = subNode.first, houseLevel = subNode.second;
-			if (map[estate]->getCategory() == 1) {
+			if (map[estate]->getCategory() == 1 && thisPlayerIndex) {
 				((EstateBlock*)map[estate])->setEstateInfo(&player[thisPlayerIndex], houseLevel);
 				player[thisPlayerIndex].ownedEstates.push_back((EstateBlock*)map[estate]);
 			}
