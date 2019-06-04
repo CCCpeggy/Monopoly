@@ -145,9 +145,10 @@ void Game::loadFile(string fileName, int inputPlayerCount)
 		ss.clear();
 	}
 	int playerTmpIndex;
-	for (playerTmpIndex = 0; playerTmpIndex < playerMap.size() && playerTmpIndex < playerCount; playerTmpIndex++) {
-		player.push_back(playerMap[playerTmpIndex]);
-		playerMap[playerTmpIndex].index = playerTmpIndex;
+	std::map<int, Player>::iterator iter;
+	for (playerTmpIndex = 0, iter = playerMap.begin(); iter != playerMap.end() && playerTmpIndex < playerCount; playerTmpIndex++, iter++) {
+		player.push_back(iter->second);
+		player[playerTmpIndex].index = playerTmpIndex;
 	}
 	for (; playerTmpIndex < playerCount; playerTmpIndex++) {
 		player.push_back(Player(playerTmpIndex, 30000, 0, 0, map[0], false, this));
@@ -1083,11 +1084,11 @@ void Game::drawStockInfo(int index)
 			if (rate > 0) numberColor = Color::B_WHITE_F_RED;
 			else if (rate < 0) numberColor = Color::B_WHITE_F_GREEN;
 		}
-		else if(rate >= 0.08)
+		else if(rate >= 0.095)
 		{
 			color = numberColor = Color::B_RED;
 		}
-		else if (rate < -0.08)
+		else if (rate < -0.095)
 		{
 			color = numberColor = Color::B_GREEN;
 		}
