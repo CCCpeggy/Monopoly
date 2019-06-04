@@ -645,7 +645,7 @@ BaseBlock* Game::showChoosingMapMode(string content)
 
 void Game::showChoosingMapMode(void(Game::*function)(void))
 {
-	this->function();
+//	this->function();
 	map[0]->drawSelected();
 	int choose = 0;
 	int getKey = keyBoard();
@@ -655,7 +655,7 @@ void Game::showChoosingMapMode(void(Game::*function)(void))
 		if (getKey == VK_ESCAPE) {
 			choose = 沒有選擇;
 			cleanCenter();
-			return nullptr;
+			//return nullptr;
 		}
 		int tmpX = map[choose]->x, tmpY = map[choose]->y;
 		if (getKey == VK_RIGHT) {
@@ -770,15 +770,9 @@ bool Game::showBlock()
 	int choose = 0;
 	drawEstateBlockInfo(choose);
 	int getKey = keyBoard();
-	while (getKey != VK_RETURN && getKey != VK_ESCAPE) {
-		if (getKey == VK_UP || getKey == VK_DOWN) {
-			choose += getKey == VK_DOWN ? 1 : stock.size() - 1;
-			choose %= stock.size();
-			drawEstateBlockInfo(choose);
-		}
-		getKey = keyBoard();
+	while (getKey != VK_RETURN) {
+		//移動
 	}
-	cleanCenter();
 	return false;
 }
 
