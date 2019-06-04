@@ -329,47 +329,56 @@ string Player::getName()
 	return name;
 }
 
-void Player::drawPlayerInfo(bool choosed)
+void Player::drawPlayerInfo()
 {
-	vector<string> output;
-	output.push_back("ＩＤ：" + to_string(index + 1));
-	output.push_back("總資金：＄" + to_string(getAsset()));
-	output.push_back("現金：＄" + to_string(money));
-	output.push_back("存款：＄" + to_string(saving));
-	output.push_back("負債：＄" + to_string(debit));
-	output.push_back("地產總數：" + to_string(ownedEstates.size()));
-	Game::showPlayerInfo(output, choosed);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(20, 7, 12);
+	cursor << "ＩＤ：" << index + 1;
+	cursor.nextLine().nextLine();
+	cursor << "總資金：＄" << getAsset();
+	cursor.nextLine().nextLine();
+	cursor << "現金：＄" << money;
+	cursor.nextLine().nextLine();
+	cursor << "存款：＄" << saving;
+	cursor.nextLine().nextLine();
+	cursor << "負債：＄" << debit;
+	cursor.nextLine().nextLine();
+	cursor << "地產總數：";
+	cursor << ownedEstates.size();
+	cursor.nextLine().nextLine();
 }
 
-void Player::drawPlayerAllMoney(bool choosed)
+void Player::drawPlayerAllMoney()
 {
-	vector<string> output;
-	output.push_back("總資金：＄" + to_string(getAsset()));
-	output.push_back("現金：＄" + to_string(money));
-	output.push_back("存款：＄" + to_string(saving));
-	output.push_back("負債：＄" + to_string(debit));
-	output.push_back("房產總額：＄" + to_string(getEstateValue()));
-	output.push_back("股票總額：＄" + to_string(getStocksValue()));
-	Game::showPlayerInfo(output, choosed);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(20, 6, 4, 2);
+	cursor.nextLine();
+	cursor << "總資金：＄" << getAsset();
+	cursor.nextLine();
+	cursor << "現金：＄" << getSaving();
+	cursor.nextLine();
+	cursor << "存款：＄" << getMoney();
+	cursor.nextLine();
+	cursor << "負債：＄" << getDebit();
 }
 
-void Player::drawPlayerAllEstate(bool choosed)
+void Player::drawPlayerAllEstate()
 {
 	vector<EstateBlock*>::iterator it;
 	vector<string>titleName;
 	for (int i = 0; i < 3; i++) {
 		titleName.push_back(Draw::playerEstateInfoTitle[i]);
 	}
-	vector<vector<string> > output;
+	vector<string* >output;
+	string *a = NULL;
 	for (it = ownedEstates.begin(); it != ownedEstates.end(); it++)
 	{
-		vector<string> a(3);
+		a = new string[3];
 		a[0] = (*it)->name;
 		a[1] = to_string((*it)->houseLevel);
 		a[2] = to_string((*it)->currentTolls());
 		output.push_back(a);
 	}
-	Game::showPlayerInfo("", titleName, output, 3, choosed);
+	Game::showPlayerInfo("", titleName, output, 3, 0, 2);
+	delete[]a;
 }
 
 void Player::drawPlayerMoneyStatus()
@@ -388,8 +397,7 @@ void Player::drawPlayerMoneyStatus()
 		cursor << debit;
 		cursor.nextLine();
 		cursor << saving;
-		cursor.nextLine();
-		cursor << getAsset();
+
 	}
 }
 
@@ -400,32 +408,34 @@ void Player::drawStatusPlayerName()
 	cursor << Color::B_PLAYER_COLOR[index] << left << setw(16) << name << Color::DEF_COLOR;
 }
 
-void Player::drawPlayerStock(bool choosed)
+void Player::drawPlayerStock(int stockIndex)
 {
 	map<Stock*,int>::iterator it;
 	vector<pair<Stock*, int>> temp;
 	vector<pair<Stock*, int>>::iterator itt;
 	vector<string>title;
-	vector<vector<string> > content;
-	for (int i = 0; i < 3; i++) 
+	vector<string*>content;
+	for (int i = 0; i < 3; i++)
 	{
 		title.push_back(Draw::playerStockInfoTitle[i]);
 	}
+	string *a = NULL;
 	for (it = ownedStocks.begin(); it != ownedStocks.end(); it++)
 	{
 		if ((*it).second != 0)
 		{
-			vector<string> a (3);
+			a = new string[3];
 			a[0] = (*it).first->getName();
 			a[1] = to_string((*it).second);
 			a[2] = to_string((*it).first->prize);
 			content.push_back(a);
 		}
 	}
-	Game::showPlayerInfo("", title, content, 3, choosed);
+	Game::showPlayerInfo("", title, content, 3, 0, 2);
+	delete[]a;
 }
 
-void Player::drawPlayerItem(bool choosed)
+void Player::drawPlayerItem()
 {
 	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 6, 22, 2);
 	vector<Item*>::iterator it;
@@ -447,17 +457,19 @@ void Player::drawPlayerItem(bool choosed)
 			itemCount[1]++;
 		}
 	}
-	vector<vector<string> > words;
+	vector<string*>words;
+	string *a = NULL;
 	for (int i = 0; i < 2; i++)
 	{
 		if (itemCount[i] != 0)
 		{
-			vector<string> a(2);
+			a = new string[2];
 			a[0] = Draw::itemName[i];
 			a[1] = to_string(itemCount[i]);
 			words.push_back(a);
 		}
 	}
 	
-	Game::showPlayerInfo("", colName, words, 2, choosed);
+	Game::showPlayerInfo("", colName, words, 2, 0, 1);
+	delete[]a;
 }

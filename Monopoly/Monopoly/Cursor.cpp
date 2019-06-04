@@ -106,10 +106,9 @@ Cursor& Cursor::operator<<(const pair<string, int> outputString)
 {
 	int stringLength = outputString.first.length();
 	int containerLength = outputString.second;
-	int centerX = (containerLength - stringLength) / 2 ;
 	if (stringLength < containerLength) {
 		COORD pos;
-		pos.X = basicX + centerX + drawX * rightX;
+		pos.X = basicX + ((containerLength - stringLength) / 2) + drawX * rightX;
 		pos.Y = basicY + drawY * rightY;
 		SetConsoleCursorPosition(handleOutput, pos);
 	}

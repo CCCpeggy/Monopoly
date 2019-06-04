@@ -26,7 +26,7 @@ public:
 	static Cursor dialogCursor;
 	static const string number[10];
 	static const string playInfoTitle[5];
-	static const string gameStatusFrame[10];
+	static const string gameStatusFrame[9];
 	static const string stockInfoBlock[18];
 	static const string EstateBlockInfoBlock[18];
 	static const string playerEstateInfoTitle[3];
@@ -50,8 +50,8 @@ public:
 	static void drawMap(int = 7);
 	static void drawDice(int dice1, int dice2);
 	static void drawMenu(vector<string>, string, int);
-	static void drawInfo(string, vector<string>, vector<vector<string> >, int, int = 1, int = 0, bool hasFrame = true);
-	static void drawInfo(string, vector<string >, int = 0, bool hasFrame = true);
+	static void drawInfo(string, vector<string>, vector<string* >, int, int = 1, int = 0);
+	static void drawInfo(string, vector<string >, int = 0); 
 	static void drawPlayerInfoTitle(int);
 	
 	static void drawPlayerInfoFrame();

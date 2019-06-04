@@ -130,8 +130,6 @@ void EstateBlock::drawLocationName()
 	}
 	else
 	{
-		subCursor << Color::DEF_COLOR << "¡@¡@¡@¡@";
-		subCursor.backPos();
 		subCursor <<pair<string, int>(name.substr(0, 8), 8);
 	}
 }
@@ -170,10 +168,13 @@ void EstateBlock::drawEstateLevel()
 {
 	Cursor subCursor = Draw::cursor.getSubCursor(x, y, 2);
 	subCursor.add(8, 3);
-	if(houseLevel > 0)
-		subCursor << Color::TAG_CHOOSE_COLOR<<Draw::houseLevelSymbol[houseLevel];
-	else
-		subCursor << Color::DEF_COLOR << "¡@";
+	if (owner != NULL)
+	{
+		if (houseLevel > 0)
+			subCursor << Color::TAG_CHOOSE_COLOR << Draw::houseLevelSymbol[houseLevel];
+		else
+			subCursor << Color::DEF_COLOR << "¡@";
+	}
 }
 
 void EstateBlock::OutputBlockInfo()
