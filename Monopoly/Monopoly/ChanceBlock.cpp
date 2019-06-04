@@ -65,3 +65,10 @@ ChanceBlock::ChanceBlock(Game* game):game(game)
 ChanceBlock::~ChanceBlock()
 {
 }
+
+void ChanceBlock::OutputBlockInfo()
+{
+	Cursor cursor = Draw::dialogCursor.getSubCursor(18, 8, 12);
+	cursor << "¤g¦a¦WºÙ¡G" << name;
+	cursor.nextLine().nextLine();
+}

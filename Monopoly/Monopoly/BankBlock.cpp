@@ -49,3 +49,10 @@ BankBlock::BankBlock()
 BankBlock::~BankBlock()
 {
 }
+
+void BankBlock::OutputBlockInfo()
+{
+	Cursor cursor = Draw::dialogCursor.getSubCursor(18, 8, 12);
+	cursor << "¤g¦a¦WºÙ¡G" << name;
+	cursor.nextLine().nextLine();
+}

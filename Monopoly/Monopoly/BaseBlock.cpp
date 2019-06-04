@@ -133,9 +133,3 @@ bool BaseBlock::getHasRoadBlock()
 {
 	return hasRoadBlock;
 }
-
-void BaseBlock::OutputBlockInfo()
-{
-	Cursor cursor = Draw::dialogCursor.getSubCursor(5, 7, 12);
-	cursor << "¤g¦aÃþ«¬¡G" << name;
-}

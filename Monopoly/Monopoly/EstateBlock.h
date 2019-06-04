@@ -22,6 +22,7 @@ public:
 	void drawLocationName();
 	void drawBlockInfo();
 	void drawEstateLevel();
+	virtual void OutputBlockInfo();
 	int beSelled();
 	int currentTolls();
 	int getLevelTolls(int); 

@@ -45,6 +45,13 @@ StartBlock::StartBlock(string newName,int newIndex):BaseBlock(newName,newIndex)
 }
 
 
+void StartBlock::OutputBlockInfo()
+{
+	Cursor cursor = Draw::dialogCursor.getSubCursor(18, 8, 12);
+	cursor << "¤g¦a¦WºÙ¡G" << name;
+	cursor.nextLine().nextLine();
+}
+
 
 StartBlock::~StartBlock()
 {
