@@ -234,6 +234,7 @@ bool Game::saveFile()
 	ss << sys.wMilliseconds;
 	ss << ".txt";
 	saveFile(ss.str());
+	showDialog("已存檔" + ss.str());
 	return false;
 }
 
@@ -398,46 +399,65 @@ bool Game::doStock()
 {
 	Player* currentPlayer = getPlayer();
 	vector<string> ownStockes;
-	stringstream ss;
-	for (int i = 0; i < stock.size(); i++) {
-		ss << stock[i]->name << "...X" << currentPlayer->ownedStocks[stock[i]];
-		ownStockes.push_back(ss.str());
-		ss.str("");
-		ss.clear();
+	vector<string>colName;
+	vector<vector<string>> word;
+	for (int i = 0; i < 5; i++)
+	{
+		colName.push_back(Draw::stockTradeInfo[i]);
 	}
-	int choose = showMenu("請選擇股票", ownStockes);
-	if (choose == 沒有選擇) return false;
-	ss << "請問要買還是要賣(價格:" << stock[choose]->prize << ")";
-	bool result = Game::showDialog(ss.str(), pair<string, string>("買", "賣"), Draw::FIRST);
-	//買股票
-	if (result) {
-		int max = currentPlayer->getSaving() / stock[choose]->prize;
-		if (max > 0) {
-			int number = showNumberDialog("請問要買多少張", 1, max, 0, 1, "張");
-			if (number != 沒有選擇) {
-				currentPlayer->tradeStock(stock[choose], true, number);
-				showDialog("交易完成", "");
-			}
+
+	for (vector<Stock*>::iterator it = stock.begin(); it != stock.end(); it++)
+	{
+		vector<string>temp(5);
+		temp[0] = (*it)->name;
+		temp[1] = to_string((*it)->prize);
+		if ((*it)->lastChanged >= 0)
+		{
+			temp[2] = "+";
+			temp[2] += to_string((*it)->lastChanged);
+		}
+		else
+		{
+			temp[2] = to_string((*it)->lastChanged);
+		}
+		temp[3] = "買";
+		temp[4] = "賣";
+		word.push_back(temp);
+	}
+	do{
+		pair<int, int> choose = showInfo("股票交易", colName, word, 5, 3, 4);
+		if (choose.first == 沒有選擇 || choose.second == 沒有選擇) break;
+
+		//買股票
+		if (choose.second == 3) {
+			int max = currentPlayer->getSaving() / stock[choose.first]->prize;
+			if (max > 0) {
+				int number = showNumberDialog("請問要買多少張", 1, max, 0, 1, "張");
+				if (number != 沒有選擇) {
+					currentPlayer->tradeStock(stock[choose.first], true, number);
+					showDialog("交易完成");
+				}
 			
-		}
-		else {
-			showDialog("您的存款金額不足喔");
-		}
-	}
-	//賣股票
-	else {
-		int max = currentPlayer->ownedStocks[stock[choose]];
-		if (max > 0) {
-			int number = showNumberDialog("請問要賣多少張", 1, max, 0, 1, "張");
-			if (number != 沒有選擇) {
-				currentPlayer->tradeStock(stock[choose], false, number);
-				showDialog("交易完成", "");
+			}
+			else {
+				showDialog("您的存款金額不足喔");
 			}
 		}
+		//賣股票
 		else {
-			showDialog("您沒有此股票喔");
+			int max = currentPlayer->ownedStocks[stock[choose.first]];
+			if (max > 0) {
+				int number = showNumberDialog("請問要賣多少張", 1, max, 0, 1, "張");
+				if (number != 沒有選擇) {
+					currentPlayer->tradeStock(stock[choose.first], false, number);
+					showDialog("交易完成", "");
+				}
+			}
+			else {
+				showDialog("您沒有此股票喔");
+			}
 		}
-	}
+	} while (true);
 	return false;
 }
 
@@ -485,13 +505,13 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 			action.second[index++] = &Game::withdrawMoney;
 		}
 
-		if (status == 所有動作 && stock.size() > 0) {
-			action.first.push_back("股票");
+		if (stock.size() > 0) {
+			action.first.push_back("股票市場");
 			action.second[index++] = &Game::doStock;
 		}
 
 		if (status == 所有動作 && currentPlayer->ownedItems.size() > 0) {
-			action.first.push_back("放道具");
+			action.first.push_back("使用道具");
 			action.second[index++] = &Game::putItem;
 		}
 
@@ -503,11 +523,6 @@ pair<vector<string>, map<int, bool(Game::*)(void) > > Game::getAction(int status
 	}
 	action.first.push_back("玩家資訊");
 	action.second[index++] = &Game::showPlayStatus;
-
-	if (status == 所有動作) {
-		action.first.push_back("股票資訊");
-		action.second[index++] = &Game::showStock;
-	}
 
 	if (status == 所有動作) {
 		action.first.push_back("土地資訊");
@@ -856,6 +871,10 @@ bool Game::showDialog(string content, pair<string, string> chooseName, bool choo
 	Draw::drawDialogueBox(content, chooseName, choose);
 	int getKey = keyBoard();
 	while(getKey != VK_RETURN) {
+		if (getKey == VK_ESCAPE) {
+			choose = Draw::SECOND;
+			break;
+		}
 		if (getKey == VK_RIGHT || getKey == VK_LEFT) {
 			choose = !choose;
 			Draw::drawDialogueBox(content, chooseName, choose);
@@ -1118,36 +1137,4 @@ void Game::drawEstateBlockInfo(int index)
 {
 	Draw::cleanPlayerInfoContent();
 	map[index]->drawBlockInfoCenter();
-}
-
-void Game::drawStockTradeInfo()
-{
-	vector<string>colName;
-	vector<vector<string>> word;
-	vector<Stock*>::iterator it;
-	for (int i = 0; i < 5; i++)
-	{
-		colName.push_back(Draw::stockTradeInfo[i]);
-	}
-
-	for (it = stock.begin(); it != stock.end(); it++)
-	{
-		vector<string>temp(5);
-		temp[0] = (*it)->name;
-		temp[1] = to_string((*it)->prize);
-		if ((*it)->lastChanged >= 0)
-		{
-			temp[2] = "+";
-			temp[2] += to_string((*it)->lastChanged);
-		}
-		else
-		{
-			temp[2] = "-";
-			temp[2] += to_string((*it)->lastChanged);
-		}
-		temp[3] = "買";
-		temp[4] = "賣";
-		word.push_back(temp);
-	}
-	showInfo("股票交易", colName, word, 5, 3, 4);
 }
