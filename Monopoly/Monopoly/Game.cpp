@@ -401,14 +401,14 @@ bool Game::doStock()
 	vector<string> ownStockes;
 	vector<string>colName;
 	vector<vector<string>> word;
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		colName.push_back(Draw::stockTradeInfo[i]);
 	}
 
 	for (vector<Stock*>::iterator it = stock.begin(); it != stock.end(); it++)
 	{
-		vector<string>temp(5);
+		vector<string>temp(6);
 		temp[0] = (*it)->name;
 		temp[1] = to_string((*it)->prize);
 		if ((*it)->lastChanged >= 0)
@@ -420,16 +420,28 @@ bool Game::doStock()
 		{
 			temp[2] = to_string((*it)->lastChanged);
 		}
-		temp[3] = "買";
-		temp[4] = "賣";
+		vector<Stock*>::iterator itt;
+		std::map<Stock*, int>::iterator iter;
+		for (iter = currentPlayer->ownedStocks.begin(); iter != currentPlayer->ownedStocks.end(); iter++)
+		{
+			for (itt = stock.begin(); itt != stock.end(); itt++)
+			{
+				if ((*itt)->name==(*iter).first->name) 
+				{
+					temp[3] = to_string((*iter).second);
+				}
+			}
+		}
+		temp[4] = "買";
+		temp[5] = "賣";
 		word.push_back(temp);
 	}
 	do{
-		pair<int, int> choose = showInfo("股票交易", colName, word, 5, 3, 4);
+		pair<int, int> choose = showInfo("股票交易", colName, word, 6, 4, 5);
 		if (choose.first == 沒有選擇 || choose.second == 沒有選擇) break;
 
 		//買股票
-		if (choose.second == 3) {
+		if (choose.second == 4) {
 			int max = currentPlayer->getSaving() / stock[choose.first]->prize;
 			if (max > 0) {
 				int number = showNumberDialog("請問要買多少張", 1, max, 0, 1, "張");
