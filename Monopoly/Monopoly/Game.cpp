@@ -45,22 +45,26 @@ void Game::loadFile(string fileName)
 	string line, mapName;
 	stringstream ss;
 	int playerCount;
-	//第一行 地圖名稱 回合 玩家數量 
+
+#pragma region FirstLine
+
 	getline(fin, line);
 	ss << line;
-	ss >> map.mapName >> totalRound >> playerCount;
+	ss >> map.mapName >> totalRound >> playerCount >> round;
 	ss.str("");
 	ss.clear();
 	std::map<int, BaseBlock*> blockMap;
-	//地圖
+#pragma endregion
+
+#pragma region Block
 	while (getline(fin, line)) {
 		if (line[0] == 'p')break;
 		int index, blockCategory;
 		string blockName;
 		ss << line;
 		ss >> index >> blockName >> blockCategory;
-		BaseBlock* block;
-		if (blockCategory == 0){
+		BaseBlock * block;
+		if (blockCategory == 0) {
 			block = new StartBlock(blockName, index);
 		}
 		else if (blockCategory == -1)
@@ -100,14 +104,18 @@ void Game::loadFile(string fileName)
 	}
 
 	map.calcBlocksLocation();
-	//玩家
+
+#pragma endregion
+
+#pragma region Player
+
 	ss << line;
 	ss >> line >> playerIndex;
 	ss.str("");
 	ss.clear();
 	std::map<int, Player> playerMap;
 	std::map<int, vector<pair<int, int> > > ownedEstates;
-	for(int i = 0; getline(fin, line) && i < playerCount; i++) {
+	for (int i = 0; getline(fin, line) && i < playerCount; i++) {
 		if (line[0] > '9') break;
 		ss << line;
 		int index, position = 0, money = 0, debit = 0, saving = 0, inputNum = 0;;
@@ -121,15 +129,15 @@ void Game::loadFile(string fileName)
 					saving = inputNum;
 				}
 				else {
-					int blockIndex = (tmp[0] - '0') ;
-					if(tmp.size() > 1) blockIndex = (tmp[1] - '0') + blockIndex * 10;
+					int blockIndex = (tmp[0] - '0');
+					if (tmp.size() > 1) blockIndex = (tmp[1] - '0') + blockIndex * 10;
 					if (map[blockIndex]->getCategory() == 1) {
 						ownedEstates[index].push_back(pair<int, int>(blockIndex, inputNum));
 					}
 				}
 			}
 		}
-		if(position < 0 || position > map.blockNums)
+		if (position < 0 || position > map.blockNums)
 			playerMap.insert(std::pair<int, Player>(index, Player(index, money, debit, saving, map[0], true, this)));
 		else
 			playerMap.insert(std::pair<int, Player>(index, Player(index, money, debit, saving, map[position], false, this)));
@@ -141,7 +149,6 @@ void Game::loadFile(string fileName)
 	}
 	playerCount = player.size();
 
-	//擁有土地
 	for (auto node : ownedEstates) {
 		int thisPlayerIndex = node.first;
 		for (auto subNode : node.second) {
@@ -152,12 +159,14 @@ void Game::loadFile(string fileName)
 			}
 		}
 	}
-	//股票
+#pragma endregion
+	
+#pragma region stock
 	if (line[0] == 's') {
 		while (getline(fin, line)) {
 			if (line[0] > '9') break;
 			string name;
-			double prize = 100;
+			int prize = 100;
 
 			ss << line;
 			if (ss >> prize >> name) {
@@ -165,15 +174,21 @@ void Game::loadFile(string fileName)
 					stock.push_back(new Stock(name, prize));
 					Stock* stockPtr = stock[stock.size() - 1];
 					for (int i = 0; i < player.size(); i++) player[i].initEachStock(stockPtr, 0);
-					int stockPlayerIndex = 0, count = 0;
-					while (ss >> stockPlayerIndex >> count) player[stockPlayerIndex].initEachStock(stockPtr, count);
+					char type = 0;
+					int value = 0;
+					while (ss >> type >> value) {
+						if (type > '9') stockPtr->lastChanged = value;
+						else player[type - '0'].initEachStock(stockPtr, value);
+					}
 				}
 			}
 			ss.str("");
 			ss.clear();
 		}
 	}
-	//道具
+#pragma endregion
+
+#pragma region item
 	if (line[0] == 'i') {
 		while (getline(fin, line)) {
 			ss << line;
@@ -192,6 +207,9 @@ void Game::loadFile(string fileName)
 			ss.clear();
 		}
 	}
+	
+#pragma endregion
+
 	fin.close();
 	showMap();
 }
@@ -220,7 +238,9 @@ void Game::saveFile(string fileName)
 	//基本資料
 	fin << map.mapName << " ";
 	fin << totalRound - round << " ";
-	fin << player.size() << endl;
+	fin << player.size() << " ";
+	fin << round << " ";
+	fin << endl;
 	for (int i = 0; i < map.blockNums; i++) {
 		fin << setfill('0') << setprecision(2) << map[i]->index << " ";
 		fin << map[i]->name << " ";
@@ -264,6 +284,8 @@ void Game::saveFile(string fileName)
 				fin << player[j].ownedStocks[stock[i]] << " ";
 			}
 		}
+		fin << "v ";
+		fin << stock[i]->lastChanged << " ";
 		fin << endl;
 	}
 	

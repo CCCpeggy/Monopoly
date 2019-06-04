@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Draw.h"
 
-Stock::Stock(string newName, double newPrize):name(newName),prize(newPrize), lastChanged(0)
+Stock::Stock(string newName, double newPrize, int lastChanged):name(newName),prize(newPrize), lastChanged(lastChanged)
 {
 }
 

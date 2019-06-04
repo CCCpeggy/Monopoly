@@ -11,7 +11,7 @@ public:
 	int lastChanged;
 	string name;
 	int prize;
-	Stock(string newName, double newPrize);
+	Stock(string newName, double newPrize, int lastChanged = 0);
 	Stock();
 	int fluctuate(); 
 	string getName();
