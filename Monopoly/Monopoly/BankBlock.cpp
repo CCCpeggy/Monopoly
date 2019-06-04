@@ -52,7 +52,7 @@ BankBlock::~BankBlock()
 
 void BankBlock::drawBlockInfoCenter()
 {
-	Cursor cursor = Draw::dialogCursor.getSubCursor(18, 8, 12);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(18, 10, 12);
 	cursor << "土地名稱：" << name;
 	cursor.nextLine().nextLine();
 	cursor << "是否有路障：";

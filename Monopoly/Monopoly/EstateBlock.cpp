@@ -178,7 +178,7 @@ void EstateBlock::drawEstateLevel()
 
 void EstateBlock::drawBlockInfoCenter()
 {
-	Cursor cursor = Draw::dialogCursor.getSubCursor((40-name.length())/2, 6, 12);
+	Cursor cursor = Draw::dialogCursor.getSubCursor(6, 6, 12);
 	cursor << "嘿" << name;
 	cursor.nextLine().nextLine();
 	cursor << "琌Τ隔毁";
@@ -197,7 +197,8 @@ void EstateBlock::drawBlockInfoCenter()
 	cursor.nextLine().nextLine();
 	cursor << "籠┬禣ノ" << initialPrice / 2;
 	cursor.nextLine().nextLine();
-	cursor << "筁隔禣凝" << "单1" << tolls[0] << "" << "单2" << tolls[1];
+	cursor << "筁隔禣凝" << "单1" << tolls[0] << "" << "单2" << tolls[1];
 	cursor.nextLine().nextLine();
-	cursor << "单3" << tolls[2] << "" << "单4" << tolls[3];
+	cursor.add(12, 12);
+	cursor << "单3" << tolls[2] << "" << "单4" << tolls[3];
 }
