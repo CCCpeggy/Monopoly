@@ -1055,6 +1055,7 @@ void Game::drawStockInfo(int index)
 {
 	Draw::drawStockInfoFrame();
 	vector<Stock*>::iterator it;
+	stringstream ss;
 	Cursor cursor = Draw::dialogCursor.getSubCursor(4, 4, 15, 1);
 	for (int i = 0; i < 3; i++) {
 		cursor << pair<string, int>(Draw::stockInfoTitle[i], 15);
@@ -1069,54 +1070,40 @@ void Game::drawStockInfo(int index)
 	}
 	while (it != stock.end() && k < 6)
 	{
+		double rate = (double)(*it)->lastChanged / ((*it)->prize - (*it)->lastChanged);
+		ss << fixed << setprecision(2) << (*it)->lastChanged;
+		unsigned int color = Color::DEF_COLOR, numberColor = Color::DEF_COLOR;
 		if (index %6 == k)
 		{
-			cursor << Color::TAG_CHOOSE_COLOR << "¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@";
-			cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>((*it)->name, 15);
-			cursor.nextPos();
-			cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>(to_string((*it)->prize), 15);
-			cursor.nextPos();
-			stringstream ss;
-			string output;
-			ss << fixed << setprecision(2) << (*it)->lastChanged;
-			ss >> output;
-			if ((*it)->lastChanged > 0)
-			{
-				cursor << Color::B_WHITE_F_RED << pair<string, int>(output, 15);
-			}
-			else if ((*it)->lastChanged < 0)
-			{
-				cursor << Color::B_WHITE_F_GREEN << pair<string, int>(output, 15);
-			}
-			else
-			{
-				cursor << Color::TAG_CHOOSE_COLOR << pair<string, int>(output, 15);
-			}
+			color = numberColor = Color::TAG_CHOOSE_COLOR;
+			if (rate > 0) numberColor = Color::B_WHITE_F_RED;
+			else if (rate < 0) numberColor = Color::B_WHITE_F_GREEN;
+		}
+		else if(rate >= 0.08)
+		{
+			color = numberColor = Color::B_RED;
+		}
+		else if (rate < -0.08)
+		{
+			color = numberColor = Color::B_GREEN;
 		}
 		else
 		{
-			cursor << Color::DEF_COLOR << pair<string, int>((*it)->name, 15);
-			cursor.nextPos();
-			cursor << Color::DEF_COLOR << pair<string, int>(to_string((*it)->prize), 15);
-			cursor.nextPos();
-			stringstream ss;
-			string output;
-			ss << fixed << setprecision(2) << (*it)->lastChanged;
-			ss >> output;
-			if ((*it)->lastChanged > 0)
-			{
-				cursor << Color::F_RED << pair<string, int>(output, 15);
-			}
-			else if ((*it)->lastChanged < 0)
-			{
-				cursor << Color::F_GREEN << pair<string, int>(output, 15);
-			}
-			else
-			{
-				cursor << Color::DEF_COLOR << pair<string, int>(output, 15);
-			}
+			color = numberColor = Color::DEF_COLOR;
+			if (rate > 0) numberColor = Color::F_RED;
+			else if (rate < 0) numberColor = Color::F_GREEN;
 		}
+		cursor << color << "¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@¡@";
+		cursor.backPos();
+		cursor << pair<string, int>((*it)->name, 15);
+		cursor.nextPos();
+		cursor << pair<string, int>(to_string((*it)->prize), 15);
+		cursor.nextPos();
+		cursor << numberColor << pair<string, int>(ss.str(), 15);
 		cursor.nextLine();
+
+		ss.str("");
+		ss.clear();
 		k++;
 		it++;
 	}
