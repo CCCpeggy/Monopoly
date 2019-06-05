@@ -3,7 +3,7 @@
 #include "Player.h"
 #include <iostream>
 using namespace std;
-const string FateBlock::card[] = { "感恩師父，讚嘆師父，捐款2000元","領18%，獲得存款18%的利息","造勢晚會走路工，獲得500元","成為地方角頭，向每人收取保護費1000元","撿到道具，獲得路障1個","撿到道具，獲得遙控骰子1個" };
+const string FateBlock::card[] = { "感恩師父，讚嘆師父，捐款2000元","領18%，獲得存款18%的利息","造勢晚會走路工，獲得500元","成為地方角頭，向每人收取保護費1000元","撿到道具，獲得路障1個","撿到道具，獲得遙控骰子1個","貸款利息結算，利息為總債務的10%" };
 int FateBlock::getCategory()
 {
 	return -1;
@@ -20,7 +20,7 @@ void FateBlock::startEvent(Player*)
 
 void FateBlock::arriveEvent(Player* player)
 {
-	int index = rand() % 6;
+	int index = 6;
 	Game::showDialog("命運", card[index]);
 	Player* currentPlayer = game->getPlayer();
 	int total = 0;
@@ -40,8 +40,13 @@ void FateBlock::arriveEvent(Player* player)
 		break;
 	case 4://撿到道具，獲得路障1個
 		currentPlayer->addItem(0);
+		break;
 	case 5://撿到道具，獲得遙控骰子1個
 		currentPlayer->addItem(1);
+		break;
+	case 6://貸款利息結算，利息為總債務的10%
+		currentPlayer->loan(currentPlayer->getDebit()*0.1);
+		break;
 	}
 }
 
