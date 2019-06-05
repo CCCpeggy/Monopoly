@@ -375,7 +375,7 @@ void Player::drawPlayerAllEstate(bool choosed)
 void Player::drawPlayerMoneyStatus()
 {
 	Cursor cursor = Draw::playerStatusCursor.getSubCursor(10, 2, 18).getSubCursor(index, 0, 1, 1 );
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		cursor << "           ";
 		cursor.nextLine();
 	}
