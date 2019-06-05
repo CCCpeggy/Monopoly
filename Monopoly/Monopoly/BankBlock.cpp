@@ -26,6 +26,7 @@ void BankBlock::throughEvent(Player* player)
 	do {
 		action = game->getAction(銀行);
 		choose = game->showMenu("請選擇動作", action.first);
+		if (choose == 沒有選擇) return;
 		doNext = (game->*action.second[choose])();
 	} while (!doNext);
 	return;
