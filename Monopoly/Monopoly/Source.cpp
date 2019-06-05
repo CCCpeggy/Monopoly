@@ -37,14 +37,14 @@ bool findFile(string);
 int main() {
 	//全螢幕
 	Sleep(1000);
-	system("mode con cols=120 lines=50");
+	system("mode con cols=210 lines=50");
 	keybd_event(VK_MENU, 0x38, 0, 0);
 	keybd_event(VK_RETURN, 0x1c, 0, 0);
 	keybd_event(VK_MENU, 0xb8, KEYEVENTF_KEYUP, 0);
 	keybd_event(VK_RETURN, 0x9c, KEYEVENTF_KEYUP, 0);
 
 	SetConsoleTitle("Monopoly");
-	Sleep(1000);
+	Sleep(2000);
 	//全螢幕
 	HWND console = GetConsoleWindow();
 	RECT ConsoleRect;
@@ -72,17 +72,20 @@ int main() {
 		functions[index++] = &finishGame;
 
 		int choose = Game::showMenu("遊戲選單", chooseName);
-		functions[choose]();
+		if (choose != 沒有選擇) {
+			functions[choose]();
+
+			if (findFile("saveFile.txt")) {
+				remove("saveFile.txt");
+			}
+
+			if (findFile("saveFile2.txt")) {
+				rename("saveFile2.txt", "saveFile.txt");
+			}
+			system("cls");
+		}
 
 
-		if (findFile("saveFile.txt")) {
-			remove("saveFile.txt");
-		}
-		
-		if (findFile("saveFile2.txt")) {
-			rename("saveFile2.txt", "saveFile.txt");
-		}
-		system("cls");
 
 		
 	}
@@ -141,7 +144,7 @@ vector<string> listFile()
 void newGame()
 {
 	int playerCount = Game::showNumberDialog("請選擇玩家人數", 2, 4, 2, 1, "人");
-	game = new Game(LOADFILE, true, playerCount);
+	if (playerCount != 沒有選擇) game = new Game(LOADFILE, true, playerCount);
 	delete game;
 }
 
@@ -158,6 +161,7 @@ void resumeGame()
 {
 	game = new Game("saveFile.txt");
 	delete game;
+
 }
 
 void finishGame()

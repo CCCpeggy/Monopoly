@@ -34,7 +34,7 @@ Game::Game(string fileName,bool ableUse, int playerCount) :map(),round(0),player
 			round++;
 			playerIndex = 0;
 			if ((isOver = !checkGameStatus()) && (isOver)) break;
-			stockFluctuate();
+			if(stock.size() > 0) stockFluctuate();
 		}
 	}
 }
