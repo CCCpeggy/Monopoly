@@ -20,7 +20,7 @@ void FateBlock::startEvent(Player*)
 
 void FateBlock::arriveEvent(Player* player)
 {
-	int index = 6;
+	int index = rand() % 6;
 	Game::showDialog("©R¹B", card[index]);
 	Player* currentPlayer = game->getPlayer();
 	int total = 0;
