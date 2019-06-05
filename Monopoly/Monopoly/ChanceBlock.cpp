@@ -47,6 +47,7 @@ void ChanceBlock::arriveEvent(Player* player)
 		break;
 	case 4://繳稅，付出總資產10%的稅金
 		game->getPlayer()->loseMoney(game->getPlayer()->getAsset()*0.1);
+		break;
 	}
 }
 
