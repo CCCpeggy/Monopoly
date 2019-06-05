@@ -54,6 +54,7 @@ int main() {
 	map<int, void (*)()> functions;
 	srand(time(NULL));
 	while(true) {
+		game = nullptr;
 		chooseName.clear();
 		int fileNameIndex;
 		fileNames = listFile();
@@ -82,6 +83,7 @@ int main() {
 			if (findFile("saveFile2.txt")) {
 				rename("saveFile2.txt", "saveFile.txt");
 			}
+			if(game != nullptr) delete game;
 			system("cls");
 		}
 
@@ -145,7 +147,6 @@ void newGame()
 {
 	int playerCount = Game::showNumberDialog("請選擇玩家人數", 4, 4, 2, 1, "人");
 	if (playerCount != 沒有選擇) game = new Game(LOADFILE, true, playerCount);
-	delete game;
 }
 
 void loadGame()
@@ -153,15 +154,12 @@ void loadGame()
 	int fileNameIndex = Game::showMenu("選擇檔名", fileNames, 0, &showGame);
 	if (fileNameIndex >= 0) {
 		game = new Game(fileNames[fileNameIndex]);
-		delete game;
 	}
 }
 
 void resumeGame()
 {
 	game = new Game("saveFile.txt");
-	delete game;
-
 }
 
 void finishGame()
