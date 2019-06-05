@@ -143,7 +143,7 @@ vector<string> listFile()
 
 void newGame()
 {
-	int playerCount = Game::showNumberDialog("請選擇玩家人數", 2, 4, 2, 1, "人");
+	int playerCount = Game::showNumberDialog("請選擇玩家人數", 4, 4, 2, 1, "人");
 	if (playerCount != 沒有選擇) game = new Game(LOADFILE, true, playerCount);
 	delete game;
 }
